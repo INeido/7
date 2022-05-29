@@ -1,8 +1,10 @@
 {
   "name": "wonder",
   "version": "0.1.0",
+  "homepage": "https://7.neido.de/",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.12.3",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
