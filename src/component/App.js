@@ -1,7 +1,7 @@
 import React from "react";
-import Login from "./Login";
-import Select from "./Select";
-import Table from "./Table";
+import Login from "./pages/Login";
+import Select from "./pages/Select";
+import Table from "./pages/Table";
 import { createTheme } from "@mui/material/styles";
 //import api from "../logic/api.js";
 import "./App.css";
@@ -37,10 +37,13 @@ export default class App extends React.Component {
     armada0: "armada0",
     armada1: "armada1",
   };
+
   render() {
     return (
       <div className="App">
         <Login theme={defaultTheme}></Login>
+        <Select theme={defaultTheme}></Select>
+        <Table theme={defaultTheme}></Table>
       </div>
     );
   }
