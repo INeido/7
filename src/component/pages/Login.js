@@ -1,27 +1,33 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+import {
+  Button,
+  TextField,
+  Box,
+  Paper,
+  Container,
+  ThemeProvider,
+  InputAdornment,
+} from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import InputAdornment from "@mui/material/InputAdornment";
-import { ThemeProvider } from "@mui/material/styles";
 
 export default function Login(props) {
-  var button;
+  var buttons = [
+    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
+      Create
+    </Button>,
+    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
+      Join
+    </Button>,
+    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
+      Join
+    </Button>,
+  ];
+  var button = 0;
   if (props.mode === "create") {
-    button = (
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
-        Create
-      </Button>
-    );
+    button = 0;
   } else {
-    button = (
-      <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
-        Join
-      </Button>
-    );
+    button = 1;
   }
 
   const {
@@ -30,51 +36,52 @@ export default function Login(props) {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => console.log(data);
-  const errorMessage = (error) => {
-    return "error";
-  };
 
   return (
     <div className="App">
       <ThemeProvider theme={props.theme}>
         <Container component="main" maxWidth="xs">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Box
-              sx={{
-                marginTop: "40%",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Box sx={{ mt: 1 }}>
-                <TextField
-                  error={errors.player_name ? true : false}
-                  fullWidth
-                  autoFocus
-                  helperText={errors.player_name ? "Bitte Namen eingeben." : ""}
-                  margin="normal"
-                  name="player_name"
-                  label="Name"
-                  type="text"
-                  id="player_name"
-                  variant="standard"
-                  color="primary"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <AccountCircle />
-                      </InputAdornment>
-                    ),
-                  }}
-                  ref={register("player_name", {
-                    required: true,
-                  })}
-                />
-                {button}
+          <Paper>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Box
+                sx={{
+                  marginTop: "40%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  px: 2,
+                  py: 2,
+                }}
+              >
+                <Box sx={{ mt: 1 }}>
+                  <TextField
+                    error={errors.player_name ? true : false}
+                    fullWidth
+                    autoFocus
+                    helperText={
+                      errors.player_name ? "Bitte Namen eingeben." : ""
+                    }
+                    margin="normal"
+                    name="player_name"
+                    label="Name"
+                    type="text"
+                    id="player_name"
+                    variant="standard"
+                    color="primary"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AccountCircle />
+                        </InputAdornment>
+                      ),
+                    }}
+                    {...register("player_name", { required: true })}
+                  />
+                  {buttons[button]}
+                </Box>
               </Box>
-            </Box>
-          </form>
+            </form>
+          </Paper>
         </Container>
       </ThemeProvider>
     </div>
