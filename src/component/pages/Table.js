@@ -6,7 +6,6 @@ import {
   TableCell,
   TableBody,
   TableContainer,
-  TableHead,
   Table,
   Fab,
 } from "@mui/material";
@@ -39,7 +38,27 @@ export default function _(props) {
               <TableCell>El</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell variant="head">Punkte</TableCell>
+              <TableCell variant="head">Punkte0</TableCell>
+              <TableCell>1</TableCell>
+              <TableCell>2</TableCell>
+              <TableCell>3</TableCell>
+              <TableCell>4</TableCell>
+              <TableCell>5</TableCell>
+              <TableCell>6</TableCell>
+              <TableCell>7</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell variant="head">Punkte1</TableCell>
+              <TableCell>1</TableCell>
+              <TableCell>2</TableCell>
+              <TableCell>3</TableCell>
+              <TableCell>4</TableCell>
+              <TableCell>5</TableCell>
+              <TableCell>6</TableCell>
+              <TableCell>7</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell variant="head">Punkte2</TableCell>
               <TableCell>1</TableCell>
               <TableCell>2</TableCell>
               <TableCell>3</TableCell>
