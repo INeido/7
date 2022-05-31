@@ -1,5 +1,11 @@
-import React from "react";
+import { Paper, ThemeProvider } from "@mui/material";
 
 export default function Table(props) {
-  return <div></div>;
+  return (
+    <ThemeProvider theme={props.theme}>
+      <Paper>
+        <p>test</p>
+      </Paper>
+    </ThemeProvider>
+  );
 }
