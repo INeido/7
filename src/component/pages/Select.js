@@ -8,7 +8,6 @@ import {
   ThemeProvider,
   CssBaseline,
 } from "@mui/material";
-
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const wonder = [
@@ -26,7 +25,7 @@ const wonder = [
   "Abu Simbel",
 ];
 
-export default function Select(props) {
+export default function _(props) {
   const {
     register,
     handleSubmit,

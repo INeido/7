@@ -1,6 +1,6 @@
 import { createTheme, useMediaQuery } from "@mui/material";
 
-export default function App() {
+export default function _() {
   const dark = useMediaQuery("(prefers-color-scheme: dark)");
 
   return createTheme({
