@@ -1,11 +1,17 @@
 import React from "react";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Fab from "@mui/material/Fab";
-import { ThemeProvider } from "@mui/material/styles";
-import MenuItem from "@mui/material/MenuItem";
+import { useForm } from "react-hook-form";
+import {
+  MenuItem,
+  TextField,
+  Box,
+  Paper,
+  Fab,
+  ThemeProvider,
+  InputAdornment,
+  Divider,
+} from "@mui/material";
+
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import Divider from "@mui/material/Divider";
 
 const wonder = [
   "Ephesos",
@@ -24,70 +30,68 @@ const wonder = [
 
 export default function Select(props) {
   return (
-    <div className="App">
-      <ThemeProvider theme={props.theme}>
-        <Fab
-          color="primary"
-          sx={{ position: "absolute", bottom: 16, right: 16 }}
-        >
-          <ArrowForwardIcon />
-        </Fab>
+    <ThemeProvider theme={props.theme}>
+      <Fab color="primary" sx={{ position: "absolute", bottom: 16, right: 16 }}>
+        <ArrowForwardIcon />
+      </Fab>
 
+      <Box
+        sx={{
+          marginTop: 2,
+          display: "grid",
+          gap: 1.5,
+        }}
+      >
         <Box
           sx={{
-            marginTop: 2,
             display: "grid",
             gap: 1.5,
+            gridTemplateColumns: "repeat(2, 1fr)",
           }}
         >
-          <Box
+          <TextField
+            select
+            color="primary"
+            label="Select Wonder"
+            variant="outlined"
             sx={{
-              display: "grid",
-              gap: 1.5,
-              gridTemplateColumns: "repeat(2, 1fr)",
+              "& .MuiOutlinedInput-root": {
+                "& > fieldset": { border: "solid darkgray 2px" },
+              },
             }}
           >
-            <TextField
-              select
-              color="primary"
-              label="Select Wonder"
-              variant="outlined"
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& > fieldset": { border: "solid darkgray 2px" },
-                },
-              }}
-            >
-              {wonder.map((choice) => (
-                <MenuItem key={choice} value={choice}>
-                  {choice}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              select
-              color="primary"
-              label="Select Mode"
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& > fieldset": { border: "solid darkgray 2px" },
-                },
-              }}
-            >
-              <MenuItem key="Day" value="Day">
-                Day
+            {wonder.map((choice) => (
+              <MenuItem key={choice} value={choice}>
+                {choice}
               </MenuItem>
-              <MenuItem key="Night" value="Night">
-                Night
-              </MenuItem>
-            </TextField>
-          </Box>
-          <Divider />
+            ))}
+          </TextField>
+          <TextField
+            select
+            color="primary"
+            label="Select Mode"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& > fieldset": { border: "solid darkgray 2px" },
+              },
+            }}
+          >
+            <MenuItem key="Day" value="Day">
+              Day
+            </MenuItem>
+            <MenuItem key="Night" value="Night">
+              Night
+            </MenuItem>
+          </TextField>
+        </Box>
+        <Paper>
           <Box
             sx={{
               display: "grid",
               gap: 1.5,
               gridTemplateColumns: "repeat(2, 1fr)",
+              px: 2,
+              py: 2,
             }}
           >
             <TextField
@@ -157,8 +161,8 @@ export default function Select(props) {
               color="primary"
             />
           </Box>
-        </Box>
-      </ThemeProvider>
-    </div>
+        </Paper>
+      </Box>
+    </ThemeProvider>
   );
 }

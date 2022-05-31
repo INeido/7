@@ -22,7 +22,7 @@ var pages = [
   <Select theme={defaultTheme} mode={mode}></Select>,
   <Table theme={defaultTheme} mode={mode}></Table>,
 ];
-var page = 0;
+var page = 1;
 
 export default function App() {
   return pages[page];
