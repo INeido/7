@@ -56,6 +56,7 @@ export default function Login(props) {
                 <Box sx={{ mt: 1 }}>
                   <TextField
                     error={errors.player_name ? true : false}
+                    {...register("player_name", { required: true })}
                     fullWidth
                     autoFocus
                     helperText={
@@ -75,7 +76,6 @@ export default function Login(props) {
                         </InputAdornment>
                       ),
                     }}
-                    {...register("player_name", { required: true })}
                   />
                   {buttons[button]}
                 </Box>
