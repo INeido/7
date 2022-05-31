@@ -7,6 +7,7 @@ import {
   Fab,
   ThemeProvider,
   CssBaseline,
+  Typography,
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
@@ -87,6 +88,18 @@ export default function _(props) {
           <Paper>
             <Box
               sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                px: 2,
+                py: 2,
+                paddingBottom: "1px",
+              }}
+            >
+              <Typography variant="h5">Enter Points</Typography>
+            </Box>
+            <Box
+              sx={{
                 display: "grid",
                 gap: 1.5,
                 gridTemplateColumns: "repeat(2, 1fr)",
@@ -94,6 +107,7 @@ export default function _(props) {
                 py: 2,
               }}
             >
+              {" "}
               <TextField
                 error={errors.wonder ? true : false}
                 {...register("wonder", { required: true })}
