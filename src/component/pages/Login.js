@@ -1,6 +1,6 @@
+import * as React from "react";
 import { useForm } from "react-hook-form";
 import {
-  Button,
   TextField,
   Box,
   Paper,
@@ -8,33 +8,19 @@ import {
   InputAdornment,
   CssBaseline,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
-export default function Login(props) {
-  var buttons = [
-    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
-      Create
-    </Button>,
-    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
-      Join
-    </Button>,
-    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
-      Join
-    </Button>,
-  ];
-  var button = 0;
-  if (props.mode === "create") {
-    button = 0;
-  } else {
-    button = 1;
-  }
-
+export default function _(props) {
+  const [loading, setLoading] = React.useState(false);
+  const btn_text = props.mode === "create" ? "Create" : "Join";
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   function onSubmit(data) {
+    setLoading(true);
     console.log(data);
   }
 
@@ -74,7 +60,15 @@ export default function Login(props) {
                 ),
               }}
             />
-            {buttons[button]}
+            <LoadingButton
+              loading={loading}
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3 }}
+            >
+              {btn_text}
+            </LoadingButton>
           </Paper>
         </Box>
       </form>
