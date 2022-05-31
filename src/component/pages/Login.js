@@ -12,7 +12,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
 export default function _(props) {
-  const [loading, setLoading] = React.useState(false);
+  const [btn_loading, setLoading] = React.useState(false);
+  const [field_disabled, setDisabled] = React.useState(false);
   const btn_text = props.mode === "create" ? "Create" : "Join";
   const {
     register,
@@ -21,6 +22,7 @@ export default function _(props) {
   } = useForm();
   function onSubmit(data) {
     setLoading(true);
+    setDisabled(true);
     console.log(data);
   }
 
@@ -42,6 +44,7 @@ export default function _(props) {
             <TextField
               error={errors.player_name ? true : false}
               {...register("player_name", { required: true })}
+              disabled={field_disabled}
               fullWidth
               autoFocus
               helperText={errors.player_name ? "Bitte Namen eingeben." : ""}
@@ -61,7 +64,7 @@ export default function _(props) {
               }}
             />
             <LoadingButton
-              loading={loading}
+              loading={btn_loading}
               type="submit"
               fullWidth
               variant="contained"
