@@ -8,6 +8,7 @@ import {
   TableContainer,
   Table,
   Fab,
+  MobileStepper,
 } from "@mui/material";
 import ArrowBackwardIcon from "@mui/icons-material/ArrowBack";
 
@@ -70,6 +71,20 @@ export default function _(props) {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <MobileStepper
+        variant="dots"
+        steps={2}
+        position="static"
+        activeStep={1}
+        sx={{
+          maxWidth: 400,
+          flexGrow: 1,
+          position: "absolute",
+          bottom: 16,
+          right: "50%",
+        }}
+      />
     </ThemeProvider>
   );
 }

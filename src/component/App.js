@@ -11,7 +11,7 @@ export default function _() {
     <Select theme={theme}></Select>,
     <Table theme={theme}></Table>,
   ];
-  var page = 2;
+  var page = 1;
 
   return pages[page];
 }

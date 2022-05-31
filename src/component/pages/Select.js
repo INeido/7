@@ -8,6 +8,7 @@ import {
   ThemeProvider,
   CssBaseline,
   Typography,
+  MobileStepper,
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
@@ -207,6 +208,20 @@ export default function _(props) {
           <ArrowForwardIcon />
         </Fab>
       </form>
+
+      <MobileStepper
+        variant="dots"
+        steps={2}
+        position="static"
+        activeStep={0}
+        sx={{
+          maxWidth: 400,
+          flexGrow: 1,
+          position: "absolute",
+          bottom: 16,
+          right: "50%",
+        }}
+      />
     </ThemeProvider>
   );
 }
