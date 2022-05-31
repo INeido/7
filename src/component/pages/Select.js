@@ -6,6 +6,7 @@ import {
   Paper,
   Fab,
   ThemeProvider,
+  CssBaseline,
 } from "@mui/material";
 
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -35,12 +36,15 @@ export default function Select(props) {
 
   return (
     <ThemeProvider theme={props.theme}>
+      <CssBaseline />
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box
           sx={{
             marginTop: 2,
             display: "grid",
             gap: 1.5,
+            px: 2,
+            py: 2,
           }}
         >
           <Box
@@ -58,11 +62,6 @@ export default function Select(props) {
               color="primary"
               label="Select Wonder"
               variant="outlined"
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& > fieldset": { border: "solid darkgray 2px" },
-                },
-              }}
             >
               {wonder.map((choice) => (
                 <MenuItem key={choice} value={choice}>
@@ -77,11 +76,6 @@ export default function Select(props) {
               select
               color="primary"
               label="Select Mode"
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& > fieldset": { border: "solid darkgray 2px" },
-                },
-              }}
             >
               <MenuItem key="Day" value="Day">
                 Day
