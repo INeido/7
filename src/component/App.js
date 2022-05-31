@@ -3,8 +3,6 @@ import Login from "./pages/Login";
 import Select from "./pages/Select";
 import Table from "./pages/Table";
 import { createTheme } from "@mui/material/styles";
-//import api from "../logic/api.js";
-import "./App.css";
 
 const defaultTheme = createTheme({
   palette: {
@@ -17,34 +15,15 @@ const defaultTheme = createTheme({
   },
 });
 
-export default class App extends React.Component {
-  state = {
-    key: "test2",
-    game_id: "game_id",
-    admin: "admin",
-    player_name: "player_name",
-    wonder_name: "wonder_name",
-    wonder_mode: "wonder_mode",
-    wonder: "wonder",
-    money: "money",
-    red: "red",
-    blue: "blue",
-    yellow: "yellow",
-    green: "green",
-    purple: "purple",
-    black: "black",
-    white: "white",
-    armada0: "armada0",
-    armada1: "armada1",
-  };
+var mode = "create";
 
-  render() {
-    return (
-      <div className="App">
-        <Login theme={defaultTheme}></Login>
-        <Select theme={defaultTheme}></Select>
-        <Table theme={defaultTheme}></Table>
-      </div>
-    );
-  }
+var pages = [
+  <Login theme={defaultTheme} mode={mode}></Login>,
+  <Select theme={defaultTheme} mode={mode}></Select>,
+  <Table theme={defaultTheme} mode={mode}></Table>,
+];
+var page = 0;
+
+export default function App() {
+  return pages[page];
 }
