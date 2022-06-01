@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import {
   MenuItem,
   TextField,
+  Grid,
   Box,
   Paper,
   Fab,
@@ -86,7 +87,7 @@ export default function _(props) {
               </MenuItem>
             </TextField>
           </Box>
-          <Paper>
+          <Paper variant="outlined">
             <Box
               sx={{
                 display: "flex",
@@ -209,19 +210,20 @@ export default function _(props) {
         </Fab>
       </form>
 
-      <MobileStepper
-        variant="dots"
-        steps={2}
-        position="static"
-        activeStep={0}
-        sx={{
-          maxWidth: 400,
-          flexGrow: 1,
-          position: "absolute",
-          bottom: 16,
-          right: "50%",
-        }}
-      />
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="flex-end"
+        sx={{ position: "absolute", bottom: 10 }}
+      >
+        <MobileStepper
+          variant="dots"
+          steps={2}
+          activeStep={0}
+          position="static"
+        />
+      </Grid>
     </ThemeProvider>
   );
 }

@@ -7,6 +7,7 @@ import {
   TableBody,
   TableContainer,
   Table,
+  Grid,
   Fab,
   MobileStepper,
 } from "@mui/material";
@@ -72,19 +73,20 @@ export default function _(props) {
         </Table>
       </TableContainer>
 
-      <MobileStepper
-        variant="dots"
-        steps={2}
-        position="static"
-        activeStep={1}
-        sx={{
-          maxWidth: 400,
-          flexGrow: 1,
-          position: "absolute",
-          bottom: 16,
-          right: "50%",
-        }}
-      />
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="flex-end"
+        sx={{ position: "absolute", bottom: 10 }}
+      >
+        <MobileStepper
+          variant="dots"
+          steps={2}
+          activeStep={1}
+          position="static"
+        />
+      </Grid>
     </ThemeProvider>
   );
 }
