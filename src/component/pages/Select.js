@@ -1,3 +1,5 @@
+import * as React from "react";
+import dic from "../helper/dic";
 import { useForm } from "react-hook-form";
 import {
   MenuItem,
@@ -10,25 +12,22 @@ import {
   CssBaseline,
   Typography,
   MobileStepper,
+  IconButton,
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-
-const wonder = [
-  "Ephesos",
-  "Gizah",
-  "Olympia",
-  "Alexandria",
-  "Rhodos",
-  "Babylon",
-  "Halikarnassos",
-  "Petra",
-  "Byzantium",
-  "Siracusa",
-  "Roma",
-  "Abu Simbel",
-];
+import ToggleOffIcon from "@mui/icons-material/ToggleOff";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 
 export default function _(props) {
+  const [pointFields, setPointFields] = React.useState(dic.PointFieldsSimple);
+  function toggleFields() {
+    setPointFields(
+      pointFields === dic.PointFieldsFancy
+        ? dic.PointFieldsSimple
+        : dic.PointFieldsFancy
+    );
+  }
+
   const {
     register,
     handleSubmit,
@@ -65,7 +64,7 @@ export default function _(props) {
               label="Select Wonder"
               variant="outlined"
             >
-              {wonder.map((choice) => (
+              {dic.WonderNames.map((choice) => (
                 <MenuItem key={choice} value={choice}>
                   {choice}
                 </MenuItem>
@@ -79,12 +78,11 @@ export default function _(props) {
               color="primary"
               label="Select Mode"
             >
-              <MenuItem key="Day" value="Day">
-                Day
-              </MenuItem>
-              <MenuItem key="Night" value="Night">
-                Night
-              </MenuItem>
+              {dic.Modes.map((choice) => (
+                <MenuItem key={choice} value={choice}>
+                  {choice}
+                </MenuItem>
+              ))}
             </TextField>
           </Box>
           <Paper variant="outlined">
@@ -115,7 +113,7 @@ export default function _(props) {
                 {...register("wonder", { required: true })}
                 type="number"
                 id="wonder"
-                label="Wonder"
+                label={pointFields[0].label}
                 color="primary"
               />
               <TextField
@@ -123,7 +121,7 @@ export default function _(props) {
                 {...register("money", { required: true })}
                 type="number"
                 id="money"
-                label="Wealth"
+                label={pointFields[1].label}
                 color="primary"
               />
               <TextField
@@ -131,7 +129,7 @@ export default function _(props) {
                 {...register("red", { required: true })}
                 type="number"
                 id="red"
-                label="Military"
+                label={pointFields[2].label}
                 color="primary"
               />
               <TextField
@@ -139,7 +137,7 @@ export default function _(props) {
                 {...register("blue", { required: true })}
                 type="number"
                 id="blue"
-                label="Monuments"
+                label={pointFields[3].label}
                 color="primary"
               />
               <TextField
@@ -147,7 +145,7 @@ export default function _(props) {
                 {...register("yellow", { required: true })}
                 type="number"
                 id="yellow"
-                label="Trade"
+                label={pointFields[4].label}
                 color="primary"
               />
               <TextField
@@ -155,7 +153,7 @@ export default function _(props) {
                 {...register("green", { required: true })}
                 type="number"
                 id="green"
-                label="Infrastructure"
+                label={pointFields[5].label}
                 color="primary"
               />
               <TextField
@@ -163,7 +161,7 @@ export default function _(props) {
                 {...register("purple", { required: true })}
                 type="number"
                 id="purple"
-                label="Academia"
+                label={pointFields[6].label}
                 color="primary"
               />
               <TextField
@@ -171,7 +169,7 @@ export default function _(props) {
                 {...register("black", { required: true })}
                 type="number"
                 id="black"
-                label="Underworld"
+                label={pointFields[7].label}
                 color="primary"
               />
               <TextField
@@ -179,7 +177,7 @@ export default function _(props) {
                 {...register("white", { required: true })}
                 type="number"
                 id="white"
-                label="Leaders"
+                label={pointFields[8].label}
                 color="primary"
               />
               <TextField
@@ -187,7 +185,7 @@ export default function _(props) {
                 {...register("armada0", { required: true })}
                 type="number"
                 id="armada0"
-                label="Naval Battles"
+                label={pointFields[9].label}
                 color="primary"
               />
               <TextField
@@ -195,7 +193,7 @@ export default function _(props) {
                 {...register("armada1", { required: true })}
                 type="number"
                 id="armada1"
-                label="Harbour"
+                label={pointFields[10].label}
                 color="primary"
               />
             </Box>
@@ -209,6 +207,18 @@ export default function _(props) {
           <ArrowForwardIcon />
         </Fab>
       </form>
+
+      <IconButton
+        color="primary"
+        onClick={toggleFields}
+        sx={{ position: "absolute", bottom: 16, left: 16 }}
+      >
+        {pointFields === dic.PointFieldsFancy ? (
+          <ToggleOnIcon />
+        ) : (
+          <ToggleOffIcon />
+        )}
+      </IconButton>
 
       <Grid
         container
