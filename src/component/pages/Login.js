@@ -2,7 +2,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import {
   TextField,
-  Box,
+  Grid,
   Paper,
   ThemeProvider,
   InputAdornment,
@@ -30,17 +30,14 @@ export default function _(props) {
     <ThemeProvider theme={props.theme}>
       <CssBaseline />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box
-          sx={{
-            marginTop: "40%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            px: 2,
-            py: 2,
-          }}
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          sx={{ marginTop: "40%" }}
         >
-          <Paper sx={{ mt: 1, px: 2, py: 2 }}>
+          <Paper variant="outlined" sx={{ mt: 1, px: 2, py: 2 }}>
             <TextField
               error={errors.player_name ? true : false}
               {...register("player_name", { required: true })}
@@ -73,7 +70,7 @@ export default function _(props) {
               {btn_text}
             </LoadingButton>
           </Paper>
-        </Box>
+        </Grid>
       </form>
     </ThemeProvider>
   );
