@@ -45,7 +45,12 @@ export default function _(props) {
     if (newGame) {
       createGame().then((res) => {
         setGameID(res.data.insertId);
+        // New game
+        props.line(1);
       });
+    } else {
+      // Join one
+      props.line(1);
     }
   }
 
