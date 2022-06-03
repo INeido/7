@@ -26,6 +26,7 @@ import {
   isPlayer,
   createPlayer,
   updatePlayer,
+  getScores,
 } from "../../logic/api";
 
 export default function _(props) {
@@ -80,7 +81,9 @@ export default function _(props) {
   function onSubmit(data) {
     setFieldDisabled(true);
     updatePlayerObject(data).then((res) => {
-      props.line();
+      getScores(props.gameid).then((res) => {
+        props.line(res.data);
+      });
     });
   }
 

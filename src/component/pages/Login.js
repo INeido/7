@@ -22,7 +22,6 @@ export default function _(props) {
   const [pageLoading, setPageLoading] = React.useState(true);
   const [newGame, setNewGame] = React.useState(false);
   const [gameID, setGameID] = React.useState();
-  const [playerID, setPlayerID] = React.useState();
   const [cookies, setCookie] = useCookies(["user"]);
 
   React.useEffect(() => {
