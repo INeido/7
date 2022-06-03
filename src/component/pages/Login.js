@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import {
   TextField,
@@ -20,6 +21,7 @@ export default function _(props) {
   const [pageLoading, setPageLoading] = React.useState(true);
   const [newGame, setNewGame] = React.useState(false);
   const [gameID, setGameID] = React.useState(0);
+  const [cookies, setCookie] = useCookies(["user"]);
 
   isRunning().then((res) => {
     setNewGame(Boolean(res.data[0].locked));
@@ -39,6 +41,7 @@ export default function _(props) {
   function onSubmit(data) {
     setBtnLoading(true);
     setFieldDisabled(true);
+    setCookie("name", data.playerName, { path: "/" });
     if (newGame) {
       createGame().then((res) => {
         setGameID(res.data.insertId);
@@ -65,19 +68,20 @@ export default function _(props) {
               sx={{ mt: 1, px: 2, py: 2, maxWidth: 300 }}
             >
               <TextField
-                error={errors.player_name ? true : false}
-                {...register("player_name", { required: true })}
+                error={errors.playerName ? true : false}
+                {...register("playerName", { required: true })}
                 disabled={fieldDisabled}
                 fullWidth
                 autoFocus
-                helperText={errors.player_name ? "Bitte Namen eingeben." : ""}
+                helperText={errors.playerName ? "Bitte Namen eingeben." : ""}
                 margin="normal"
-                name="player_name"
+                name="playerName"
                 label="Name"
                 type="text"
-                id="player_name"
+                id="playerName"
                 variant="standard"
                 color="primary"
+                defaultValue={cookies.name}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
