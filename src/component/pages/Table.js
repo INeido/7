@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
 import dic from "../helper/dic";
-import { getScores } from "../../logic/api";
 import {
   Paper,
   ThemeProvider,
