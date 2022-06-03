@@ -12,22 +12,38 @@ export function isRunning() {
   return axios.get("/isrunning");
 }
 
-export function getPlayer(data) {
-  axios.post("/getplayer", { userName: data.player_name });
+export function getPlayer(player_id) {
+  return axios.post("/getplayer", {
+    player_id: player_id,
+  });
 }
 
-export function createPlayer(data) {
-  axios.post("/createplayer", { userName: data.player_name });
+export function createPlayer(game_id, player_name) {
+  return axios.post("/createplayer", {
+    game_id: game_id,
+    player_name: player_name,
+  });
 }
 
 export function updatePlayer(data) {
-  axios.post("/updateplayer", { userName: data.player_name });
+  return axios.post("/updateplayer", {
+    data: data,
+  });
 }
 
 export function isAdmin(data) {
-  axios.post("/isadmin", { userName: data.player_name });
+  return axios.post("/isadmin", { userName: data.player_name });
 }
 
-export function isPlayer(data) {
-  axios.post("/isplayer", { userName: data.player_name });
+export function isPlayer(game_id, player_name) {
+  return axios.post("/isplayer", {
+    game_id: game_id,
+    player_name: player_name,
+  });
+}
+
+export function getScores(game_id) {
+  return axios.post("/getscores", {
+    game_id: game_id,
+  });
 }

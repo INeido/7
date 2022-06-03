@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
@@ -16,41 +17,50 @@ import { createGame, isRunning } from "../../logic/api";
 
 export default function _(props) {
   const [btnLoading, setBtnLoading] = React.useState(false);
-  const [btnText, setBtnText] = React.useState("Join");
+  const [btnText, setBtnText] = React.useState("");
   const [fieldDisabled, setFieldDisabled] = React.useState(false);
   const [pageLoading, setPageLoading] = React.useState(true);
   const [newGame, setNewGame] = React.useState(false);
-  const [gameID, setGameID] = React.useState(0);
+  const [gameID, setGameID] = React.useState();
+  const [playerID, setPlayerID] = React.useState();
   const [cookies, setCookie] = useCookies(["user"]);
 
-  isRunning().then((res) => {
-    setNewGame(Boolean(res.data[0].locked));
-    if (newGame) {
-      setBtnText("Create");
-    } else {
-      setGameID(res.data[0].game_id);
-    }
-    setPageLoading(false);
-  });
+  React.useEffect(() => {
+    isRunning().then((res) => {
+      setNewGame(Boolean(res.data[0].locked));
+      if (Boolean(res.data[0].locked)) {
+        setBtnText("Create");
+        console.log("No game found.");
+      } else {
+        setGameID(res.data[0].game_id);
+        setBtnText("Join");
+        console.log("Game found with ID: " + res.data[0].game_id);
+      }
+      setPageLoading(false);
+    });
+  }, []);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   function onSubmit(data) {
     setBtnLoading(true);
     setFieldDisabled(true);
     setCookie("name", data.playerName, { path: "/" });
+
     if (newGame) {
       createGame().then((res) => {
         setGameID(res.data.insertId);
+        console.log("Game created. ID: " + gameID);
         // New game
-        props.line(1);
+        props.line(gameID, data.playerName);
       });
     } else {
       // Join one
-      props.line(1);
+      props.line(gameID, data.playerName);
     }
   }
 
