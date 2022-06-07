@@ -5,17 +5,24 @@ import Table from "./pages/Table";
 import themeProvider from "./helper/themeProvider";
 
 export default function _() {
+  const [playerID, setPlayerID] = React.useState(0);
+  const [playerScores, setPlayerScores] = React.useState({});
   const [gameID, setGameID] = React.useState(0);
   const [playerName, setPlayerName] = React.useState(0);
+  const [admin, setAdmin] = React.useState(0);
   const [page, setPage] = React.useState(0);
 
-  function firstChild(game_id, player_name) {
+  function firstChild(player_id, game_id, player_name, player_scores, isadmin) {
+    setPlayerID(player_id);
     setGameID(game_id);
     setPlayerName(player_name);
+    setPlayerScores(player_scores);
+    setAdmin(isadmin);
     setPage(1);
   }
 
-  function secondChild(data) {
+  function secondChild(player_scores) {
+    setPlayerScores(player_scores);
     setPage(2);
   }
 
@@ -32,12 +39,15 @@ export default function _() {
     <Login theme={theme} line={firstChild}></Login>,
     <Select
       theme={theme}
+      playerscores={playerScores}
+      playerid={playerID}
       gameid={gameID}
       playername={playerName}
       line={secondChild}
     ></Select>,
     <Table
       theme={theme}
+      admin={admin}
       gameid={gameID}
       playername={playerName}
       forward={thirdChildForward}

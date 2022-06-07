@@ -15,12 +15,15 @@ import {
   Skeleton,
 } from "@mui/material";
 import ArrowBackwardIcon from "@mui/icons-material/ArrowBack";
-import { getScores } from "../../logic/api";
+import LockIcon from "@mui/icons-material/LockOutlined";
+import LockOpenIcon from "@mui/icons-material/LockOpenOutlined";
+import { getScores, closeGame, openGame } from "../../logic/api";
 
 export default function _(props) {
-  const [pointFields, setPointFields] = React.useState(dic.PointFieldsSimple);
+  const [pointFields] = React.useState(dic.PointFieldsSimple);
   const [scores, setScores] = React.useState(dic.ScoresDefault);
   const [pageLoading, setPageLoading] = React.useState(true);
+  const [locked, setLocked] = React.useState(false);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -34,6 +37,21 @@ export default function _(props) {
 
     return () => clearInterval(interval);
   }, []);
+
+  function lockGame() {
+    if (props.admin) {
+      setLocked(!locked);
+      if (!locked) {
+        closeGame().then((res) => {
+          console.log("game_closed");
+        });
+      } else {
+        openGame(props.gameid).then((res) => {
+          console.log("game opened");
+        });
+      }
+    }
+  }
 
   return (
     <ThemeProvider theme={props.theme}>
@@ -49,6 +67,14 @@ export default function _(props) {
             sx={{ position: "absolute", bottom: 16, left: 16 }}
           >
             <ArrowBackwardIcon />
+          </Fab>
+          <Fab
+            type="submit"
+            color="primary"
+            onClick={lockGame}
+            sx={{ position: "absolute", bottom: 16, right: 16 }}
+          >
+            {locked ? <LockIcon /> : <LockOpenIcon />}
           </Fab>
 
           <TableContainer component={Paper}>

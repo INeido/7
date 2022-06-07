@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
+import dic from "../helper/dic";
 import { useCookies } from "react-cookie";
 import { useForm } from "react-hook-form";
 import {
@@ -13,13 +14,19 @@ import {
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import { createGame, isRunning } from "../../logic/api";
+import {
+  createGame,
+  isRunning,
+  getPlayer,
+  isPlayer,
+  createPlayer,
+} from "../../logic/api";
 
 export default function _(props) {
   const [btnLoading, setBtnLoading] = React.useState(false);
+  const [pageLoading, setPageLoading] = React.useState(true);
   const [btnText, setBtnText] = React.useState("");
   const [fieldDisabled, setFieldDisabled] = React.useState(false);
-  const [pageLoading, setPageLoading] = React.useState(true);
   const [newGame, setNewGame] = React.useState(false);
   const [gameID, setGameID] = React.useState();
   const [cookies, setCookie] = useCookies(["user"]);
@@ -51,15 +58,48 @@ export default function _(props) {
     setCookie("name", data.playerName, { path: "/" });
 
     if (newGame) {
-      createGame().then((res) => {
-        setGameID(res.data.insertId);
-        console.log("Game created. ID: " + gameID);
-        // New game
-        props.line(gameID, data.playerName);
+      // New game
+      createGame().then((res0) => {
+        console.log("Game created. ID: " + res0.data.insertId);
+        createPlayer(res0.data.insertId, data.playerName).then((res1) => {
+          console.log("Player created. ID: " + res1.data.insertId);
+          props.line(
+            res1.data.insertId, // PlayerID
+            res0.data.insertId, // GameID
+            data.playerName,
+            dic.DefaultValues,
+            1 // Admin
+          );
+        });
       });
     } else {
       // Join one
-      props.line(gameID, data.playerName);
+      isPlayer(gameID, data.playerName).then((res0) => {
+        try {
+          console.log("Player found with ID: " + res0.data[0].player_id);
+          getPlayer(res0.data[0].player_id).then((res1) => {
+            console.log("Player found with name: " + data.playerName);
+            props.line(
+              res0.data[0].player_id,
+              gameID,
+              data.playerName,
+              res1.data[0], // Scores
+              Boolean(res1.data[0].admin)
+            );
+          });
+        } catch {
+          createPlayer(gameID, data.playerName).then((res) => {
+            console.log("Player created. ID: " + res.data.insertId);
+            props.line(
+              res.data.insertId, // PlayerID
+              gameID,
+              data.playerName,
+              dic.DefaultValues,
+              0
+            );
+          });
+        }
+      });
     }
   }
 

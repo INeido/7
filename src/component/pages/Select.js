@@ -20,19 +20,12 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
 import CircleIcon from "@mui/icons-material/Circle";
-import {
-  getPlayer,
-  isPlayer,
-  createPlayer,
-  updatePlayer,
-} from "../../logic/api";
+import { updatePlayer } from "../../logic/api";
 
 export default function _(props) {
-  const [pointFields, setPointFields] = React.useState(dic.PointFieldsSimple);
-  const [defaultValues, setDefaultValues] = React.useState(dic.DefaultValues);
-  const [fieldDisabled, setFieldDisabled] = React.useState(false);
   const [pageLoading, setPageLoading] = React.useState(true);
-  const [playerID, setPlayerID] = React.useState(0);
+  const [pointFields, setPointFields] = React.useState(dic.PointFieldsSimple);
+  const [fieldDisabled, setFieldDisabled] = React.useState(false);
 
   function toggleFields() {
     setPointFields(
@@ -43,31 +36,13 @@ export default function _(props) {
   }
 
   React.useEffect(() => {
-    isPlayer(props.gameid, props.playername).then((res) => {
-      try {
-        setPlayerID(res.data[0].player_id);
-        console.log("Player found with ID: " + res.data[0].player_id);
-        getPlayer(res.data[0].player_id).then((res) => {
-          if (res.data[0] !== undefined) {
-            setDefaultValues(res.data[0]);
-            setPageLoading(false);
-            console.log("Player found with name: " + res.data[0].player_name);
-          }
-        });
-      } catch {
-        createPlayer(props.gameid, props.playername).then((res) => {
-          setPlayerID(res.data.insertId);
-          console.log("Player created. ID: " + res.data.insertId);
-        });
-        setPageLoading(false);
-      }
-    });
+    setPageLoading(false);
   }, []);
 
   function updatePlayerObject(data) {
     var tempObject = data;
     tempObject.player_name = props.playername;
-    tempObject.player_id = playerID;
+    tempObject.player_id = props.playerid;
     return updatePlayer(tempObject);
   }
 
@@ -79,7 +54,7 @@ export default function _(props) {
   function onSubmit(data) {
     setFieldDisabled(true);
     updatePlayerObject(data).then((res) => {
-      props.line(res.data);
+      props.line(data);
     });
   }
 
@@ -110,7 +85,7 @@ export default function _(props) {
                 error={errors.wonder_name ? true : false}
                 {...register("wonder_name", { required: true })}
                 disabled={fieldDisabled}
-                defaultValue={defaultValues.wonder_name}
+                defaultValue={props.playerscores.wonder_name}
                 name="wonder_name"
                 select
                 color="primary"
@@ -131,7 +106,7 @@ export default function _(props) {
                 error={errors.wonder_mode ? true : false}
                 {...register("wonder_mode", { required: true })}
                 disabled={fieldDisabled}
-                defaultValue={defaultValues.wonder_mode}
+                defaultValue={props.playerscores.wonder_mode}
                 name="wonder_mode"
                 select
                 color="primary"
@@ -176,7 +151,7 @@ export default function _(props) {
                   error={errors.sc_wonder ? true : false}
                   {...register("sc_wonder", { required: true })}
                   disabled={fieldDisabled}
-                  defaultValue={defaultValues.sc_wonder}
+                  defaultValue={props.playerscores.sc_wonder}
                   type="number"
                   id="sc_wonder"
                   label={pointFields[0].label}
@@ -198,7 +173,7 @@ export default function _(props) {
                   error={errors.sc_money ? true : false}
                   {...register("sc_money", { required: true })}
                   disabled={fieldDisabled}
-                  defaultValue={defaultValues.sc_money}
+                  defaultValue={props.playerscores.sc_money}
                   type="number"
                   id="sc_money"
                   label={pointFields[1].label}
@@ -213,7 +188,7 @@ export default function _(props) {
                   error={errors.sc_red ? true : false}
                   {...register("sc_red", { required: true })}
                   disabled={fieldDisabled}
-                  defaultValue={defaultValues.sc_red}
+                  defaultValue={props.playerscores.sc_red}
                   type="number"
                   id="sc_red"
                   label={pointFields[2].label}
@@ -228,7 +203,7 @@ export default function _(props) {
                   error={errors.sc_blue ? true : false}
                   {...register("sc_blue", { required: true })}
                   disabled={fieldDisabled}
-                  defaultValue={defaultValues.sc_blue}
+                  defaultValue={props.playerscores.sc_blue}
                   type="number"
                   id="sc_blue"
                   label={pointFields[3].label}
@@ -242,7 +217,7 @@ export default function _(props) {
                   error={errors.sc_yellow ? true : false}
                   {...register("sc_yellow", { required: true })}
                   disabled={fieldDisabled}
-                  defaultValue={defaultValues.sc_yellow}
+                  defaultValue={props.playerscores.sc_yellow}
                   type="number"
                   id="sc_yellow"
                   label={pointFields[4].label}
@@ -256,7 +231,7 @@ export default function _(props) {
                   error={errors.sc_green ? true : false}
                   {...register("sc_green", { required: true })}
                   disabled={fieldDisabled}
-                  defaultValue={defaultValues.sc_green}
+                  defaultValue={props.playerscores.sc_green}
                   type="number"
                   id="sc_green"
                   label={pointFields[5].label}
@@ -270,7 +245,7 @@ export default function _(props) {
                   error={errors.sc_purple ? true : false}
                   {...register("sc_purple", { required: true })}
                   disabled={fieldDisabled}
-                  defaultValue={defaultValues.sc_purple}
+                  defaultValue={props.playerscores.sc_purple}
                   type="number"
                   id="sc_purple"
                   label={pointFields[6].label}
@@ -284,7 +259,7 @@ export default function _(props) {
                   error={errors.sc_black ? true : false}
                   {...register("sc_black", { required: true })}
                   disabled={fieldDisabled}
-                  defaultValue={defaultValues.sc_black}
+                  defaultValue={props.playerscores.sc_black}
                   type="number"
                   id="sc_black"
                   label={pointFields[7].label}
@@ -298,7 +273,7 @@ export default function _(props) {
                   error={errors.sc_white ? true : false}
                   {...register("sc_white", { required: true })}
                   disabled={fieldDisabled}
-                  defaultValue={defaultValues.sc_white}
+                  defaultValue={props.playerscores.sc_white}
                   type="number"
                   id="sc_white"
                   label={pointFields[8].label}
@@ -312,7 +287,7 @@ export default function _(props) {
                   error={errors.sc_armada0 ? true : false}
                   {...register("sc_armada0", { required: true })}
                   disabled={fieldDisabled}
-                  defaultValue={defaultValues.sc_armada0}
+                  defaultValue={props.playerscores.sc_armada0}
                   type="number"
                   id="sc_armada0"
                   label={pointFields[9].label}
@@ -326,7 +301,7 @@ export default function _(props) {
                   error={errors.sc_armada1 ? true : false}
                   {...register("sc_armada1", { required: true })}
                   disabled={fieldDisabled}
-                  defaultValue={defaultValues.sc_armada1}
+                  defaultValue={props.playerscores.sc_armada1}
                   type="number"
                   id="sc_armada1"
                   label={pointFields[10].label}
