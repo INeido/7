@@ -13,7 +13,6 @@ import {
   ThemeProvider,
   CssBaseline,
   Typography,
-  MobileStepper,
   IconButton,
   Skeleton,
 } from "@mui/material";
@@ -26,7 +25,6 @@ import {
   isPlayer,
   createPlayer,
   updatePlayer,
-  getScores,
 } from "../../logic/api";
 
 export default function _(props) {
@@ -81,9 +79,7 @@ export default function _(props) {
   function onSubmit(data) {
     setFieldDisabled(true);
     updatePlayerObject(data).then((res) => {
-      getScores(props.gameid).then((res) => {
-        props.line(res.data);
-      });
+      props.line(res.data);
     });
   }
 
@@ -367,14 +363,7 @@ export default function _(props) {
         justifyContent="center"
         alignItems="flex-end"
         sx={{ position: "absolute", bottom: 10 }}
-      >
-        <MobileStepper
-          variant="dots"
-          steps={2}
-          activeStep={0}
-          position="static"
-        />
-      </Grid>
+      ></Grid>
     </ThemeProvider>
   );
 }

@@ -1,4 +1,23 @@
 module.exports = {
+  ScoresDefault: [
+    {
+      player_name: "",
+      wonder_name: "",
+      wonder_mode: "",
+      sc_wonder: "",
+      sc_money: "",
+      sc_red: "",
+      sc_blue: "",
+      sc_yellow: "",
+      sc_green: "",
+      sc_purple: "",
+      sc_black: "",
+      sc_white: "",
+      sc_armada0: "",
+      sc_armada1: "",
+      sum: "",
+    },
+  ],
   WonderNames: [
     "Ephesos",
     "Gizah",

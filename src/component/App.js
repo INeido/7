@@ -8,7 +8,6 @@ export default function _() {
   const [gameID, setGameID] = React.useState(0);
   const [playerName, setPlayerName] = React.useState(0);
   const [page, setPage] = React.useState(0);
-  const [scores, setScores] = React.useState();
 
   function firstChild(game_id, player_name) {
     setGameID(game_id);
@@ -17,7 +16,6 @@ export default function _() {
   }
 
   function secondChild(data) {
-    setScores(data);
     setPage(2);
   }
 
@@ -40,7 +38,8 @@ export default function _() {
     ></Select>,
     <Table
       theme={theme}
-      scores={scores}
+      gameid={gameID}
+      playername={playerName}
       forward={thirdChildForward}
       backward={thirdChildBackward}
     ></Table>,
