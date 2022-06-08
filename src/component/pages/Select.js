@@ -1,77 +1,51 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
-import dic from "../helper/dic";
+import * as Mat from "@mui/material";
+import * as Ico from "@mui/icons-material";
+import * as Dic from "../helper/dic";
+import * as Api from "../../logic/api";
 import { useForm } from "react-hook-form";
-import {
-  MenuItem,
-  InputAdornment,
-  TextField,
-  Grid,
-  Box,
-  Paper,
-  Fab,
-  ThemeProvider,
-  CssBaseline,
-  Typography,
-  IconButton,
-  Skeleton,
-} from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ToggleOffIcon from "@mui/icons-material/ToggleOff";
-import ToggleOnIcon from "@mui/icons-material/ToggleOn";
-import WonderIcon from "@mui/icons-material/Eject";
-import MoneyIcon from "@mui/icons-material/Circle";
-import RedIcon from "@mui/icons-material/Report";
-import BlueIcon from "@mui/icons-material/Remove";
-import YellowIcon from "@mui/icons-material/Circle";
-import NavalIcon from "@mui/icons-material/Circle";
-import BlackIcon from "@mui/icons-material/Details";
-import GreenIcon from "@mui/icons-material/ChangeHistory";
-import PurpleIcon from "@mui/icons-material/StarOutline";
-import NoIcon from "@mui/icons-material/RemoveCircle";
-import { updatePlayer } from "../../logic/api";
 
 export default function _(props) {
   const [pageLoading, setPageLoading] = React.useState(true);
-  const [pointFields, setPointFields] = React.useState(dic.PointFieldsSimple);
+  const [pointFields, setPointFields] = React.useState(Dic.PointFieldsSimple);
   const [fieldDisabled, setFieldDisabled] = React.useState(false);
 
-  function toggleFields() {
+  const toggleFields = () => {
     setPointFields(
-      pointFields === dic.PointFieldsFancy
-        ? dic.PointFieldsSimple
-        : dic.PointFieldsFancy
+      pointFields === Dic.PointFieldsFancy
+        ? Dic.PointFieldsSimple
+        : Dic.PointFieldsFancy
     );
-  }
+  };
 
   React.useEffect(() => {
     setPageLoading(false);
   }, []);
 
-  function updatePlayerObject(data) {
+  const updatePlayerObject = (data) => {
     var tempObject = data;
     tempObject.player_name = props.playername;
     tempObject.player_id = props.playerid;
-    return updatePlayer(tempObject);
-  }
+    return Api.updatePlayer(tempObject);
+  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  function onSubmit(data) {
+  const onSubmit = (data) => {
     setFieldDisabled(true);
     updatePlayerObject(data).then((res) => {
       props.line(data);
     });
-  }
+  };
 
   return (
-    <ThemeProvider theme={props.theme}>
-      <CssBaseline />
+    <Mat.ThemeProvider theme={props.theme}>
+      <Mat.CssBaseline />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box
+        <Mat.Box
           sx={{
             marginTop: 2,
             display: "grid",
@@ -80,7 +54,7 @@ export default function _(props) {
             py: 2,
           }}
         >
-          <Box
+          <Mat.Box
             sx={{
               display: "grid",
               gap: 1.5,
@@ -88,9 +62,9 @@ export default function _(props) {
             }}
           >
             {pageLoading ? (
-              <Skeleton variant="rectangular" height={55} />
+              <Mat.Skeleton variant="rectangular" height={55} />
             ) : (
-              <TextField
+              <Mat.TextField
                 error={errors.wonder_name ? true : false}
                 {...register("wonder_name", { required: true })}
                 disabled={fieldDisabled}
@@ -101,17 +75,17 @@ export default function _(props) {
                 label="Select Wonder"
                 variant="outlined"
               >
-                {dic.WonderNames.map((choice) => (
-                  <MenuItem key={choice} value={choice}>
+                {Dic.WonderNames.map((choice) => (
+                  <Mat.MenuItem key={choice} value={choice}>
                     {choice}
-                  </MenuItem>
+                  </Mat.MenuItem>
                 ))}
-              </TextField>
+              </Mat.TextField>
             )}
             {pageLoading ? (
-              <Skeleton variant="rectangular" height={55} />
+              <Mat.Skeleton variant="rectangular" height={55} />
             ) : (
-              <TextField
+              <Mat.TextField
                 error={errors.wonder_mode ? true : false}
                 {...register("wonder_mode", { required: true })}
                 disabled={fieldDisabled}
@@ -121,16 +95,16 @@ export default function _(props) {
                 color="primary"
                 label="Select Mode"
               >
-                {dic.Modes.map((choice) => (
-                  <MenuItem key={choice} value={choice}>
+                {Dic.Modes.map((choice) => (
+                  <Mat.MenuItem key={choice} value={choice}>
                     {choice}
-                  </MenuItem>
+                  </Mat.MenuItem>
                 ))}
-              </TextField>
+              </Mat.TextField>
             )}
-          </Box>
-          <Paper variant="outlined">
-            <Box
+          </Mat.Box>
+          <Mat.Paper variant="outlined">
+            <Mat.Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -140,11 +114,11 @@ export default function _(props) {
                 paddingBottom: "1px",
               }}
             >
-              <Typography variant="h5">
-                {pageLoading ? <Skeleton width={160} /> : "Enter Points"}
-              </Typography>
-            </Box>
-            <Box
+              <Mat.Typography variant="h5">
+                {pageLoading ? <Mat.Skeleton width={160} /> : "Enter Points"}
+              </Mat.Typography>
+            </Mat.Box>
+            <Mat.Box
               sx={{
                 display: "grid",
                 gap: 1.5,
@@ -154,9 +128,9 @@ export default function _(props) {
               }}
             >
               {pageLoading ? (
-                <Skeleton variant="rectangular" height={55} />
+                <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
-                <TextField
+                <Mat.TextField
                   error={errors.sc_wonder ? true : false}
                   {...register("sc_wonder", { required: true })}
                   disabled={fieldDisabled}
@@ -168,18 +142,18 @@ export default function _(props) {
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <WonderIcon sx={{ color: "#ffb74d" }} />
-                      </InputAdornment>
+                      <Mat.InputAdornment position="start">
+                        <Ico.Eject sx={{ color: "#ffb74d" }} />
+                      </Mat.InputAdornment>
                     ),
                   }}
                 />
               )}
 
               {pageLoading ? (
-                <Skeleton variant="rectangular" height={55} />
+                <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
-                <TextField
+                <Mat.TextField
                   error={errors.sc_money ? true : false}
                   {...register("sc_money", { required: true })}
                   disabled={fieldDisabled}
@@ -191,18 +165,18 @@ export default function _(props) {
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <MoneyIcon sx={{ color: "#ffb74d" }} />
-                      </InputAdornment>
+                      <Mat.InputAdornment position="start">
+                        <Ico.Circle sx={{ color: "#ffb74d" }} />
+                      </Mat.InputAdornment>
                     ),
                   }}
                 />
               )}
 
               {pageLoading ? (
-                <Skeleton variant="rectangular" height={55} />
+                <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
-                <TextField
+                <Mat.TextField
                   error={errors.sc_red ? true : false}
                   {...register("sc_red", { required: true })}
                   disabled={fieldDisabled}
@@ -214,18 +188,18 @@ export default function _(props) {
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <RedIcon sx={{ color: "#B80000" }} />
-                      </InputAdornment>
+                      <Mat.InputAdornment position="start">
+                        <Ico.Report sx={{ color: "#B80000" }} />
+                      </Mat.InputAdornment>
                     ),
                   }}
                 />
               )}
 
               {pageLoading ? (
-                <Skeleton variant="rectangular" height={55} />
+                <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
-                <TextField
+                <Mat.TextField
                   error={errors.sc_blue ? true : false}
                   {...register("sc_blue", { required: true })}
                   disabled={fieldDisabled}
@@ -237,17 +211,17 @@ export default function _(props) {
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <BlueIcon sx={{ color: "#0693E3" }} />
-                      </InputAdornment>
+                      <Mat.InputAdornment position="start">
+                        <Ico.Remove sx={{ color: "#0693E3" }} />
+                      </Mat.InputAdornment>
                     ),
                   }}
                 />
               )}
               {pageLoading ? (
-                <Skeleton variant="rectangular" height={55} />
+                <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
-                <TextField
+                <Mat.TextField
                   error={errors.sc_yellow ? true : false}
                   {...register("sc_yellow", { required: true })}
                   disabled={fieldDisabled}
@@ -259,17 +233,17 @@ export default function _(props) {
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <YellowIcon sx={{ color: "#FCB900" }} />
-                      </InputAdornment>
+                      <Mat.InputAdornment position="start">
+                        <Ico.Circle sx={{ color: "#FCB900" }} />
+                      </Mat.InputAdornment>
                     ),
                   }}
                 />
               )}
               {pageLoading ? (
-                <Skeleton variant="rectangular" height={55} />
+                <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
-                <TextField
+                <Mat.TextField
                   error={errors.sc_green ? true : false}
                   {...register("sc_green", { required: true })}
                   disabled={fieldDisabled}
@@ -281,17 +255,17 @@ export default function _(props) {
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <GreenIcon sx={{ color: "#008B02" }} />
-                      </InputAdornment>
+                      <Mat.InputAdornment position="start">
+                        <Ico.ChangeHistory sx={{ color: "#008B02" }} />
+                      </Mat.InputAdornment>
                     ),
                   }}
                 />
               )}
               {pageLoading ? (
-                <Skeleton variant="rectangular" height={55} />
+                <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
-                <TextField
+                <Mat.TextField
                   error={errors.sc_purple ? true : false}
                   {...register("sc_purple", { required: true })}
                   disabled={fieldDisabled}
@@ -303,17 +277,17 @@ export default function _(props) {
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <PurpleIcon sx={{ color: "#4A148C" }} />
-                      </InputAdornment>
+                      <Mat.InputAdornment position="start">
+                        <Ico.StarOutline sx={{ color: "#4A148C" }} />
+                      </Mat.InputAdornment>
                     ),
                   }}
                 />
               )}
               {pageLoading ? (
-                <Skeleton variant="rectangular" height={55} />
+                <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
-                <TextField
+                <Mat.TextField
                   error={errors.sc_black ? true : false}
                   {...register("sc_black", { required: true })}
                   disabled={fieldDisabled}
@@ -325,17 +299,17 @@ export default function _(props) {
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <BlackIcon sx={{ color: "#767676" }} />
-                      </InputAdornment>
+                      <Mat.InputAdornment position="start">
+                        <Ico.Details sx={{ color: "#767676" }} />
+                      </Mat.InputAdornment>
                     ),
                   }}
                 />
               )}
               {pageLoading ? (
-                <Skeleton variant="rectangular" height={55} />
+                <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
-                <TextField
+                <Mat.TextField
                   error={errors.sc_white ? true : false}
                   {...register("sc_white", { required: true })}
                   disabled={fieldDisabled}
@@ -347,17 +321,17 @@ export default function _(props) {
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <NoIcon sx={{ color: "#FFF" }} />
-                      </InputAdornment>
+                      <Mat.InputAdornment position="start">
+                        <Ico.RemoveCircle sx={{ color: "#FFF" }} />
+                      </Mat.InputAdornment>
                     ),
                   }}
                 />
               )}
               {pageLoading ? (
-                <Skeleton variant="rectangular" height={55} />
+                <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
-                <TextField
+                <Mat.TextField
                   error={errors.sc_armada0 ? true : false}
                   {...register("sc_armada0", { required: true })}
                   disabled={fieldDisabled}
@@ -369,17 +343,17 @@ export default function _(props) {
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <NoIcon sx={{ color: "#FFF" }} />
-                      </InputAdornment>
+                      <Mat.InputAdornment position="start">
+                        <Ico.RemoveCircle sx={{ color: "#FFF" }} />
+                      </Mat.InputAdornment>
                     ),
                   }}
                 />
               )}
               {pageLoading ? (
-                <Skeleton variant="rectangular" height={55} />
+                <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
-                <TextField
+                <Mat.TextField
                   error={errors.sc_armada1 ? true : false}
                   {...register("sc_armada1", { required: true })}
                   disabled={fieldDisabled}
@@ -391,60 +365,60 @@ export default function _(props) {
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <NoIcon sx={{ color: "#FFF" }} />
-                      </InputAdornment>
+                      <Mat.InputAdornment position="start">
+                        <Ico.RemoveCircle sx={{ color: "#FFF" }} />
+                      </Mat.InputAdornment>
                     ),
                   }}
                 />
               )}
-            </Box>
-          </Paper>
-        </Box>
-        <Fab
+            </Mat.Box>
+          </Mat.Paper>
+        </Mat.Box>
+        <Mat.Fab
           type="submit"
           color="primary"
           InputProps={{
             inputProps: { min: -99, max: 99 },
             startAdornment: (
-              <InputAdornment position="start">
-                <NoIcon sx={{ color: "#FFF" }} />
-              </InputAdornment>
+              <Mat.InputAdornment position="start">
+                <Ico.RemoveCircle sx={{ color: "#FFF" }} />
+              </Mat.InputAdornment>
             ),
           }}
           sx={{ position: "absolute", bottom: 16, right: 16 }}
         >
-          <ArrowForwardIcon />
-        </Fab>
+          <Ico.ArrowForward />
+        </Mat.Fab>
       </form>
 
-      <IconButton
+      <Mat.IconButton
         color="primary"
         InputProps={{
           inputProps: { min: -99, max: 99 },
           startAdornment: (
-            <InputAdornment position="start">
-              <NavalIcon sx={{ color: "#ffb74d" }} />
-            </InputAdornment>
+            <Mat.InputAdornment position="start">
+              <Ico.Circle sx={{ color: "#ffb74d" }} />
+            </Mat.InputAdornment>
           ),
         }}
         onClick={toggleFields}
         sx={{ position: "absolute", bottom: 16, left: 16 }}
       >
-        {pointFields === dic.PointFieldsFancy ? (
-          <ToggleOnIcon />
+        {pointFields === Dic.PointFieldsFancy ? (
+          <Ico.ToggleOn />
         ) : (
-          <ToggleOffIcon />
+          <Ico.ToggleOff />
         )}
-      </IconButton>
+      </Mat.IconButton>
 
-      <Grid
+      <Mat.Grid
         container
         direction="row"
         justifyContent="center"
         alignItems="flex-end"
         sx={{ position: "absolute", bottom: 10 }}
-      ></Grid>
-    </ThemeProvider>
+      ></Mat.Grid>
+    </Mat.ThemeProvider>
   );
 }
