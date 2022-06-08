@@ -19,7 +19,16 @@ import {
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ToggleOffIcon from "@mui/icons-material/ToggleOff";
 import ToggleOnIcon from "@mui/icons-material/ToggleOn";
-import CircleIcon from "@mui/icons-material/Circle";
+import WonderIcon from "@mui/icons-material/Eject";
+import MoneyIcon from "@mui/icons-material/Circle";
+import RedIcon from "@mui/icons-material/Report";
+import BlueIcon from "@mui/icons-material/Remove";
+import YellowIcon from "@mui/icons-material/Circle";
+import NavalIcon from "@mui/icons-material/Circle";
+import BlackIcon from "@mui/icons-material/Details";
+import GreenIcon from "@mui/icons-material/ChangeHistory";
+import PurpleIcon from "@mui/icons-material/StarOutline";
+import NoIcon from "@mui/icons-material/RemoveCircle";
 import { updatePlayer } from "../../logic/api";
 
 export default function _(props) {
@@ -157,9 +166,10 @@ export default function _(props) {
                   label={pointFields[0].label}
                   color="primary"
                   InputProps={{
+                    inputProps: { min: -99, max: 99 },
                     startAdornment: (
                       <InputAdornment position="start">
-                        <CircleIcon sx={{ color: "#ffb74d" }} />
+                        <WonderIcon sx={{ color: "#ffb74d" }} />
                       </InputAdornment>
                     ),
                   }}
@@ -178,6 +188,14 @@ export default function _(props) {
                   id="sc_money"
                   label={pointFields[1].label}
                   color="primary"
+                  InputProps={{
+                    inputProps: { min: -99, max: 99 },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <MoneyIcon sx={{ color: "#ffb74d" }} />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
 
@@ -193,6 +211,14 @@ export default function _(props) {
                   id="sc_red"
                   label={pointFields[2].label}
                   color="primary"
+                  InputProps={{
+                    inputProps: { min: -99, max: 99 },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <RedIcon sx={{ color: "#B80000" }} />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
 
@@ -208,6 +234,14 @@ export default function _(props) {
                   id="sc_blue"
                   label={pointFields[3].label}
                   color="primary"
+                  InputProps={{
+                    inputProps: { min: -99, max: 99 },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <BlueIcon sx={{ color: "#0693E3" }} />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
               {pageLoading ? (
@@ -222,6 +256,14 @@ export default function _(props) {
                   id="sc_yellow"
                   label={pointFields[4].label}
                   color="primary"
+                  InputProps={{
+                    inputProps: { min: -99, max: 99 },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <YellowIcon sx={{ color: "#FCB900" }} />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
               {pageLoading ? (
@@ -236,6 +278,14 @@ export default function _(props) {
                   id="sc_green"
                   label={pointFields[5].label}
                   color="primary"
+                  InputProps={{
+                    inputProps: { min: -99, max: 99 },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <GreenIcon sx={{ color: "#008B02" }} />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
               {pageLoading ? (
@@ -250,6 +300,14 @@ export default function _(props) {
                   id="sc_purple"
                   label={pointFields[6].label}
                   color="primary"
+                  InputProps={{
+                    inputProps: { min: -99, max: 99 },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <PurpleIcon sx={{ color: "#4A148C" }} />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
               {pageLoading ? (
@@ -264,6 +322,14 @@ export default function _(props) {
                   id="sc_black"
                   label={pointFields[7].label}
                   color="primary"
+                  InputProps={{
+                    inputProps: { min: -99, max: 99 },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <BlackIcon sx={{ color: "#767676" }} />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
               {pageLoading ? (
@@ -278,6 +344,14 @@ export default function _(props) {
                   id="sc_white"
                   label={pointFields[8].label}
                   color="primary"
+                  InputProps={{
+                    inputProps: { min: -99, max: 99 },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <NoIcon sx={{ color: "#FFF" }} />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
               {pageLoading ? (
@@ -292,6 +366,14 @@ export default function _(props) {
                   id="sc_armada0"
                   label={pointFields[9].label}
                   color="primary"
+                  InputProps={{
+                    inputProps: { min: -99, max: 99 },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <NoIcon sx={{ color: "#FFF" }} />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
               {pageLoading ? (
@@ -306,6 +388,14 @@ export default function _(props) {
                   id="sc_armada1"
                   label={pointFields[10].label}
                   color="primary"
+                  InputProps={{
+                    inputProps: { min: -99, max: 99 },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <NoIcon sx={{ color: "#FFF" }} />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
             </Box>
@@ -314,6 +404,14 @@ export default function _(props) {
         <Fab
           type="submit"
           color="primary"
+          InputProps={{
+            inputProps: { min: -99, max: 99 },
+            startAdornment: (
+              <InputAdornment position="start">
+                <NoIcon sx={{ color: "#FFF" }} />
+              </InputAdornment>
+            ),
+          }}
           sx={{ position: "absolute", bottom: 16, right: 16 }}
         >
           <ArrowForwardIcon />
@@ -322,6 +420,14 @@ export default function _(props) {
 
       <IconButton
         color="primary"
+        InputProps={{
+          inputProps: { min: -99, max: 99 },
+          startAdornment: (
+            <InputAdornment position="start">
+              <NavalIcon sx={{ color: "#ffb74d" }} />
+            </InputAdornment>
+          ),
+        }}
         onClick={toggleFields}
         sx={{ position: "absolute", bottom: 16, left: 16 }}
       >
