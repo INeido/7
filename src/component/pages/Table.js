@@ -12,7 +12,14 @@ import {
   Table,
   Grid,
   Fab,
-  Skeleton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Backdrop,
+  Button,
+  CircularProgress,
 } from "@mui/material";
 import ArrowBackwardIcon from "@mui/icons-material/ArrowBack";
 import LockIcon from "@mui/icons-material/LockOutlined";
@@ -24,6 +31,8 @@ export default function _(props) {
   const [scores, setScores] = React.useState(dic.ScoresDefault);
   const [pageLoading, setPageLoading] = React.useState(true);
   const [locked, setLocked] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [dialog, setDialog] = React.useState({});
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -34,179 +43,219 @@ export default function _(props) {
         setPageLoading(false);
       });
     }, 1000);
-
     return () => clearInterval(interval);
   }, []);
 
-  function lockGame() {
-    if (props.admin) {
-      setLocked(!locked);
-      if (!locked) {
-        closeGame().then((res) => {
-          console.log("game_closed");
-        });
-      } else {
-        openGame(props.gameid).then((res) => {
-          console.log("game opened");
-        });
-      }
+  const handleClickOpen = () => {
+    if (locked) {
+      setDialog({
+        title: "Open current game?",
+        text: "Game will be opened for players to join.",
+        proceed: openGameF,
+      });
+    } else {
+      setDialog({
+        title: "Close current game?",
+        text: "This will close the game and kick current players.",
+        proceed: closeGameF,
+      });
     }
-  }
+    if (true) {
+      // props.admin
+      setOpen(true);
+    }
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const closeGameF = () => {
+    closeGame().then((res) => {
+      console.log("game closed");
+      setLocked(true);
+      handleClose();
+    });
+  };
+
+  const openGameF = () => {
+    openGame(props.gameid).then((res) => {
+      console.log("game opened");
+      setLocked(false);
+      handleClose();
+    });
+  };
 
   return (
     <ThemeProvider theme={props.theme}>
       <CssBaseline />
-      {pageLoading ? (
-        <Skeleton></Skeleton>
-      ) : (
-        <>
-          <Fab
-            type="submit"
-            color="primary"
-            onClick={props.backward}
-            sx={{ position: "absolute", bottom: 16, left: 16 }}
-          >
-            <ArrowBackwardIcon />
-          </Fab>
-          <Fab
-            type="submit"
-            color="primary"
-            onClick={lockGame}
-            sx={{ position: "absolute", bottom: 16, right: 16 }}
-          >
-            {locked ? <LockIcon /> : <LockOpenIcon />}
-          </Fab>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{dialog.title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {dialog.text}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Abort
+          </Button>
+          <Button onClick={dialog.proceed} color="primary" autoFocus>
+            Proceed
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-          <TableContainer component={Paper}>
-            <Table size="small">
-              <TableBody>
-                <TableRow>
-                  <TableCell variant="head">Player</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.player_name.id}>
-                      {game.player_name}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">Wonder</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.wonder_name.id}>
-                      {game.wonder_name}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">Mode</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.wonder_mode.id}>
-                      {game.wonder_mode}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">{pointFields[0].label}</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.sc_wonder.id}>
-                      {game.sc_wonder}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">{pointFields[1].label}</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.sc_money.id}>
-                      {game.sc_money}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">{pointFields[2].label}</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.sc_red.id}>{game.sc_red}</TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">{pointFields[3].label}</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.sc_blue.id}>{game.sc_blue}</TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">{pointFields[4].label}</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.sc_yellow.id}>
-                      {game.sc_yellow}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">{pointFields[5].label}</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.sc_green.id}>
-                      {game.sc_green}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">{pointFields[6].label}</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.sc_purple.id}>
-                      {game.sc_purple}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">{pointFields[7].label}</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.sc_black.id}>
-                      {game.sc_black}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">{pointFields[8].label}</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.sc_white.id}>
-                      {game.sc_white}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">{pointFields[9].label}</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.sc_armada0.id}>
-                      {game.sc_armada0}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">{pointFields[10].label}</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.sc_armada1.id}>
-                      {game.sc_armada1}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                <TableRow>
-                  <TableCell variant="head">Sum</TableCell>
-                  {scores.map((game) => (
-                    <TableCell key={game.sum.id}>{game.sum}</TableCell>
-                  ))}
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+      <Backdrop open={pageLoading}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <>
+        <Fab
+          type="submit"
+          color="primary"
+          onClick={props.backward}
+          sx={{ position: "absolute", bottom: 16, left: 16 }}
+        >
+          <ArrowBackwardIcon />
+        </Fab>
+        <Fab
+          type="submit"
+          color="primary"
+          onClick={handleClickOpen}
+          sx={{ position: "absolute", bottom: 16, right: 16 }}
+        >
+          {locked ? <LockIcon /> : <LockOpenIcon />}
+        </Fab>
 
-          <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="flex-end"
-            sx={{ position: "absolute", bottom: 10 }}
-          ></Grid>
-        </>
-      )}
+        <TableContainer component={Paper}>
+          <Table size="small">
+            <TableBody>
+              <TableRow>
+                <TableCell variant="head">Player</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.player_name.id}>
+                    {game.player_name}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">Wonder</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.wonder_name.id}>
+                    {game.wonder_name}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">Mode</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.wonder_mode.id}>
+                    {game.wonder_mode}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">{pointFields[0].label}</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.sc_wonder.id}>
+                    {game.sc_wonder}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">{pointFields[1].label}</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.sc_money.id}>{game.sc_money}</TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">{pointFields[2].label}</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.sc_red.id}>{game.sc_red}</TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">{pointFields[3].label}</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.sc_blue.id}>{game.sc_blue}</TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">{pointFields[4].label}</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.sc_yellow.id}>
+                    {game.sc_yellow}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">{pointFields[5].label}</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.sc_green.id}>{game.sc_green}</TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">{pointFields[6].label}</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.sc_purple.id}>
+                    {game.sc_purple}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">{pointFields[7].label}</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.sc_black.id}>{game.sc_black}</TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">{pointFields[8].label}</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.sc_white.id}>{game.sc_white}</TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">{pointFields[9].label}</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.sc_armada0.id}>
+                    {game.sc_armada0}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">{pointFields[10].label}</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.sc_armada1.id}>
+                    {game.sc_armada1}
+                  </TableCell>
+                ))}
+              </TableRow>
+              <TableRow>
+                <TableCell variant="head">Sum</TableCell>
+                {scores.map((game) => (
+                  <TableCell key={game.sum.id}>{game.sum}</TableCell>
+                ))}
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="flex-end"
+          sx={{ position: "absolute", bottom: 10 }}
+        ></Grid>
+      </>
     </ThemeProvider>
   );
 }
