@@ -4,18 +4,3 @@
   --gray: rgb(242, 242, 242);
   overscroll-behavior-y: contain;
 }
-
-/*
-body {
-  background-color: #212121 !important;
-  color: #fafafa !important;
-  --gray: rgb(40, 40, 40);
-}
-@media screen and (prefers-color-scheme: light) {
-  body {
-    background-color: #fafafa !important;
-    color: #212121 !important;
-    --gray: rgb(242, 242, 242);
-  }
-}
-*/

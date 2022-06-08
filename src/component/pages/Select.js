@@ -375,50 +375,30 @@ export default function _(props) {
             </Mat.Box>
           </Mat.Paper>
         </Mat.Box>
-        <Mat.Fab
-          type="submit"
-          color="primary"
-          InputProps={{
-            inputProps: { min: -99, max: 99 },
-            startAdornment: (
-              <Mat.InputAdornment position="start">
-                <Ico.RemoveCircle sx={{ color: "#FFF" }} />
-              </Mat.InputAdornment>
-            ),
+
+        <Mat.AppBar
+          position="fixed"
+          style={{
+            top: "auto",
+            bottom: 0,
           }}
-          sx={{ position: "absolute", bottom: 16, right: 16 }}
         >
-          <Ico.ArrowForward />
-        </Mat.Fab>
+          <Mat.Toolbar>
+            <Mat.IconButton color="inherit" onClick={toggleFields}>
+              {pointFields === Dic.PointFieldsFancy ? (
+                <Ico.ToggleOn />
+              ) : (
+                <Ico.ToggleOff />
+              )}
+            </Mat.IconButton>
+            <div style={{ flexGrow: 1 }} />
+            <Mat.IconButton color="inherit" type="submit">
+              <Ico.ArrowForward />
+            </Mat.IconButton>
+          </Mat.Toolbar>
+        </Mat.AppBar>
+        <Mat.Toolbar />
       </form>
-
-      <Mat.IconButton
-        color="primary"
-        InputProps={{
-          inputProps: { min: -99, max: 99 },
-          startAdornment: (
-            <Mat.InputAdornment position="start">
-              <Ico.Circle sx={{ color: "#ffb74d" }} />
-            </Mat.InputAdornment>
-          ),
-        }}
-        onClick={toggleFields}
-        sx={{ position: "absolute", bottom: 16, left: 16 }}
-      >
-        {pointFields === Dic.PointFieldsFancy ? (
-          <Ico.ToggleOn />
-        ) : (
-          <Ico.ToggleOff />
-        )}
-      </Mat.IconButton>
-
-      <Mat.Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="flex-end"
-        sx={{ position: "absolute", bottom: 10 }}
-      ></Mat.Grid>
     </Mat.ThemeProvider>
   );
 }
