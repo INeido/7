@@ -1,8 +1,46 @@
 {
-  "short_name": "Wonders",
   "name": "Digital Score Sheet",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "short_name": "Wonders",
+  "start_url": "/index.html",
+  "display": "fullscreen",
+  "background_color": "#666666",
+  "description": "An Progressive Web Application to keep track of and display games of 7 Wonders.",
+  "dir": "ltr",
+  "categories": "games,social,utilities",
+  "lang": "en",
+  "orientation": "landscape",
+  "scope": "/",
+  "theme_color": "#e69138",
+  "icons": [
+    {
+      "src": "/icon_48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_168x168.png",
+      "sizes": "168x168",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
 }
