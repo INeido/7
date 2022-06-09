@@ -4,3 +4,8 @@
   --gray: rgb(242, 242, 242);
   overscroll-behavior-y: contain;
 }
+
+html {
+  max-width: 800px;
+  min-height: 600px;
+}

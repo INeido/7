@@ -97,7 +97,7 @@ export default function _(props) {
           direction="column"
           justifyContent="center"
           alignItems="center"
-          sx={{ marginTop: "40%" }}
+          sx={{ marginTop: "25vh" }}
         >
           {pageLoading ? (
             <Mat.Skeleton variant="rectangular" width={210} height={118} />
