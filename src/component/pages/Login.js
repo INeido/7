@@ -4,7 +4,7 @@ import * as Lab from "@mui/lab";
 import * as Ico from "@mui/icons-material";
 import * as Dic from "../helper/dic";
 import * as Api from "../../logic/api";
-import { useCookies } from "react-cookie";
+import * as Cookie from "react-cookie";
 import * as Form from "react-hook-form";
 
 export default function _(props) {
@@ -14,7 +14,7 @@ export default function _(props) {
   const [fieldDisabled, setFieldDisabled] = React.useState(false);
   const [newGame, setNewGame] = React.useState(false);
   const [gameID, setGameID] = React.useState();
-  const [cookies, setCookie] = useCookies(["user"]);
+  const [cookies, setCookie] = Cookie.useCookies(["user"]);
   const [anchorEl, setAnchorEl] = React.useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -54,16 +54,18 @@ export default function _(props) {
       // New game
       Api.createGame().then((res0) => {
         console.log("Game created. ID: " + res0.data.insertId);
-        Api.createPlayer(res0.data.insertId, data.playerName).then((res1) => {
-          console.log("Player created. ID: " + res1.data.insertId);
-          props.line(
-            res1.data.insertId, // PlayerID
-            res0.data.insertId, // GameID
-            data.playerName,
-            Dic.DefaultValues,
-            1 // Admin
-          );
-        });
+        Api.createPlayer(res0.data.insertId, data.playerName, 1).then(
+          (res1) => {
+            console.log("Player created. ID: " + res1.data.insertId);
+            props.line(
+              res1.data.insertId, // PlayerID
+              res0.data.insertId, // GameID
+              data.playerName,
+              Dic.DefaultValues,
+              1 // Admin
+            );
+          }
+        );
       });
     } else {
       // Join one
@@ -72,16 +74,26 @@ export default function _(props) {
           console.log("Player found with ID: " + res0.data[0].player_id);
           Api.getPlayer(res0.data[0].player_id).then((res1) => {
             console.log("Player found with name: " + data.playerName);
-            props.line(
-              res0.data[0].player_id,
-              gameID,
-              data.playerName,
-              res1.data[0], // Scores
-              Boolean(res1.data[0].admin)
-            );
+            if (res1.data[0].sum === null) {
+              props.line(
+                res0.data[0].player_id,
+                gameID,
+                data.playerName,
+                Dic.DefaultValues,
+                Boolean(res1.data[0].admin)
+              );
+            } else {
+              props.line(
+                res0.data[0].player_id,
+                gameID,
+                data.playerName,
+                res1.data[0], // Scores
+                Boolean(res1.data[0].admin)
+              );
+            }
           });
         } catch {
-          Api.createPlayer(gameID, data.playerName).then((res) => {
+          Api.createPlayer(gameID, data.playerName, 0).then((res) => {
             console.log("Player created. ID: " + res.data.insertId);
             props.line(
               res.data.insertId, // PlayerID
@@ -100,7 +112,7 @@ export default function _(props) {
     <Mat.ThemeProvider theme={props.theme}>
       <Mat.CssBaseline />
       <Mat.IconButton
-        href="https://github.com/INeido"
+        href="https://github.com/INeido/7"
         target="_blank"
         sx={{ position: "absolute", bottom: 16, right: 16 }}
       >
@@ -128,7 +140,6 @@ export default function _(props) {
       >
         <Mat.MenuItem onClick={handleClose}>Game Browser</Mat.MenuItem>
         <Mat.MenuItem onClick={handleClose}>Stats</Mat.MenuItem>
-        <Mat.MenuItem onClick={handleClose}>Logout</Mat.MenuItem>
       </Mat.Menu>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -148,11 +159,17 @@ export default function _(props) {
             >
               <Mat.TextField
                 error={errors.playerName ? true : false}
-                {...register("playerName", { required: true })}
+                {...register("playerName", {
+                  required: "Please enter a Name!",
+                  pattern: {
+                    value: /^[a-zA-Z]+$/,
+                    message: "No Emojis Paul!",
+                  },
+                })}
+                helperText={errors.playerName?.message}
                 disabled={fieldDisabled}
                 fullWidth
                 autoFocus
-                helperText={errors.playerName ? "Please enter name." : ""}
                 margin="normal"
                 name="playerName"
                 label="Name"

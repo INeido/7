@@ -13,19 +13,20 @@ export default function _(props) {
 
   const updateSum = () => {
     const values = getValues();
-    setSum(
-      parseInt(values.sc_wonder) +
-        parseInt(values.sc_money) +
-        parseInt(values.sc_red) +
-        parseInt(values.sc_blue) +
-        parseInt(values.sc_yellow) +
-        parseInt(values.sc_green) +
-        parseInt(values.sc_purple) +
-        parseInt(values.sc_black) +
-        parseInt(values.sc_white) +
-        parseInt(values.sc_armada0) +
-        parseInt(values.sc_armada1)
-    );
+    const sumVal =
+      parseInt(values.wonder !== "" ? values.wonder : 0) +
+      parseInt(values.money !== "" ? values.money : 0) +
+      parseInt(values.red !== "" ? values.red : 0) +
+      parseInt(values.blue !== "" ? values.blue : 0) +
+      parseInt(values.yellow !== "" ? values.yellow : 0) +
+      parseInt(values.green !== "" ? values.green : 0) +
+      parseInt(values.purple !== "" ? values.purple : 0) +
+      parseInt(values.black !== "" ? values.black : 0) +
+      parseInt(values.white !== "" ? values.white : 0) +
+      parseInt(values.armada0 !== "" ? values.armada0 : 0) +
+      parseInt(values.armada1 !== "" ? values.armada1 : 0);
+    setSum(sumVal);
+    return sumVal;
   };
 
   const toggleFields = () => {
@@ -44,6 +45,7 @@ export default function _(props) {
     var tempObject = data;
     tempObject.player_name = props.playername;
     tempObject.player_id = props.playerid;
+    tempObject.sum = updateSum();
     return Api.updatePlayer(tempObject);
   };
 
@@ -150,13 +152,13 @@ export default function _(props) {
                 <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
                 <Mat.TextField
-                  error={errors.sc_wonder ? true : false}
-                  {...register("sc_wonder", { required: true })}
+                  error={errors.wonder ? true : false}
+                  {...register("wonder", { required: true })}
                   onChange={updateSum}
                   disabled={fieldDisabled}
-                  defaultValue={props.playerscores.sc_wonder}
+                  defaultValue={props.playerscores.wonder}
                   type="number"
-                  id="sc_wonder"
+                  id="wonder"
                   label={pointFields[0].label}
                   color="primary"
                   InputProps={{
@@ -174,13 +176,13 @@ export default function _(props) {
                 <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
                 <Mat.TextField
-                  error={errors.sc_money ? true : false}
-                  {...register("sc_money", { required: true })}
+                  error={errors.money ? true : false}
+                  {...register("money", { required: true })}
                   onChange={updateSum}
                   disabled={fieldDisabled}
-                  defaultValue={props.playerscores.sc_money}
+                  defaultValue={props.playerscores.money}
                   type="number"
-                  id="sc_money"
+                  id="money"
                   label={pointFields[1].label}
                   color="primary"
                   InputProps={{
@@ -198,13 +200,13 @@ export default function _(props) {
                 <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
                 <Mat.TextField
-                  error={errors.sc_red ? true : false}
-                  {...register("sc_red", { required: true })}
+                  error={errors.red ? true : false}
+                  {...register("red", { required: true })}
                   onChange={updateSum}
                   disabled={fieldDisabled}
-                  defaultValue={props.playerscores.sc_red}
+                  defaultValue={props.playerscores.red}
                   type="number"
-                  id="sc_red"
+                  id="red"
                   label={pointFields[2].label}
                   color="primary"
                   InputProps={{
@@ -222,13 +224,13 @@ export default function _(props) {
                 <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
                 <Mat.TextField
-                  error={errors.sc_blue ? true : false}
-                  {...register("sc_blue", { required: true })}
+                  error={errors.blue ? true : false}
+                  {...register("blue", { required: true })}
                   onChange={updateSum}
                   disabled={fieldDisabled}
-                  defaultValue={props.playerscores.sc_blue}
+                  defaultValue={props.playerscores.blue}
                   type="number"
-                  id="sc_blue"
+                  id="blue"
                   label={pointFields[3].label}
                   color="primary"
                   InputProps={{
@@ -245,13 +247,13 @@ export default function _(props) {
                 <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
                 <Mat.TextField
-                  error={errors.sc_yellow ? true : false}
-                  {...register("sc_yellow", { required: true })}
+                  error={errors.yellow ? true : false}
+                  {...register("yellow", { required: true })}
                   onChange={updateSum}
                   disabled={fieldDisabled}
-                  defaultValue={props.playerscores.sc_yellow}
+                  defaultValue={props.playerscores.yellow}
                   type="number"
-                  id="sc_yellow"
+                  id="yellow"
                   label={pointFields[4].label}
                   color="primary"
                   InputProps={{
@@ -268,13 +270,13 @@ export default function _(props) {
                 <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
                 <Mat.TextField
-                  error={errors.sc_green ? true : false}
-                  {...register("sc_green", { required: true })}
+                  error={errors.green ? true : false}
+                  {...register("green", { required: true })}
                   onChange={updateSum}
                   disabled={fieldDisabled}
-                  defaultValue={props.playerscores.sc_green}
+                  defaultValue={props.playerscores.green}
                   type="number"
-                  id="sc_green"
+                  id="green"
                   label={pointFields[5].label}
                   color="primary"
                   InputProps={{
@@ -291,13 +293,13 @@ export default function _(props) {
                 <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
                 <Mat.TextField
-                  error={errors.sc_purple ? true : false}
-                  {...register("sc_purple", { required: true })}
+                  error={errors.purple ? true : false}
+                  {...register("purple", { required: true })}
                   onChange={updateSum}
                   disabled={fieldDisabled}
-                  defaultValue={props.playerscores.sc_purple}
+                  defaultValue={props.playerscores.purple}
                   type="number"
-                  id="sc_purple"
+                  id="purple"
                   label={pointFields[6].label}
                   color="primary"
                   InputProps={{
@@ -314,13 +316,13 @@ export default function _(props) {
                 <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
                 <Mat.TextField
-                  error={errors.sc_black ? true : false}
-                  {...register("sc_black", { required: true })}
+                  error={errors.black ? true : false}
+                  {...register("black", { required: true })}
                   onChange={updateSum}
                   disabled={fieldDisabled}
-                  defaultValue={props.playerscores.sc_black}
+                  defaultValue={props.playerscores.black}
                   type="number"
-                  id="sc_black"
+                  id="black"
                   label={pointFields[7].label}
                   color="primary"
                   InputProps={{
@@ -337,13 +339,13 @@ export default function _(props) {
                 <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
                 <Mat.TextField
-                  error={errors.sc_white ? true : false}
-                  {...register("sc_white", { required: true })}
+                  error={errors.white ? true : false}
+                  {...register("white", { required: true })}
                   onChange={updateSum}
                   disabled={fieldDisabled}
-                  defaultValue={props.playerscores.sc_white}
+                  defaultValue={props.playerscores.white}
                   type="number"
-                  id="sc_white"
+                  id="white"
                   label={pointFields[8].label}
                   color="primary"
                   InputProps={{
@@ -360,13 +362,13 @@ export default function _(props) {
                 <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
                 <Mat.TextField
-                  error={errors.sc_armada0 ? true : false}
-                  {...register("sc_armada0", { required: true })}
+                  error={errors.armada0 ? true : false}
+                  {...register("armada0", { required: true })}
                   onChange={updateSum}
                   disabled={fieldDisabled}
-                  defaultValue={props.playerscores.sc_armada0}
+                  defaultValue={props.playerscores.armada0}
                   type="number"
-                  id="sc_armada0"
+                  id="armada0"
                   label={pointFields[9].label}
                   color="primary"
                   InputProps={{
@@ -383,13 +385,13 @@ export default function _(props) {
                 <Mat.Skeleton variant="rectangular" height={55} />
               ) : (
                 <Mat.TextField
-                  error={errors.sc_armada1 ? true : false}
-                  {...register("sc_armada1", { required: true })}
+                  error={errors.armada1 ? true : false}
+                  {...register("armada1", { required: true })}
                   onChange={updateSum}
                   disabled={fieldDisabled}
-                  defaultValue={props.playerscores.sc_armada1}
+                  defaultValue={props.playerscores.armada1}
                   type="number"
-                  id="sc_armada1"
+                  id="armada1"
                   label={pointFields[10].label}
                   color="primary"
                   InputProps={{
@@ -407,7 +409,6 @@ export default function _(props) {
               ) : (
                 <Mat.TextField
                   disabled
-                  defaultValue={props.playerscores.sum}
                   value={sum}
                   type="number"
                   id="sum"

@@ -7,7 +7,7 @@ import * as Api from "../../logic/api";
 
 export default function _(props) {
   const [pointFields] = React.useState(Dic.PointFieldsSimple);
-  const [scores, setScores] = React.useState(Dic.ScoresDefault);
+  const [scores, setScores] = React.useState([Dic.DefaultValues]);
   const [pageLoading, setPageLoading] = React.useState(true);
   const [locked, setLocked] = React.useState(false);
   const [open, setOpen] = React.useState(false);
@@ -15,12 +15,17 @@ export default function _(props) {
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      Api.getScores(props.gameid).then((res) => {
-        if (pointFields !== res.data) {
-          setScores(res.data);
-        }
-        setPageLoading(false);
-      });
+      try {
+        Api.getScores(props.gameid).then((res) => {
+          console.log(res.data);
+          if (pointFields !== res.data) {
+            setScores(res.data);
+          }
+          setPageLoading(false);
+        });
+      } catch {
+        // Handle Error
+      }
     }, 1000);
     return () => clearInterval(interval);
   }, []);
@@ -105,25 +110,19 @@ export default function _(props) {
             <Mat.TableRow>
               <Mat.TableCell variant="head">Player</Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.player_name.id}>
-                  {game.player_name}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.player_name}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">Wonder</Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.wonder_name.id}>
-                  {game.wonder_name}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.wonder_name}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">Mode</Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.wonder_mode.id}>
-                  {game.wonder_mode}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.wonder_mode}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
@@ -131,9 +130,7 @@ export default function _(props) {
                 {pointFields[0].label}
               </Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.sc_wonder.id}>
-                  {game.sc_wonder}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.wonder}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
@@ -141,9 +138,7 @@ export default function _(props) {
                 {pointFields[1].label}
               </Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.sc_money.id}>
-                  {game.sc_money}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.money}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
@@ -151,9 +146,7 @@ export default function _(props) {
                 {pointFields[2].label}
               </Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.sc_red.id}>
-                  {game.sc_red}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.red}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
@@ -161,9 +154,7 @@ export default function _(props) {
                 {pointFields[3].label}
               </Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.sc_blue.id}>
-                  {game.sc_blue}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.blue}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
@@ -171,9 +162,7 @@ export default function _(props) {
                 {pointFields[4].label}
               </Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.sc_yellow.id}>
-                  {game.sc_yellow}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.yellow}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
@@ -181,9 +170,7 @@ export default function _(props) {
                 {pointFields[5].label}
               </Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.sc_green.id}>
-                  {game.sc_green}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.green}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
@@ -191,9 +178,7 @@ export default function _(props) {
                 {pointFields[6].label}
               </Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.sc_purple.id}>
-                  {game.sc_purple}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.purple}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
@@ -201,9 +186,7 @@ export default function _(props) {
                 {pointFields[7].label}
               </Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.sc_black.id}>
-                  {game.sc_black}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.black}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
@@ -211,9 +194,7 @@ export default function _(props) {
                 {pointFields[8].label}
               </Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.sc_white.id}>
-                  {game.sc_white}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.white}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
@@ -221,9 +202,7 @@ export default function _(props) {
                 {pointFields[9].label}
               </Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.sc_armada0.id}>
-                  {game.sc_armada0}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.armada0}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
@@ -231,15 +210,13 @@ export default function _(props) {
                 {pointFields[10].label}
               </Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.sc_armada1.id}>
-                  {game.sc_armada1}
-                </Mat.TableCell>
+                <Mat.TableCell>{game.armada1}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">Sum</Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell key={game.sum.id}>{game.sum}</Mat.TableCell>
+                <Mat.TableCell>{game.sum}</Mat.TableCell>
               ))}
             </Mat.TableRow>
           </Mat.TableBody>
