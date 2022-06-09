@@ -21,7 +21,11 @@ export default function _() {
     setPage(1);
   }
 
-  function secondChild(player_scores) {
+  function secondChildBackward() {
+    setPage(0);
+  }
+
+  function secondChildForward(player_scores) {
     setPlayerScores(player_scores);
     setPage(2);
   }
@@ -43,7 +47,8 @@ export default function _() {
       playerid={playerID}
       gameid={gameID}
       playername={playerName}
-      line={secondChild}
+      forward={secondChildForward}
+      backward={secondChildBackward}
     ></Select>,
     <Table
       theme={theme}

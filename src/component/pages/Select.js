@@ -3,12 +3,30 @@ import * as Mat from "@mui/material";
 import * as Ico from "@mui/icons-material";
 import * as Dic from "../helper/dic";
 import * as Api from "../../logic/api";
-import { useForm } from "react-hook-form";
+import * as Form from "react-hook-form";
 
 export default function _(props) {
   const [pageLoading, setPageLoading] = React.useState(true);
   const [pointFields, setPointFields] = React.useState(Dic.PointFieldsSimple);
   const [fieldDisabled, setFieldDisabled] = React.useState(false);
+  const [sum, setSum] = React.useState(0);
+
+  const updateSum = () => {
+    const values = getValues();
+    setSum(
+      parseInt(values.sc_wonder) +
+        parseInt(values.sc_money) +
+        parseInt(values.sc_red) +
+        parseInt(values.sc_blue) +
+        parseInt(values.sc_yellow) +
+        parseInt(values.sc_green) +
+        parseInt(values.sc_purple) +
+        parseInt(values.sc_black) +
+        parseInt(values.sc_white) +
+        parseInt(values.sc_armada0) +
+        parseInt(values.sc_armada1)
+    );
+  };
 
   const toggleFields = () => {
     setPointFields(
@@ -32,12 +50,13 @@ export default function _(props) {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
-  } = useForm();
+  } = Form.useForm();
   const onSubmit = (data) => {
     setFieldDisabled(true);
     updatePlayerObject(data).then((res) => {
-      props.line(data);
+      props.forward(data);
     });
   };
 
@@ -133,6 +152,7 @@ export default function _(props) {
                 <Mat.TextField
                   error={errors.sc_wonder ? true : false}
                   {...register("sc_wonder", { required: true })}
+                  onChange={updateSum}
                   disabled={fieldDisabled}
                   defaultValue={props.playerscores.sc_wonder}
                   type="number"
@@ -156,6 +176,7 @@ export default function _(props) {
                 <Mat.TextField
                   error={errors.sc_money ? true : false}
                   {...register("sc_money", { required: true })}
+                  onChange={updateSum}
                   disabled={fieldDisabled}
                   defaultValue={props.playerscores.sc_money}
                   type="number"
@@ -179,6 +200,7 @@ export default function _(props) {
                 <Mat.TextField
                   error={errors.sc_red ? true : false}
                   {...register("sc_red", { required: true })}
+                  onChange={updateSum}
                   disabled={fieldDisabled}
                   defaultValue={props.playerscores.sc_red}
                   type="number"
@@ -202,6 +224,7 @@ export default function _(props) {
                 <Mat.TextField
                   error={errors.sc_blue ? true : false}
                   {...register("sc_blue", { required: true })}
+                  onChange={updateSum}
                   disabled={fieldDisabled}
                   defaultValue={props.playerscores.sc_blue}
                   type="number"
@@ -224,6 +247,7 @@ export default function _(props) {
                 <Mat.TextField
                   error={errors.sc_yellow ? true : false}
                   {...register("sc_yellow", { required: true })}
+                  onChange={updateSum}
                   disabled={fieldDisabled}
                   defaultValue={props.playerscores.sc_yellow}
                   type="number"
@@ -246,6 +270,7 @@ export default function _(props) {
                 <Mat.TextField
                   error={errors.sc_green ? true : false}
                   {...register("sc_green", { required: true })}
+                  onChange={updateSum}
                   disabled={fieldDisabled}
                   defaultValue={props.playerscores.sc_green}
                   type="number"
@@ -268,6 +293,7 @@ export default function _(props) {
                 <Mat.TextField
                   error={errors.sc_purple ? true : false}
                   {...register("sc_purple", { required: true })}
+                  onChange={updateSum}
                   disabled={fieldDisabled}
                   defaultValue={props.playerscores.sc_purple}
                   type="number"
@@ -290,6 +316,7 @@ export default function _(props) {
                 <Mat.TextField
                   error={errors.sc_black ? true : false}
                   {...register("sc_black", { required: true })}
+                  onChange={updateSum}
                   disabled={fieldDisabled}
                   defaultValue={props.playerscores.sc_black}
                   type="number"
@@ -312,6 +339,7 @@ export default function _(props) {
                 <Mat.TextField
                   error={errors.sc_white ? true : false}
                   {...register("sc_white", { required: true })}
+                  onChange={updateSum}
                   disabled={fieldDisabled}
                   defaultValue={props.playerscores.sc_white}
                   type="number"
@@ -334,6 +362,7 @@ export default function _(props) {
                 <Mat.TextField
                   error={errors.sc_armada0 ? true : false}
                   {...register("sc_armada0", { required: true })}
+                  onChange={updateSum}
                   disabled={fieldDisabled}
                   defaultValue={props.playerscores.sc_armada0}
                   type="number"
@@ -356,6 +385,7 @@ export default function _(props) {
                 <Mat.TextField
                   error={errors.sc_armada1 ? true : false}
                   {...register("sc_armada1", { required: true })}
+                  onChange={updateSum}
                   disabled={fieldDisabled}
                   defaultValue={props.playerscores.sc_armada1}
                   type="number"
@@ -367,6 +397,26 @@ export default function _(props) {
                     startAdornment: (
                       <Mat.InputAdornment position="start">
                         <Ico.RemoveCircle sx={{ color: "#FFF" }} />
+                      </Mat.InputAdornment>
+                    ),
+                  }}
+                />
+              )}
+              {pageLoading ? (
+                <Mat.Skeleton variant="rectangular" height={55} />
+              ) : (
+                <Mat.TextField
+                  disabled
+                  defaultValue={props.playerscores.sum}
+                  value={sum}
+                  type="number"
+                  id="sum"
+                  label="Sum"
+                  color="primary"
+                  InputProps={{
+                    startAdornment: (
+                      <Mat.InputAdornment position="start">
+                        <Ico.Functions sx={{ color: "#FFF" }} />
                       </Mat.InputAdornment>
                     ),
                   }}
@@ -384,6 +434,9 @@ export default function _(props) {
           }}
         >
           <Mat.Toolbar>
+            <Mat.IconButton color="inherit" onClick={props.backward}>
+              <Ico.ArrowBack />
+            </Mat.IconButton>
             <Mat.IconButton color="inherit" onClick={toggleFields}>
               {pointFields === Dic.PointFieldsFancy ? (
                 <Ico.ToggleOn />
