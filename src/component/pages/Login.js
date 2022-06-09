@@ -5,7 +5,7 @@ import * as Ico from "@mui/icons-material";
 import * as Dic from "../helper/dic";
 import * as Api from "../../logic/api";
 import { useCookies } from "react-cookie";
-import { useForm } from "react-hook-form";
+import * as Form from "react-hook-form";
 
 export default function _(props) {
   const [btnLoading, setBtnLoading] = React.useState(false);
@@ -35,7 +35,7 @@ export default function _(props) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = Form.useForm();
 
   const onSubmit = (data) => {
     setBtnLoading(true);
@@ -91,13 +91,22 @@ export default function _(props) {
   return (
     <Mat.ThemeProvider theme={props.theme}>
       <Mat.CssBaseline />
+
+      <Mat.IconButton
+        href="https://github.com/INeido"
+        target="_blank"
+        sx={{ position: "absolute", bottom: 16, right: 16 }}
+      >
+        <Ico.GitHub></Ico.GitHub>
+      </Mat.IconButton>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Mat.Grid
           container
           direction="column"
           justifyContent="center"
           alignItems="center"
-          sx={{ marginTop: "25vh" }}
+          sx={{ marginTop: "120px" }}
         >
           {pageLoading ? (
             <Mat.Skeleton variant="rectangular" width={210} height={118} />
@@ -112,7 +121,7 @@ export default function _(props) {
                 disabled={fieldDisabled}
                 fullWidth
                 autoFocus
-                helperText={errors.playerName ? "Bitte Namen eingeben." : ""}
+                helperText={errors.playerName ? "Please enter name." : ""}
                 margin="normal"
                 name="playerName"
                 label="Name"
