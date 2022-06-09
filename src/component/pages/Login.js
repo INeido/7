@@ -15,6 +15,14 @@ export default function _(props) {
   const [newGame, setNewGame] = React.useState(false);
   const [gameID, setGameID] = React.useState();
   const [cookies, setCookie] = useCookies(["user"]);
+  const [anchorEl, setAnchorEl] = React.useState(false);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   React.useEffect(() => {
     Api.isRunning().then((res) => {
@@ -91,7 +99,6 @@ export default function _(props) {
   return (
     <Mat.ThemeProvider theme={props.theme}>
       <Mat.CssBaseline />
-
       <Mat.IconButton
         href="https://github.com/INeido"
         target="_blank"
@@ -99,6 +106,30 @@ export default function _(props) {
       >
         <Ico.GitHub></Ico.GitHub>
       </Mat.IconButton>
+      <Mat.IconButton
+        id="basic-button"
+        aria-controls={open ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+        sx={{ position: "absolute", top: 16, left: 16 }}
+      >
+        <Ico.Menu></Ico.Menu>
+      </Mat.IconButton>
+
+      <Mat.Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <Mat.MenuItem onClick={handleClose}>Game Browser</Mat.MenuItem>
+        <Mat.MenuItem onClick={handleClose}>Stats</Mat.MenuItem>
+        <Mat.MenuItem onClick={handleClose}>Logout</Mat.MenuItem>
+      </Mat.Menu>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Mat.Grid
