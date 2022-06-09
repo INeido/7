@@ -4,7 +4,7 @@
   "start_url": "/index.html",
   "display": "fullscreen",
   "background_color": "#666666",
-  "description": "An Progressive Web Application to keep track of and display games of 7 Wonders.",
+  "description": "A Progressive Web Application to keep track of and display games of 7 Wonders.",
   "dir": "ltr",
   "categories": "games,social,utilities",
   "lang": "en",
