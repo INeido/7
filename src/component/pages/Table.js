@@ -19,7 +19,6 @@ export default function _(props) {
     const interval = setInterval(() => {
       try {
         Api.getScores(props.gameid).then((res) => {
-          console.log(res.data);
           if (scores !== res.data) {
             setScores(res.data);
           }
@@ -46,9 +45,7 @@ export default function _(props) {
         proceed: closeGameF,
       });
     }
-    if (props.admin) {
-      setOpen(true);
-    }
+    setOpen(true);
   };
 
   const handleClose = (event, reason) => {
@@ -248,7 +245,11 @@ export default function _(props) {
             <Ico.Menu />
           </Mat.IconButton>
           <div style={{ flexGrow: 1 }} />
-          <Mat.IconButton color="inherit" onClick={handleClickOpen}>
+          <Mat.IconButton
+            color="inherit"
+            onClick={handleClickOpen}
+            disabled={!props.admin}
+          >
             {locked ? <Ico.LockOutlined /> : <Ico.LockOpenOutlined />}
           </Mat.IconButton>
         </Mat.Toolbar>
