@@ -309,6 +309,12 @@ module.exports = {
       sp: "",
     },
 
+    // Game Browser subpage
+    browse_title: { en: "Game Browser", de: "", hu: "", ru: "", sp: "" },
+    browse_id: { en: "ID", de: "", hu: "", ru: "", sp: "" },
+    browse_locked: { en: "Locked", de: "", hu: "", ru: "", sp: "" },
+    browse_date: { en: "Date", de: "Datum", hu: "", ru: "", sp: "" },
+
     // Languages
     lang_english: {
       en: "English",
@@ -354,7 +360,7 @@ module.exports = {
       sp: "",
     },
   },
-  DefaultValues: {
+  DefaultScores: {
     wonder_name: "",
     wonder_mode: "",
     wonder: "",
@@ -369,5 +375,10 @@ module.exports = {
     armada0: "",
     armada1: "",
     sum: "",
+  },
+  DefaultGames: {
+    id: "",
+    locked: "",
+    date: "",
   },
 };

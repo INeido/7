@@ -1,5 +1,9 @@
 const axios = require("axios").default;
 
+export function getGames() {
+  return axios.get("https://neido.tech/wonder/getgames");
+}
+
 export function createGame() {
   return axios.get("https://neido.tech/wonder/creategame");
 }

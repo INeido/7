@@ -6,6 +6,7 @@ import * as Dic from "../helper/dictionary";
 import * as Api from "../../logic/api";
 import * as Cookie from "react-cookie";
 import * as Form from "react-hook-form";
+import GameBrowser from "./subpages/GameBrowser";
 
 export default function _(props) {
   const [btnLoading, setBtnLoading] = React.useState(false);
@@ -18,17 +19,20 @@ export default function _(props) {
   const [lang] = React.useState(cookies.lang !== null ? cookies.lang : "en");
   const [anchorEl, setAnchorEl] = React.useState(false);
   const [openDialog, setOpenDialog] = React.useState(false);
+  const [openDialogGameBrowser, setOpenDialogGameBrowser] =
+    React.useState(false);
   const openMenu = Boolean(anchorEl);
-
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
-
   const handleCloseDialog = () => {
     setOpenDialog(false);
+  };
+  const handleCloseDialogGameBrowser = () => {
+    setOpenDialogGameBrowser(false);
   };
 
   function changeLang(data) {
@@ -50,7 +54,7 @@ export default function _(props) {
           setPageLoading(false);
         });
       } catch {
-        // Handle Error
+        setPageLoading(true);
       }
     }, 100);
     return () => clearInterval(interval);
@@ -116,7 +120,7 @@ export default function _(props) {
               res.data.insertId, // PlayerID
               gameID,
               data.playerName,
-              Dic.DefaultValues,
+              Dic.DefaultScores,
               0
             );
           });
@@ -155,7 +159,12 @@ export default function _(props) {
           "aria-labelledby": "basic-button",
         }}
       >
-        <Mat.MenuItem onClick={handleCloseMenu}>
+        <Mat.MenuItem
+          onClick={() => {
+            handleCloseMenu();
+            setOpenDialogGameBrowser(true);
+          }}
+        >
           {Dic.String.menu_login_browser[lang]}
         </Mat.MenuItem>
         <Mat.MenuItem onClick={handleCloseMenu}>
@@ -170,6 +179,32 @@ export default function _(props) {
           {Dic.String.lang_language[lang]}
         </Mat.MenuItem>
       </Mat.Menu>
+
+      <Mat.Dialog
+        fullScreen
+        onClose={handleCloseDialogGameBrowser}
+        open={openDialogGameBrowser}
+      >
+        <Mat.AppBar sx={{ position: "relative" }}>
+          <Mat.Toolbar>
+            <Mat.IconButton
+              color="inherit"
+              onClick={handleCloseDialogGameBrowser}
+            >
+              <Ico.Close />
+            </Mat.IconButton>
+            <Mat.Typography
+              sx={{ ml: 2, flex: 1 }}
+              variant="h6"
+              component="div"
+            >
+              {Dic.String.browse_title[lang]}
+            </Mat.Typography>
+          </Mat.Toolbar>
+        </Mat.AppBar>
+
+        <GameBrowser theme={props.theme}></GameBrowser>
+      </Mat.Dialog>
 
       <Mat.Dialog onClose={handleCloseDialog} open={openDialog}>
         <Mat.DialogTitle>{Dic.String.lang_change_lang[lang]}</Mat.DialogTitle>
