@@ -2,23 +2,25 @@
 import * as React from "react";
 import * as Mat from "@mui/material";
 import * as Ico from "@mui/icons-material";
-import * as Dic from "../helper/dic";
+import * as Dic from "../helper/dictionary";
 import * as Api from "../../logic/api";
+import * as Cookie from "react-cookie";
 
 export default function _(props) {
-  const [pointFields] = React.useState(Dic.PointFieldsSimple);
   const [scores, setScores] = React.useState([Dic.DefaultValues]);
   const [pageLoading, setPageLoading] = React.useState(true);
   const [locked, setLocked] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [dialog, setDialog] = React.useState({});
+  const [cookies] = Cookie.useCookies(["user"]);
+  const [lang] = React.useState(cookies.lang);
 
   React.useEffect(() => {
     const interval = setInterval(() => {
       try {
         Api.getScores(props.gameid).then((res) => {
           console.log(res.data);
-          if (pointFields !== res.data) {
+          if (scores !== res.data) {
             setScores(res.data);
           }
           setPageLoading(false);
@@ -33,19 +35,18 @@ export default function _(props) {
   const handleClickOpen = () => {
     if (locked) {
       setDialog({
-        title: "Open current game?",
-        text: "Game will be opened for players to join.",
+        title: Dic.String.unlock_title[lang],
+        text: Dic.String.unlock_message[lang],
         proceed: openGameF,
       });
     } else {
       setDialog({
-        title: "Close current game?",
-        text: "This will close the game and kick current players.",
+        title: Dic.String.lock_title[lang],
+        text: Dic.String.lock_message[lang],
         proceed: closeGameF,
       });
     }
-    if (true) {
-      // props.admin
+    if (props.admin) {
       setOpen(true);
     }
   };
@@ -92,10 +93,10 @@ export default function _(props) {
         </Mat.DialogContent>
         <Mat.DialogActions>
           <Mat.Button onClick={handleClose} color="primary">
-            Abort
+            {Dic.String.lock_abort[lang]}
           </Mat.Button>
           <Mat.Button onClick={dialog.proceed} color="primary" autoFocus>
-            Proceed
+            {Dic.String.lock_proceed[lang]}
           </Mat.Button>
         </Mat.DialogActions>
       </Mat.Dialog>
@@ -108,26 +109,32 @@ export default function _(props) {
         <Mat.Table size="small">
           <Mat.TableBody>
             <Mat.TableRow>
-              <Mat.TableCell variant="head">Player</Mat.TableCell>
+              <Mat.TableCell variant="head">
+                {Dic.String.label_table_player[lang]}
+              </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.player_name}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
-              <Mat.TableCell variant="head">Wonder</Mat.TableCell>
+              <Mat.TableCell variant="head">
+                {Dic.String.label_table_wonder[lang]}
+              </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.wonder_name}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
-              <Mat.TableCell variant="head">Mode</Mat.TableCell>
+              <Mat.TableCell variant="head">
+                {Dic.String.label_table_mode[lang]}
+              </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.wonder_mode}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {pointFields[0].label}
+                {Dic.String.label_wonder[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.wonder}</Mat.TableCell>
@@ -135,7 +142,7 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {pointFields[1].label}
+                {Dic.String.label_money[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.money}</Mat.TableCell>
@@ -143,7 +150,7 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {pointFields[2].label}
+                {Dic.String.label_red[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.red}</Mat.TableCell>
@@ -151,7 +158,7 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {pointFields[3].label}
+                {Dic.String.label_blue[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.blue}</Mat.TableCell>
@@ -159,7 +166,7 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {pointFields[4].label}
+                {Dic.String.label_yellow[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.yellow}</Mat.TableCell>
@@ -167,7 +174,7 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {pointFields[5].label}
+                {Dic.String.label_green[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.green}</Mat.TableCell>
@@ -175,7 +182,7 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {pointFields[6].label}
+                {Dic.String.label_purple[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.purple}</Mat.TableCell>
@@ -183,7 +190,7 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {pointFields[7].label}
+                {Dic.String.label_black[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.black}</Mat.TableCell>
@@ -191,7 +198,7 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {pointFields[8].label}
+                {Dic.String.label_white[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.white}</Mat.TableCell>
@@ -199,7 +206,7 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {pointFields[9].label}
+                {Dic.String.label_armada0[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.armada0}</Mat.TableCell>
@@ -207,14 +214,16 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {pointFields[10].label}
+                {Dic.String.label_armada1[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.armada1}</Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
-              <Mat.TableCell variant="head">Sum</Mat.TableCell>
+              <Mat.TableCell variant="head">
+                {Dic.String.label_sum[lang]}
+              </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.sum}</Mat.TableCell>
               ))}
@@ -233,6 +242,10 @@ export default function _(props) {
         <Mat.Toolbar>
           <Mat.IconButton color="inherit" onClick={props.backward}>
             <Ico.ArrowBack />
+          </Mat.IconButton>
+          <div style={{ flexGrow: 1 }} />
+          <Mat.IconButton color="inherit">
+            <Ico.Menu />
           </Mat.IconButton>
           <div style={{ flexGrow: 1 }} />
           <Mat.IconButton color="inherit" onClick={handleClickOpen}>

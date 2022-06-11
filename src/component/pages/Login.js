@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Mat from "@mui/material";
 import * as Lab from "@mui/lab";
 import * as Ico from "@mui/icons-material";
-import * as Dic from "../helper/dic";
+import * as Dic from "../helper/dictionary";
 import * as Api from "../../logic/api";
 import * as Cookie from "react-cookie";
 import * as Form from "react-hook-form";
@@ -15,24 +15,36 @@ export default function _(props) {
   const [newGame, setNewGame] = React.useState(false);
   const [gameID, setGameID] = React.useState();
   const [cookies, setCookie] = Cookie.useCookies(["user"]);
+  const [lang] = React.useState(cookies.lang);
   const [anchorEl, setAnchorEl] = React.useState(false);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const openMenu = Boolean(anchorEl);
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleCloseMenu = () => {
     setAnchorEl(null);
   };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  function changeLang(data) {
+    setCookie("lang", data, { path: "/" });
+    window.location.reload();
+  }
 
   React.useEffect(() => {
     Api.isRunning().then((res) => {
       setNewGame(Boolean(res.data[0].locked));
       if (Boolean(res.data[0].locked)) {
-        setBtnText("Create");
+        setBtnText(Dic.String.button_login_create[lang]);
         console.log("No game found.");
       } else {
         setGameID(res.data[0].game_id);
-        setBtnText("Join");
+        setBtnText(Dic.String.button_login_join[lang]);
         console.log("Game found with ID: " + res.data[0].game_id);
       }
       setPageLoading(false);
@@ -120,10 +132,10 @@ export default function _(props) {
       </Mat.IconButton>
       <Mat.IconButton
         id="basic-button"
-        aria-controls={open ? "basic-menu" : undefined}
+        aria-controls={openMenu ? "basic-menu" : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
+        aria-expanded={openMenu ? "true" : undefined}
+        onClick={handleOpenMenu}
         sx={{ position: "absolute", top: 16, left: 16 }}
       >
         <Ico.Menu></Ico.Menu>
@@ -132,15 +144,82 @@ export default function _(props) {
       <Mat.Menu
         id="basic-menu"
         anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
+        open={openMenu}
+        onClose={handleCloseMenu}
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
       >
-        <Mat.MenuItem onClick={handleClose}>Game Browser</Mat.MenuItem>
-        <Mat.MenuItem onClick={handleClose}>Stats</Mat.MenuItem>
+        <Mat.MenuItem onClick={handleCloseMenu}>
+          {Dic.String.menu_login_browser[lang]}
+        </Mat.MenuItem>
+        <Mat.MenuItem onClick={handleCloseMenu}>
+          {Dic.String.menu_login_stats[lang]}
+        </Mat.MenuItem>
+        <Mat.MenuItem
+          onClick={() => {
+            handleCloseMenu();
+            setOpenDialog(true);
+          }}
+        >
+          {Dic.String.lang_language[lang]}
+        </Mat.MenuItem>
       </Mat.Menu>
+
+      <Mat.Dialog onClose={handleCloseDialog} open={openDialog}>
+        <Mat.DialogTitle>{Dic.String.lang_change_lang[lang]}</Mat.DialogTitle>
+        <Mat.List sx={{ pt: 0 }}>
+          <Mat.ListItem
+            button
+            onClick={() => {
+              changeLang("en");
+              handleCloseDialog();
+            }}
+          >
+            <Mat.ListItemText>{Dic.String.lang_english[lang]}</Mat.ListItemText>
+          </Mat.ListItem>
+          <Mat.ListItem
+            button
+            onClick={() => {
+              changeLang("de");
+              handleCloseDialog();
+            }}
+          >
+            <Mat.ListItemText>{Dic.String.lang_german[lang]}</Mat.ListItemText>
+          </Mat.ListItem>
+          <Mat.ListItem
+            button
+            onClick={() => {
+              changeLang("hu");
+              handleCloseDialog();
+            }}
+          >
+            <Mat.ListItemText>
+              {Dic.String.lang_hungarian[lang]}
+            </Mat.ListItemText>
+          </Mat.ListItem>
+          <Mat.ListItem
+            button
+            onClick={() => {
+              changeLang("ru");
+              handleCloseDialog();
+            }}
+          >
+            <Mat.ListItem
+              button
+              onClick={() => {
+                changeLang("sp");
+                handleCloseDialog();
+              }}
+            >
+              <Mat.ListItemText>
+                {Dic.String.lang_spanish[lang]}
+              </Mat.ListItemText>
+            </Mat.ListItem>
+            <Mat.ListItemText>{Dic.String.lang_russian[lang]}</Mat.ListItemText>
+          </Mat.ListItem>
+        </Mat.List>
+      </Mat.Dialog>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Mat.Grid
@@ -160,10 +239,10 @@ export default function _(props) {
               <Mat.TextField
                 error={errors.playerName ? true : false}
                 {...register("playerName", {
-                  required: "Please enter a Name!",
+                  required: Dic.String.warning_login_empty[lang],
                   pattern: {
                     value: /^[a-zA-Z]+$/,
-                    message: "No Emojis Paul!",
+                    message: Dic.String.warning_login_chars[lang],
                   },
                 })}
                 helperText={errors.playerName?.message}
@@ -172,7 +251,7 @@ export default function _(props) {
                 autoFocus
                 margin="normal"
                 name="playerName"
-                label="Name"
+                label={Dic.String.label_login_name[lang]}
                 type="text"
                 id="playerName"
                 variant="standard"

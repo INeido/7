@@ -1,18 +1,22 @@
 import * as React from "react";
 import * as Mat from "@mui/material";
 import * as Ico from "@mui/icons-material";
-import * as Dic from "../helper/dic";
+import * as Dic from "../helper/dictionary";
 import * as Api from "../../logic/api";
 import * as Form from "react-hook-form";
+import * as Cookie from "react-cookie";
 
 export default function _(props) {
-  const [pageLoading, setPageLoading] = React.useState(true);
-  const [pointFields, setPointFields] = React.useState(Dic.PointFieldsSimple);
+  const [pageLoading, setPageLoading] = React.useState(false);
   const [fieldDisabled, setFieldDisabled] = React.useState(false);
+  const [cookies] = Cookie.useCookies(["user"]);
+  const [lang] = React.useState(cookies.lang);
   const [sum, setSum] = React.useState(0);
 
   const updateSum = () => {
+    console.log();
     const values = getValues();
+
     const sumVal =
       parseInt(values.wonder !== "" ? values.wonder : 0) +
       parseInt(values.money !== "" ? values.money : 0) +
@@ -28,18 +32,6 @@ export default function _(props) {
     setSum(sumVal);
     return sumVal;
   };
-
-  const toggleFields = () => {
-    setPointFields(
-      pointFields === Dic.PointFieldsFancy
-        ? Dic.PointFieldsSimple
-        : Dic.PointFieldsFancy
-    );
-  };
-
-  React.useEffect(() => {
-    setPageLoading(false);
-  }, []);
 
   const updatePlayerObject = (data) => {
     var tempObject = data;
@@ -93,7 +85,7 @@ export default function _(props) {
                 name="wonder_name"
                 select
                 color="primary"
-                label="Select Wonder"
+                label={Dic.String.label_wonder_select[lang]}
                 variant="outlined"
               >
                 {Dic.WonderNames.map((choice) => (
@@ -114,7 +106,7 @@ export default function _(props) {
                 name="wonder_mode"
                 select
                 color="primary"
-                label="Select Mode"
+                label={Dic.String.label_wonder_mode[lang]}
               >
                 {Dic.Modes.map((choice) => (
                   <Mat.MenuItem key={choice} value={choice}>
@@ -136,7 +128,11 @@ export default function _(props) {
               }}
             >
               <Mat.Typography variant="h5">
-                {pageLoading ? <Mat.Skeleton width={160} /> : "Enter Points"}
+                {pageLoading ? (
+                  <Mat.Skeleton width={160} />
+                ) : (
+                  Dic.String.label_select[lang]
+                )}
               </Mat.Typography>
             </Mat.Box>
             <Mat.Box
@@ -159,7 +155,7 @@ export default function _(props) {
                   defaultValue={props.playerscores.wonder}
                   type="number"
                   id="wonder"
-                  label={pointFields[0].label}
+                  label={Dic.String.label_wonder[lang]}
                   color="primary"
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
@@ -183,7 +179,7 @@ export default function _(props) {
                   defaultValue={props.playerscores.money}
                   type="number"
                   id="money"
-                  label={pointFields[1].label}
+                  label={Dic.String.label_money[lang]}
                   color="primary"
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
@@ -207,7 +203,7 @@ export default function _(props) {
                   defaultValue={props.playerscores.red}
                   type="number"
                   id="red"
-                  label={pointFields[2].label}
+                  label={Dic.String.label_red[lang]}
                   color="primary"
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
@@ -231,7 +227,7 @@ export default function _(props) {
                   defaultValue={props.playerscores.blue}
                   type="number"
                   id="blue"
-                  label={pointFields[3].label}
+                  label={Dic.String.label_blue[lang]}
                   color="primary"
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
@@ -254,7 +250,7 @@ export default function _(props) {
                   defaultValue={props.playerscores.yellow}
                   type="number"
                   id="yellow"
-                  label={pointFields[4].label}
+                  label={Dic.String.label_yellow[lang]}
                   color="primary"
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
@@ -277,7 +273,7 @@ export default function _(props) {
                   defaultValue={props.playerscores.green}
                   type="number"
                   id="green"
-                  label={pointFields[5].label}
+                  label={Dic.String.label_green[lang]}
                   color="primary"
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
@@ -300,7 +296,7 @@ export default function _(props) {
                   defaultValue={props.playerscores.purple}
                   type="number"
                   id="purple"
-                  label={pointFields[6].label}
+                  label={Dic.String.label_purple[lang]}
                   color="primary"
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
@@ -323,7 +319,7 @@ export default function _(props) {
                   defaultValue={props.playerscores.black}
                   type="number"
                   id="black"
-                  label={pointFields[7].label}
+                  label={Dic.String.label_black[lang]}
                   color="primary"
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
@@ -346,7 +342,7 @@ export default function _(props) {
                   defaultValue={props.playerscores.white}
                   type="number"
                   id="white"
-                  label={pointFields[8].label}
+                  label={Dic.String.label_white[lang]}
                   color="primary"
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
@@ -369,7 +365,7 @@ export default function _(props) {
                   defaultValue={props.playerscores.armada0}
                   type="number"
                   id="armada0"
-                  label={pointFields[9].label}
+                  label={Dic.String.label_armada0[lang]}
                   color="primary"
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
@@ -392,7 +388,7 @@ export default function _(props) {
                   defaultValue={props.playerscores.armada1}
                   type="number"
                   id="armada1"
-                  label={pointFields[10].label}
+                  label={Dic.String.label_armada1[lang]}
                   color="primary"
                   InputProps={{
                     inputProps: { min: -99, max: 99 },
@@ -412,7 +408,7 @@ export default function _(props) {
                   value={sum}
                   type="number"
                   id="sum"
-                  label="Sum"
+                  label={Dic.String.label_sum[lang]}
                   color="primary"
                   InputProps={{
                     startAdornment: (
@@ -438,12 +434,9 @@ export default function _(props) {
             <Mat.IconButton color="inherit" onClick={props.backward}>
               <Ico.ArrowBack />
             </Mat.IconButton>
-            <Mat.IconButton color="inherit" onClick={toggleFields}>
-              {pointFields === Dic.PointFieldsFancy ? (
-                <Ico.ToggleOn />
-              ) : (
-                <Ico.ToggleOff />
-              )}
+            <div style={{ flexGrow: 1 }} />
+            <Mat.IconButton color="inherit">
+              <Ico.Menu />
             </Mat.IconButton>
             <div style={{ flexGrow: 1 }} />
             <Mat.IconButton color="inherit" type="submit">
