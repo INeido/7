@@ -38,16 +38,20 @@ export default function _(props) {
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      Api.isRunning().then((res) => {
-        setNewGame(Boolean(res.data[0].locked));
-        if (Boolean(res.data[0].locked)) {
-          setBtnText(Dic.String.button_login_create[lang]);
-        } else {
-          setGameID(res.data[0].game_id);
-          setBtnText(Dic.String.button_login_join[lang]);
-        }
-        setPageLoading(false);
-      });
+      try {
+        Api.isRunning().then((res) => {
+          setNewGame(Boolean(res.data[0].locked));
+          if (Boolean(res.data[0].locked)) {
+            setBtnText(Dic.String.button_login_create[lang]);
+          } else {
+            setGameID(res.data[0].game_id);
+            setBtnText(Dic.String.button_login_join[lang]);
+          }
+          setPageLoading(false);
+        });
+      } catch {
+        // Handle Error
+      }
     }, 100);
     return () => clearInterval(interval);
   }, []);

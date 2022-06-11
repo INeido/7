@@ -91,10 +91,10 @@ export default function _(props) {
         </Mat.DialogContent>
         <Mat.DialogActions>
           <Mat.Button onClick={handleClose} color="primary">
-            {Dic.String.lock_abort[lang]}
+            {Dic.String.button_abort[lang]}
           </Mat.Button>
           <Mat.Button onClick={dialog.proceed} color="primary" autoFocus>
-            {Dic.String.lock_proceed[lang]}
+            {Dic.String.button_proceed[lang]}
           </Mat.Button>
         </Mat.DialogActions>
       </Mat.Dialog>

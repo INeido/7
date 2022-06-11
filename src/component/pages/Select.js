@@ -16,6 +16,7 @@ export default function _(props) {
   const [players, setPlayers] = React.useState([{}]);
   const [openDialogPlayers, setOpenDialogPlayers] = React.useState(false);
   const [openDialogGreenCalc, setOpenDialogGreenCalc] = React.useState(false);
+  const [openDialogGameClosed, setOpenDialogGameClosed] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(false);
   const openMenu = Boolean(anchorEl);
 
@@ -41,6 +42,25 @@ export default function _(props) {
   const handleCloseDialogPlayers = () => {
     setOpenDialogPlayers(false);
   };
+  const handleCloseDialogGameClosed = () => {
+    setOpenDialogGameClosed(false);
+    props.backward();
+  };
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      try {
+        Api.isRunningID(props.gameid).then((res) => {
+          if (res.data[0].locked === 1) {
+            setOpenDialogGameClosed(true);
+          }
+        });
+      } catch {
+        // Handle Error
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const updateSum = () => {
     console.log();
@@ -86,6 +106,29 @@ export default function _(props) {
   return (
     <Mat.ThemeProvider theme={props.theme}>
       <Mat.CssBaseline />
+
+      <Mat.Dialog
+        onClose={handleCloseDialogGameClosed}
+        open={openDialogGameClosed}
+      >
+        <Mat.DialogTitle>
+          {Dic.String.warning_game_closed_title[lang]}
+        </Mat.DialogTitle>
+        <Mat.DialogContent>
+          <Mat.DialogContentText>
+            {Dic.String.warning_game_closed_message[lang]}
+          </Mat.DialogContentText>
+        </Mat.DialogContent>
+        <Mat.DialogActions>
+          <Mat.Button
+            onClick={handleCloseDialogGameClosed}
+            color="primary"
+            autoFocus
+          >
+            {Dic.String.button_okey[lang]}
+          </Mat.Button>
+        </Mat.DialogActions>
+      </Mat.Dialog>
 
       <Mat.Dialog onClose={handleCloseDialogPlayers} open={openDialogPlayers}>
         <Mat.DialogTitle>

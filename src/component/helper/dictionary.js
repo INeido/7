@@ -1,10 +1,63 @@
 module.exports = {
   String: {
     // Errors
-    warning_general_error: {
+    error_general: {
       en: "An error occured, please try again later.",
       de: "Es ist ein Fehler aufgetreten, bitte später probieren.",
       hu: "Hiba történt, kérlek próbáld újra késöbb.",
+      ru: "",
+      sp: "",
+    },
+
+    // Warning
+    warning_game_closed_title: {
+      en: "Game closed",
+      de: "Spiel beendet",
+      hu: "Játék bezárva",
+      ru: "",
+      sp: "",
+    },
+    warning_game_closed_message: {
+      en: "The game has been closed. Returning to login Screen.",
+      de: "Das Spiel wurde beendet. Weiter zum Anmeldebildschrim.",
+      hu: "A játék be lett fejezve. Vissza a belépö ablakba.",
+      ru: "",
+      sp: "",
+    },
+
+    // General interface
+    button_abort: {
+      en: "Abort",
+      de: "Abbrechen",
+      hu: "Mégse",
+      ru: "",
+      sp: "",
+    },
+    button_proceed: {
+      en: "Proceed",
+      de: "Weiter",
+      hu: "Tovább",
+      ru: "",
+      sp: "",
+    },
+    button_okey: {
+      en: "Okey",
+      de: "Okey",
+      hu: "Ok",
+      ru: "",
+      sp: "",
+    },
+    button_yes: {
+      en: "Yes",
+      de: "Ja",
+      hu: "Igen",
+      ru: "",
+      sp: "",
+    },
+    button_no: {
+      en: "No",
+      de: "Nein",
+      hu: "Nem",
       ru: "",
       sp: "",
     },
@@ -229,8 +282,6 @@ module.exports = {
       ru: "",
       sp: "",
     },
-    lock_abort: { en: "Abort", de: "Abbrechen", hu: "Mégse", ru: "", sp: "" },
-    lock_proceed: { en: "Proceed", de: "Weiter", hu: "Tovább", ru: "", sp: "" },
 
     // Green Calc subpage
     calc_compass: { en: "Compass", de: "", hu: "", ru: "", sp: "" },

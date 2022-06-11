@@ -8,13 +8,10 @@ export function isRunning() {
   return axios.get("https://neido.tech/wonder/isrunning");
 }
 
-export function isRunningId(game_id) {
-  return (
-    axios.get("https://neido.tech/wonder/isrunningid"),
-    {
-      game_id: game_id,
-    }
-  );
+export function isRunningID(game_id) {
+  return axios.post("https://neido.tech/wonder/isrunningid", {
+    game_id: game_id,
+  });
 }
 
 export function getPlayer(player_id) {
@@ -42,7 +39,7 @@ export function openGame(game_id) {
 }
 
 export function closeGame(game_id) {
-  return axios.get("https://neido.tech/wonder/closegame", {
+  return axios.post("https://neido.tech/wonder/closegame", {
     game_id: game_id,
   });
 }
