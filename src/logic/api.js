@@ -12,6 +12,15 @@ export function isRunning() {
   return axios.get("https://neido.tech/wonder/isrunning");
 }
 
+export function isRunningId(game_id) {
+  return (
+    axios.get("https://neido.tech/wonder/isrunningid"),
+    {
+      game_id: game_id,
+    }
+  );
+}
+
 export function getPlayer(player_id) {
   return axios.post("https://neido.tech/wonder/getplayer", {
     player_id: player_id,
