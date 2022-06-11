@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
 import * as Mat from "@mui/material";
 import * as Lab from "@mui/lab";
@@ -132,6 +133,7 @@ export default function _(props) {
   return (
     <Mat.ThemeProvider theme={props.theme}>
       <Mat.CssBaseline />
+      {/* Icons */}
       <Mat.IconButton
         href="https://github.com/INeido/7"
         target="_blank"
@@ -140,25 +142,14 @@ export default function _(props) {
         <Ico.GitHub></Ico.GitHub>
       </Mat.IconButton>
       <Mat.IconButton
-        id="basic-button"
-        aria-controls={openMenu ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={openMenu ? "true" : undefined}
         onClick={handleOpenMenu}
         sx={{ position: "absolute", top: 16, left: 16 }}
       >
         <Ico.Menu></Ico.Menu>
       </Mat.IconButton>
 
-      <Mat.Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={openMenu}
-        onClose={handleCloseMenu}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
+      {/* Menu */}
+      <Mat.Menu anchorEl={anchorEl} open={openMenu} onClose={handleCloseMenu}>
         <Mat.MenuItem
           onClick={() => {
             handleCloseMenu();
@@ -180,6 +171,7 @@ export default function _(props) {
         </Mat.MenuItem>
       </Mat.Menu>
 
+      {/* Game Browser Dialog */}
       <Mat.Dialog
         fullScreen
         onClose={handleCloseDialogGameBrowser}
@@ -202,10 +194,10 @@ export default function _(props) {
             </Mat.Typography>
           </Mat.Toolbar>
         </Mat.AppBar>
-
         <GameBrowser theme={props.theme}></GameBrowser>
       </Mat.Dialog>
 
+      {/* Language Dialog */}
       <Mat.Dialog onClose={handleCloseDialog} open={openDialog}>
         <Mat.DialogTitle>{Dic.String.lang_change_lang[lang]}</Mat.DialogTitle>
         <Mat.List sx={{ pt: 0 }}>
@@ -259,6 +251,7 @@ export default function _(props) {
         </Mat.List>
       </Mat.Dialog>
 
+      {/* Login Form */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Mat.Grid
           container

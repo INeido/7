@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from "react";
 import * as Mat from "@mui/material";
 import * as Ico from "@mui/icons-material";
@@ -8,17 +9,17 @@ import * as Cookie from "react-cookie";
 import GreenCalc from "./subpages/GreenCalc";
 
 export default function _(props) {
-  const [pageLoading, setPageLoading] = React.useState(false);
+  const [loading, setloading] = React.useState(false);
   const [fieldDisabled, setFieldDisabled] = React.useState(false);
   const [cookies] = Cookie.useCookies(["user"]);
   const [lang] = React.useState(cookies.lang !== null ? cookies.lang : "en");
-  const [sum, setSum] = React.useState(0);
   const [players, setPlayers] = React.useState([{}]);
   const [openDialogPlayers, setOpenDialogPlayers] = React.useState(false);
   const [openDialogGreenCalc, setOpenDialogGreenCalc] = React.useState(false);
   const [openDialogGameClosed, setOpenDialogGameClosed] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(false);
   const openMenu = Boolean(anchorEl);
+  const inputRef = React.useRef(null);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -47,6 +48,64 @@ export default function _(props) {
     props.backward();
   };
 
+  const fields = [
+    {
+      label: Dic.String.label_wonder[lang],
+      name: "wonder",
+      icon: <Ico.Circle sx={{ color: "#ffb74d" }} />,
+    },
+    {
+      label: Dic.String.label_money[lang],
+      name: "money",
+      icon: <Ico.Circle sx={{ color: "#ffb74d" }} />,
+    },
+    {
+      label: Dic.String.label_red[lang],
+      name: "red",
+      icon: <Ico.Report sx={{ color: "#B80000" }} />,
+    },
+    {
+      label: Dic.String.label_blue[lang],
+      name: "blue",
+      icon: <Ico.Remove sx={{ color: "#0693E3" }} />,
+    },
+    {
+      label: Dic.String.label_yellow[lang],
+      name: "yellow",
+      icon: <Ico.Circle sx={{ color: "#FCB900" }} />,
+    },
+    {
+      label: Dic.String.label_green[lang],
+      name: "green",
+      icon: <Ico.ChangeHistory sx={{ color: "#008B02" }} />,
+    },
+    {
+      label: Dic.String.label_purple[lang],
+      name: "purple",
+      icon: <Ico.StarOutline sx={{ color: "#4A148C" }} />,
+    },
+    {
+      label: Dic.String.label_black[lang],
+      name: "black",
+      icon: <Ico.Details sx={{ color: "#767676" }} />,
+    },
+    {
+      label: Dic.String.label_white[lang],
+      name: "white",
+      icon: <Ico.RemoveCircle sx={{ color: "#FFF" }} />,
+    },
+    {
+      label: Dic.String.label_armada0[lang],
+      name: "armada0",
+      icon: <Ico.RemoveCircle sx={{ color: "#FFF" }} />,
+    },
+    {
+      label: Dic.String.label_armada1[lang],
+      name: "armada1",
+      icon: <Ico.RemoveCircle sx={{ color: "#FFF" }} />,
+    },
+  ];
+
   React.useEffect(() => {
     const interval = setInterval(() => {
       try {
@@ -62,43 +121,57 @@ export default function _(props) {
     return () => clearInterval(interval);
   }, []);
 
-  const updateSum = () => {
-    console.log();
-    const values = getValues();
-
-    const sumVal =
-      parseInt(values.wonder !== "" ? values.wonder : 0) +
-      parseInt(values.money !== "" ? values.money : 0) +
-      parseInt(values.red !== "" ? values.red : 0) +
-      parseInt(values.blue !== "" ? values.blue : 0) +
-      parseInt(values.yellow !== "" ? values.yellow : 0) +
-      parseInt(values.green !== "" ? values.green : 0) +
-      parseInt(values.purple !== "" ? values.purple : 0) +
-      parseInt(values.black !== "" ? values.black : 0) +
-      parseInt(values.white !== "" ? values.white : 0) +
-      parseInt(values.armada0 !== "" ? values.armada0 : 0) +
-      parseInt(values.armada1 !== "" ? values.armada1 : 0);
-    setSum(sumVal);
-    return sumVal;
-  };
+  const ScoreField = React.forwardRef((props, ref) => {
+    return props.loading ? (
+      <Mat.Skeleton variant="rectangular" height={55} />
+    ) : (
+      <Mat.TextField
+        ref={ref}
+        {...props}
+        type="number"
+        color="primary"
+        InputProps={{
+          inputProps: { min: -99, max: 99 },
+          startAdornment: (
+            <Mat.InputAdornment position="start">
+              {props.startadornment}
+            </Mat.InputAdornment>
+          ),
+        }}
+      />
+    );
+  });
 
   const updatePlayerObject = (data) => {
+    var sum = 0;
+    Object.keys(data).map((key, index) => {
+      if (
+        key !== "sum" &&
+        key !== "player_name" &&
+        key !== "wonder_name" &&
+        key !== "wonder_mode" &&
+        key !== "player_id" &&
+        key !== "game_id" &&
+        key !== "admin"
+      )
+        sum += data[key];
+    });
     var tempObject = data;
     tempObject.player_name = props.playername;
     tempObject.player_id = props.playerid;
-    tempObject.sum = updateSum();
+    tempObject.sum = sum;
     return Api.updatePlayer(tempObject);
   };
 
   const {
     register,
     handleSubmit,
-    getValues,
     formState: { errors },
-  } = Form.useForm();
+  } = Form.useForm({ defaultValues: props.playerscores });
   const onSubmit = (data) => {
     setFieldDisabled(true);
     updatePlayerObject(data).then((res) => {
+      console.log(data);
       props.forward(data);
     });
   };
@@ -107,79 +180,7 @@ export default function _(props) {
     <Mat.ThemeProvider theme={props.theme}>
       <Mat.CssBaseline />
 
-      <Mat.Dialog
-        onClose={handleCloseDialogGameClosed}
-        open={openDialogGameClosed}
-      >
-        <Mat.DialogTitle>
-          {Dic.String.warning_game_closed_title[lang]}
-        </Mat.DialogTitle>
-        <Mat.DialogContent>
-          <Mat.DialogContentText>
-            {Dic.String.warning_game_closed_message[lang]}
-          </Mat.DialogContentText>
-        </Mat.DialogContent>
-        <Mat.DialogActions>
-          <Mat.Button
-            onClick={handleCloseDialogGameClosed}
-            color="primary"
-            autoFocus
-          >
-            {Dic.String.button_okey[lang]}
-          </Mat.Button>
-        </Mat.DialogActions>
-      </Mat.Dialog>
-
-      <Mat.Dialog onClose={handleCloseDialogPlayers} open={openDialogPlayers}>
-        <Mat.DialogTitle>
-          {Dic.String.menu_players_ingame[lang]}
-        </Mat.DialogTitle>
-        <Mat.List sx={{ pt: 0 }}>
-          {players.map((player) => (
-            <Mat.ListItem key={player.player_name}>
-              <Mat.ListItemText>
-                {player.admin === 1 ? "\u2654" : ""} {player.player_name}{" "}
-              </Mat.ListItemText>
-            </Mat.ListItem>
-          ))}
-        </Mat.List>
-      </Mat.Dialog>
-
-      <Mat.Dialog
-        onClose={handleCloseDialogGreenCalc}
-        open={openDialogGreenCalc}
-      >
-        <Mat.DialogTitle>{Dic.String.menu_green_calc[lang]}</Mat.DialogTitle>
-        <GreenCalc theme={props.theme}></GreenCalc>
-      </Mat.Dialog>
-
-      <Mat.Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={openMenu}
-        onClose={handleCloseMenu}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <Mat.MenuItem
-          onClick={() => {
-            handleCloseMenu();
-            handleOpenDialogGreenCalc();
-          }}
-        >
-          {Dic.String.menu_green_calc[lang]}
-        </Mat.MenuItem>
-        <Mat.MenuItem
-          onClick={() => {
-            handleCloseMenu();
-            handleOpenDialogPlayers();
-          }}
-        >
-          {Dic.String.menu_players_ingame[lang]}
-        </Mat.MenuItem>
-      </Mat.Menu>
-
+      {/* Select Form */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Mat.Box
           sx={{
@@ -197,7 +198,7 @@ export default function _(props) {
               gridTemplateColumns: "repeat(2, 1fr)",
             }}
           >
-            {pageLoading ? (
+            {loading ? (
               <Mat.Skeleton variant="rectangular" height={55} />
             ) : (
               <Mat.TextField
@@ -218,7 +219,7 @@ export default function _(props) {
                 ))}
               </Mat.TextField>
             )}
-            {pageLoading ? (
+            {loading ? (
               <Mat.Skeleton variant="rectangular" height={55} />
             ) : (
               <Mat.TextField
@@ -251,7 +252,7 @@ export default function _(props) {
               }}
             >
               <Mat.Typography variant="h5">
-                {pageLoading ? (
+                {loading ? (
                   <Mat.Skeleton width={160} />
                 ) : (
                   Dic.String.label_select[lang]
@@ -267,285 +268,92 @@ export default function _(props) {
                 py: 2,
               }}
             >
-              {pageLoading ? (
-                <Mat.Skeleton variant="rectangular" height={55} />
-              ) : (
-                <Mat.TextField
-                  error={errors.wonder ? true : false}
-                  {...register("wonder", { required: true })}
-                  onChange={updateSum}
+              {fields.map((field) => (
+                <ScoreField
+                  key={field.id}
+                  ref={inputRef}
                   disabled={fieldDisabled}
-                  defaultValue={props.playerscores.wonder}
-                  type="number"
-                  id="wonder"
-                  label={Dic.String.label_wonder[lang]}
-                  color="primary"
-                  InputProps={{
-                    inputProps: { min: -99, max: 99 },
-                    startAdornment: (
-                      <Mat.InputAdornment position="start">
-                        <Ico.Eject sx={{ color: "#ffb74d" }} />
-                      </Mat.InputAdornment>
-                    ),
-                  }}
+                  label={field.label}
+                  loading={loading ? true : undefined}
+                  startadornment={field.icon}
+                  error={errors[field.name] ? true : false}
+                  {...register(field.name, { required: true })}
                 />
-              )}
-
-              {pageLoading ? (
-                <Mat.Skeleton variant="rectangular" height={55} />
-              ) : (
-                <Mat.TextField
-                  error={errors.money ? true : false}
-                  {...register("money", { required: true })}
-                  onChange={updateSum}
-                  disabled={fieldDisabled}
-                  defaultValue={props.playerscores.money}
-                  type="number"
-                  id="money"
-                  label={Dic.String.label_money[lang]}
-                  color="primary"
-                  InputProps={{
-                    inputProps: { min: -99, max: 99 },
-                    startAdornment: (
-                      <Mat.InputAdornment position="start">
-                        <Ico.Circle sx={{ color: "#ffb74d" }} />
-                      </Mat.InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-
-              {pageLoading ? (
-                <Mat.Skeleton variant="rectangular" height={55} />
-              ) : (
-                <Mat.TextField
-                  error={errors.red ? true : false}
-                  {...register("red", { required: true })}
-                  onChange={updateSum}
-                  disabled={fieldDisabled}
-                  defaultValue={props.playerscores.red}
-                  type="number"
-                  id="red"
-                  label={Dic.String.label_red[lang]}
-                  color="primary"
-                  InputProps={{
-                    inputProps: { min: -99, max: 99 },
-                    startAdornment: (
-                      <Mat.InputAdornment position="start">
-                        <Ico.Report sx={{ color: "#B80000" }} />
-                      </Mat.InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-
-              {pageLoading ? (
-                <Mat.Skeleton variant="rectangular" height={55} />
-              ) : (
-                <Mat.TextField
-                  error={errors.blue ? true : false}
-                  {...register("blue", { required: true })}
-                  onChange={updateSum}
-                  disabled={fieldDisabled}
-                  defaultValue={props.playerscores.blue}
-                  type="number"
-                  id="blue"
-                  label={Dic.String.label_blue[lang]}
-                  color="primary"
-                  InputProps={{
-                    inputProps: { min: -99, max: 99 },
-                    startAdornment: (
-                      <Mat.InputAdornment position="start">
-                        <Ico.Remove sx={{ color: "#0693E3" }} />
-                      </Mat.InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-              {pageLoading ? (
-                <Mat.Skeleton variant="rectangular" height={55} />
-              ) : (
-                <Mat.TextField
-                  error={errors.yellow ? true : false}
-                  {...register("yellow", { required: true })}
-                  onChange={updateSum}
-                  disabled={fieldDisabled}
-                  defaultValue={props.playerscores.yellow}
-                  type="number"
-                  id="yellow"
-                  label={Dic.String.label_yellow[lang]}
-                  color="primary"
-                  InputProps={{
-                    inputProps: { min: -99, max: 99 },
-                    startAdornment: (
-                      <Mat.InputAdornment position="start">
-                        <Ico.Circle sx={{ color: "#FCB900" }} />
-                      </Mat.InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-              {pageLoading ? (
-                <Mat.Skeleton variant="rectangular" height={55} />
-              ) : (
-                <Mat.TextField
-                  error={errors.green ? true : false}
-                  {...register("green", { required: true })}
-                  onChange={updateSum}
-                  disabled={fieldDisabled}
-                  defaultValue={props.playerscores.green}
-                  type="number"
-                  id="green"
-                  label={Dic.String.label_green[lang]}
-                  color="primary"
-                  InputProps={{
-                    inputProps: { min: -99, max: 99 },
-                    startAdornment: (
-                      <Mat.InputAdornment position="start">
-                        <Ico.ChangeHistory sx={{ color: "#008B02" }} />
-                      </Mat.InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-              {pageLoading ? (
-                <Mat.Skeleton variant="rectangular" height={55} />
-              ) : (
-                <Mat.TextField
-                  error={errors.purple ? true : false}
-                  {...register("purple", { required: true })}
-                  onChange={updateSum}
-                  disabled={fieldDisabled}
-                  defaultValue={props.playerscores.purple}
-                  type="number"
-                  id="purple"
-                  label={Dic.String.label_purple[lang]}
-                  color="primary"
-                  InputProps={{
-                    inputProps: { min: -99, max: 99 },
-                    startAdornment: (
-                      <Mat.InputAdornment position="start">
-                        <Ico.StarOutline sx={{ color: "#4A148C" }} />
-                      </Mat.InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-              {pageLoading ? (
-                <Mat.Skeleton variant="rectangular" height={55} />
-              ) : (
-                <Mat.TextField
-                  error={errors.black ? true : false}
-                  {...register("black", { required: true })}
-                  onChange={updateSum}
-                  disabled={fieldDisabled}
-                  defaultValue={props.playerscores.black}
-                  type="number"
-                  id="black"
-                  label={Dic.String.label_black[lang]}
-                  color="primary"
-                  InputProps={{
-                    inputProps: { min: -99, max: 99 },
-                    startAdornment: (
-                      <Mat.InputAdornment position="start">
-                        <Ico.Details sx={{ color: "#767676" }} />
-                      </Mat.InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-              {pageLoading ? (
-                <Mat.Skeleton variant="rectangular" height={55} />
-              ) : (
-                <Mat.TextField
-                  error={errors.white ? true : false}
-                  {...register("white", { required: true })}
-                  onChange={updateSum}
-                  disabled={fieldDisabled}
-                  defaultValue={props.playerscores.white}
-                  type="number"
-                  id="white"
-                  label={Dic.String.label_white[lang]}
-                  color="primary"
-                  InputProps={{
-                    inputProps: { min: -99, max: 99 },
-                    startAdornment: (
-                      <Mat.InputAdornment position="start">
-                        <Ico.RemoveCircle sx={{ color: "#FFF" }} />
-                      </Mat.InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-              {pageLoading ? (
-                <Mat.Skeleton variant="rectangular" height={55} />
-              ) : (
-                <Mat.TextField
-                  error={errors.armada0 ? true : false}
-                  {...register("armada0", { required: true })}
-                  onChange={updateSum}
-                  disabled={fieldDisabled}
-                  defaultValue={props.playerscores.armada0}
-                  type="number"
-                  id="armada0"
-                  label={Dic.String.label_armada0[lang]}
-                  color="primary"
-                  InputProps={{
-                    inputProps: { min: -99, max: 99 },
-                    startAdornment: (
-                      <Mat.InputAdornment position="start">
-                        <Ico.RemoveCircle sx={{ color: "#FFF" }} />
-                      </Mat.InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-              {pageLoading ? (
-                <Mat.Skeleton variant="rectangular" height={55} />
-              ) : (
-                <Mat.TextField
-                  error={errors.armada1 ? true : false}
-                  {...register("armada1", { required: true })}
-                  onChange={updateSum}
-                  disabled={fieldDisabled}
-                  defaultValue={props.playerscores.armada1}
-                  type="number"
-                  id="armada1"
-                  label={Dic.String.label_armada1[lang]}
-                  color="primary"
-                  InputProps={{
-                    inputProps: { min: -99, max: 99 },
-                    startAdornment: (
-                      <Mat.InputAdornment position="start">
-                        <Ico.RemoveCircle sx={{ color: "#FFF" }} />
-                      </Mat.InputAdornment>
-                    ),
-                  }}
-                />
-              )}
-              {pageLoading ? (
-                <Mat.Skeleton variant="rectangular" height={55} />
-              ) : (
-                <Mat.TextField
-                  disabled
-                  value={sum}
-                  type="number"
-                  id="sum"
-                  label={Dic.String.label_sum[lang]}
-                  color="primary"
-                  InputProps={{
-                    startAdornment: (
-                      <Mat.InputAdornment position="start">
-                        <Ico.Functions sx={{ color: "#FFF" }} />
-                      </Mat.InputAdornment>
-                    ),
-                  }}
-                />
-              )}
+              ))}
             </Mat.Box>
           </Mat.Paper>
         </Mat.Box>
 
+        {/* Game Closed */}
+        <Mat.Dialog
+          onClose={handleCloseDialogGameClosed}
+          open={openDialogGameClosed}
+        >
+          <Mat.DialogTitle>
+            {Dic.String.warning_game_closed_title[lang]}
+          </Mat.DialogTitle>
+          <Mat.DialogContent>
+            <Mat.DialogContentText>
+              {Dic.String.warning_game_closed_message[lang]}
+            </Mat.DialogContentText>
+          </Mat.DialogContent>
+          <Mat.DialogActions>
+            <Mat.Button
+              onClick={handleCloseDialogGameClosed}
+              color="primary"
+              autoFocus
+            >
+              {Dic.String.button_okey[lang]}
+            </Mat.Button>
+          </Mat.DialogActions>
+        </Mat.Dialog>
+
+        {/* Green Players */}
+        <Mat.Dialog onClose={handleCloseDialogPlayers} open={openDialogPlayers}>
+          <Mat.DialogTitle>
+            {Dic.String.menu_players_ingame[lang]}
+          </Mat.DialogTitle>
+          <Mat.List sx={{ pt: 0 }}>
+            {players.map((player) => (
+              <Mat.ListItem key={player.player_name}>
+                <Mat.ListItemText>
+                  {player.admin === 1 ? "\u2654" : ""} {player.player_name}{" "}
+                </Mat.ListItemText>
+              </Mat.ListItem>
+            ))}
+          </Mat.List>
+        </Mat.Dialog>
+
+        {/* Green Calculator */}
+        <Mat.Dialog
+          onClose={handleCloseDialogGreenCalc}
+          open={openDialogGreenCalc}
+        >
+          <Mat.DialogTitle>{Dic.String.menu_green_calc[lang]}</Mat.DialogTitle>
+          <GreenCalc theme={props.theme}></GreenCalc>
+        </Mat.Dialog>
+
+        {/* Menu */}
+        <Mat.Menu anchorEl={anchorEl} open={openMenu} onClose={handleCloseMenu}>
+          <Mat.MenuItem
+            onClick={() => {
+              handleCloseMenu();
+              handleOpenDialogGreenCalc();
+            }}
+          >
+            {Dic.String.menu_green_calc[lang]}
+          </Mat.MenuItem>
+          <Mat.MenuItem
+            onClick={() => {
+              handleCloseMenu();
+              handleOpenDialogPlayers();
+            }}
+          >
+            {Dic.String.menu_players_ingame[lang]}
+          </Mat.MenuItem>
+        </Mat.Menu>
+
+        {/* App Bar */}
         <Mat.AppBar
           position="fixed"
           style={{
@@ -558,14 +366,7 @@ export default function _(props) {
               <Ico.ArrowBack />
             </Mat.IconButton>
             <div style={{ flexGrow: 1 }} />
-            <Mat.IconButton
-              color="inherit"
-              id="basic-button"
-              aria-controls={openMenu ? "basic-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={openMenu ? "true" : undefined}
-              onClick={handleOpenMenu}
-            >
+            <Mat.IconButton color="inherit" onClick={handleOpenMenu}>
               <Ico.Menu />
             </Mat.IconButton>
             <div style={{ flexGrow: 1 }} />

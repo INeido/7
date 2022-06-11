@@ -15,7 +15,6 @@ export default function _(props) {
   React.useEffect(() => {
     try {
       Api.getGames().then((res) => {
-        console.log(res.data);
         setGames(res.data);
       });
     } catch {

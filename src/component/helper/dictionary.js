@@ -129,6 +129,7 @@ module.exports = {
       ru: "",
       sp: "",
     },
+    // Don't change 'values'!
     select_modes: {
       en: [
         { value: "Day", label: "Day" },
@@ -151,7 +152,7 @@ module.exports = {
         { value: "Night", label: "" },
       ],
     },
-    // Don't change values!
+    // Don't change 'values'!
     select_wonders: {
       en: [
         { value: "Ephesos", label: "Ephésos" },
@@ -433,6 +434,7 @@ module.exports = {
   DefaultScores: {
     wonder_name: "",
     wonder_mode: "",
+    player_name: "",
     wonder: "",
     money: "",
     red: "",

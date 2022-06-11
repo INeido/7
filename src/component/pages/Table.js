@@ -7,7 +7,7 @@ import * as Api from "../../logic/api";
 import * as Cookie from "react-cookie";
 
 export default function _(props) {
-  const [scores, setScores] = React.useState([Dic.DefaultValues]);
+  const [scores, setScores] = React.useState([Dic.DefaultScores]);
   const [pageLoading, setPageLoading] = React.useState(true);
   const [locked, setLocked] = React.useState(false);
   const [open, setOpen] = React.useState(false);
