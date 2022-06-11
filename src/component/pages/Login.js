@@ -83,7 +83,7 @@ export default function _(props) {
               res1.data.insertId, // PlayerID
               res0.data.insertId, // GameID
               data.playerName,
-              Dic.DefaultValues,
+              Dic.DefaultScores,
               1 // Admin
             );
           }
@@ -101,7 +101,7 @@ export default function _(props) {
                 res0.data[0].player_id,
                 gameID,
                 data.playerName,
-                Dic.DefaultValues,
+                Dic.DefaultScores,
                 Boolean(res1.data[0].admin)
               );
             } else {
@@ -194,7 +194,7 @@ export default function _(props) {
             </Mat.Typography>
           </Mat.Toolbar>
         </Mat.AppBar>
-        <GameBrowser theme={props.theme}></GameBrowser>
+        <GameBrowser theme={props.theme} view={props.view}></GameBrowser>
       </Mat.Dialog>
 
       {/* Language Dialog */}

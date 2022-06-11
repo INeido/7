@@ -41,7 +41,7 @@ export default function _(props) {
               (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
             );
 
-          return alert(JSON.stringify(thisRow, null, 4));
+          return props.view(thisRow.id);
         };
 
         return <Mat.Button onClick={onClick}>View</Mat.Button>;

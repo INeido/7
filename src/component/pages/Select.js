@@ -21,7 +21,7 @@ export default function _(props) {
   const openMenu = Boolean(anchorEl);
   const inputRef = React.useRef(null);
 
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOpenMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleCloseMenu = () => {
@@ -154,7 +154,7 @@ export default function _(props) {
         key !== "game_id" &&
         key !== "admin"
       )
-        sum += data[key];
+        sum += parseInt(data[key]);
     });
     var tempObject = data;
     tempObject.player_name = props.playername;
@@ -171,7 +171,6 @@ export default function _(props) {
   const onSubmit = (data) => {
     setFieldDisabled(true);
     updatePlayerObject(data).then((res) => {
-      console.log(data);
       props.forward(data);
     });
   };
@@ -308,7 +307,7 @@ export default function _(props) {
           </Mat.DialogActions>
         </Mat.Dialog>
 
-        {/* Green Players */}
+        {/* Players */}
         <Mat.Dialog onClose={handleCloseDialogPlayers} open={openDialogPlayers}>
           <Mat.DialogTitle>
             {Dic.String.menu_players_ingame[lang]}

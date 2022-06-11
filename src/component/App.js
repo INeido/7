@@ -11,6 +11,13 @@ export default function _() {
   const [playerName, setPlayerName] = React.useState(0);
   const [admin, setAdmin] = React.useState(0);
   const [page, setPage] = React.useState(0);
+  const [viewer, setViewer] = React.useState(false);
+
+  function view(game_id) {
+    setViewer(true);
+    setGameID(game_id);
+    setPage(2);
+  }
 
   function firstChild(player_id, game_id, player_name, player_scores, isadmin) {
     setPlayerID(player_id);
@@ -40,7 +47,7 @@ export default function _() {
 
   var theme = themeProvider();
   var pages = [
-    <Login theme={theme} line={firstChild}></Login>,
+    <Login theme={theme} line={firstChild} view={view}></Login>,
     <Select
       theme={theme}
       playerscores={playerScores}
@@ -54,7 +61,9 @@ export default function _() {
       theme={theme}
       admin={admin}
       gameid={gameID}
+      viewer={viewer}
       playername={playerName}
+      firstpage={secondChildBackward}
       forward={thirdChildForward}
       backward={thirdChildBackward}
     ></Table>,

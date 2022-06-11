@@ -10,10 +10,22 @@ export default function _(props) {
   const [scores, setScores] = React.useState([Dic.DefaultScores]);
   const [pageLoading, setPageLoading] = React.useState(true);
   const [locked, setLocked] = React.useState(false);
+  const [lockLocked] = React.useState(
+    props.Admin === undefined || !props.admin
+  );
+  const [arrowDisabled, setArrowDisabled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   const [dialog, setDialog] = React.useState({});
   const [cookies] = Cookie.useCookies(["user"]);
   const [lang] = React.useState(cookies.lang !== null ? cookies.lang : "en");
+  const [anchorEl, setAnchorEl] = React.useState(false);
+  const openMenu = Boolean(anchorEl);
+  const handleOpenMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -28,6 +40,26 @@ export default function _(props) {
         // Handle Error
       }
     }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      try {
+        Api.isRunningID(props.gameid).then((res) => {
+          if (res.data[0].locked === 1 || props.viewer) {
+            setArrowDisabled(true);
+          } else {
+            setArrowDisabled(false);
+          }
+          if (res.data[0].locked === 1) {
+            setLocked(true);
+          }
+        });
+      } catch {
+        // Handle Error
+      }
+    }, 100);
     return () => clearInterval(interval);
   }, []);
 
@@ -75,19 +107,12 @@ export default function _(props) {
   return (
     <Mat.ThemeProvider theme={props.theme}>
       <Mat.CssBaseline />
-      <Mat.Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <Mat.DialogTitle id="alert-dialog-title">
-          {dialog.title}
-        </Mat.DialogTitle>
+
+      {/* Dialog */}
+      <Mat.Dialog open={open} onClose={handleClose}>
+        <Mat.DialogTitle>{dialog.title}</Mat.DialogTitle>
         <Mat.DialogContent>
-          <Mat.DialogContentText id="alert-dialog-description">
-            {dialog.text}
-          </Mat.DialogContentText>
+          <Mat.DialogContentText>{dialog.text}</Mat.DialogContentText>
         </Mat.DialogContent>
         <Mat.DialogActions>
           <Mat.Button onClick={handleClose} color="primary">
@@ -99,10 +124,12 @@ export default function _(props) {
         </Mat.DialogActions>
       </Mat.Dialog>
 
+      {/* Backdrop */}
       <Mat.Backdrop open={pageLoading}>
         <Mat.CircularProgress color="inherit" />
       </Mat.Backdrop>
 
+      {/* Table */}
       <Mat.TableContainer component={Mat.Paper}>
         <Mat.Table size="small">
           <Mat.TableBody>
@@ -111,7 +138,9 @@ export default function _(props) {
                 {Dic.String.label_table_player[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
-                <Mat.TableCell>{game.player_name}</Mat.TableCell>
+                <Mat.TableCell>
+                  {game.admin === 1 ? "\u2654" : ""} {game.player_name}
+                </Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
@@ -230,6 +259,7 @@ export default function _(props) {
         </Mat.Table>
       </Mat.TableContainer>
 
+      {/* App Bar */}
       <Mat.AppBar
         position="fixed"
         style={{
@@ -238,18 +268,26 @@ export default function _(props) {
         }}
       >
         <Mat.Toolbar>
-          <Mat.IconButton color="inherit" onClick={props.backward}>
-            <Ico.ArrowBack />
-          </Mat.IconButton>
+          {arrowDisabled ? (
+            <Mat.IconButton color="inherit" onClick={props.firstpage}>
+              <Ico.Home />
+            </Mat.IconButton>
+          ) : (
+            <Mat.IconButton color="inherit" onClick={props.backward}>
+              <Ico.ArrowBack />
+            </Mat.IconButton>
+          )}
           <div style={{ flexGrow: 1 }} />
-          <Mat.IconButton color="inherit">
+
+          <Mat.IconButton color="inherit" onClick={handleOpenMenu}>
             <Ico.Menu />
           </Mat.IconButton>
+
           <div style={{ flexGrow: 1 }} />
           <Mat.IconButton
             color="inherit"
             onClick={handleClickOpen}
-            disabled={!props.admin}
+            disabled={lockLocked}
           >
             {locked ? <Ico.LockOutlined /> : <Ico.LockOpenOutlined />}
           </Mat.IconButton>
