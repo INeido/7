@@ -13,7 +13,7 @@ export default function _(props) {
   const [open, setOpen] = React.useState(false);
   const [dialog, setDialog] = React.useState({});
   const [cookies] = Cookie.useCookies(["user"]);
-  const [lang] = React.useState(cookies.lang);
+  const [lang] = React.useState(cookies.lang !== null ? cookies.lang : "en");
 
   React.useEffect(() => {
     const interval = setInterval(() => {

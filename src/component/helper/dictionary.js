@@ -153,9 +153,9 @@ module.exports = {
       sp: "",
     },
     lang_spanish: {
-      en: "",
-      de: "",
-      hu: "",
+      en: "Spanish",
+      de: "Spanisch",
+      hu: "Spanyol",
       ru: "",
       sp: "",
     },

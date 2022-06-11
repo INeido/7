@@ -15,7 +15,7 @@ export default function _(props) {
   const [newGame, setNewGame] = React.useState(false);
   const [gameID, setGameID] = React.useState();
   const [cookies, setCookie] = Cookie.useCookies(["user"]);
-  const [lang] = React.useState(cookies.lang);
+  const [lang] = React.useState(cookies.lang !== null ? cookies.lang : "en");
   const [anchorEl, setAnchorEl] = React.useState(false);
   const [openDialog, setOpenDialog] = React.useState(false);
   const openMenu = Boolean(anchorEl);
@@ -205,18 +205,16 @@ export default function _(props) {
               handleCloseDialog();
             }}
           >
-            <Mat.ListItem
-              button
-              onClick={() => {
-                changeLang("sp");
-                handleCloseDialog();
-              }}
-            >
-              <Mat.ListItemText>
-                {Dic.String.lang_spanish[lang]}
-              </Mat.ListItemText>
-            </Mat.ListItem>
             <Mat.ListItemText>{Dic.String.lang_russian[lang]}</Mat.ListItemText>
+          </Mat.ListItem>
+          <Mat.ListItem
+            button
+            onClick={() => {
+              changeLang("sp");
+              handleCloseDialog();
+            }}
+          >
+            <Mat.ListItemText>{Dic.String.lang_spanish[lang]}</Mat.ListItemText>
           </Mat.ListItem>
         </Mat.List>
       </Mat.Dialog>

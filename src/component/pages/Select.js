@@ -10,7 +10,7 @@ export default function _(props) {
   const [pageLoading, setPageLoading] = React.useState(false);
   const [fieldDisabled, setFieldDisabled] = React.useState(false);
   const [cookies] = Cookie.useCookies(["user"]);
-  const [lang] = React.useState(cookies.lang);
+  const [lang] = React.useState(cookies.lang !== null ? cookies.lang : "en");
   const [sum, setSum] = React.useState(0);
 
   const updateSum = () => {
