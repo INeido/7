@@ -56,9 +56,10 @@ export default function _(props) {
   };
 
   const closeGameF = () => {
-    Api.closeGame().then((res) => {
+    Api.closeGame(props.gameid).then((res) => {
       console.log("game closed");
       setLocked(true);
+      Api.tidyGame(props.gameid).then((res) => {});
       handleClose();
     });
   };

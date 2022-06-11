@@ -73,6 +73,15 @@ module.exports = {
     label_armada0: { en: "Naval Battles", de: "", hu: "", ru: "", sp: "" },
     label_armada1: { en: "Harbour", de: "", hu: "", ru: "", sp: "" },
     label_sum: { en: "Sum", de: "Summe", hu: "Összeg", ru: "", sp: "" },
+    // Menu
+    menu_green_calc: { en: "Green Calculator", de: "", hu: "", ru: "", sp: "" },
+    menu_players_ingame: {
+      en: "Players",
+      de: "Spieler",
+      hu: "",
+      ru: "",
+      sp: "",
+    },
 
     // Score table page
     // Row-Headers

@@ -4,10 +4,6 @@ export function createGame() {
   return axios.get("https://neido.tech/wonder/creategame");
 }
 
-export function closeGame() {
-  return axios.get("https://neido.tech/wonder/closegame");
-}
-
 export function isRunning() {
   return axios.get("https://neido.tech/wonder/isrunning");
 }
@@ -27,8 +23,26 @@ export function getPlayer(player_id) {
   });
 }
 
+export function getPlayers(game_id) {
+  return axios.post("https://neido.tech/wonder/getplayers", {
+    game_id: game_id,
+  });
+}
+
+export function tidyGame(game_id) {
+  return axios.post("https://neido.tech/wonder/tidygame", {
+    game_id: game_id,
+  });
+}
+
 export function openGame(game_id) {
   return axios.post("https://neido.tech/wonder/opengame", {
+    game_id: game_id,
+  });
+}
+
+export function closeGame(game_id) {
+  return axios.get("https://neido.tech/wonder/closegame", {
     game_id: game_id,
   });
 }

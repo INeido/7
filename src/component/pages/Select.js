@@ -12,6 +12,27 @@ export default function _(props) {
   const [cookies] = Cookie.useCookies(["user"]);
   const [lang] = React.useState(cookies.lang !== null ? cookies.lang : "en");
   const [sum, setSum] = React.useState(0);
+  const [players, setPlayers] = React.useState([{}]);
+  const [openDialogPlayers, setOpenDialogPlayers] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(false);
+  const openMenu = Boolean(anchorEl);
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+  const handleOpenDialogPlayers = () => {
+    Api.getPlayers(props.gameid).then((res) => {
+      setPlayers(res.data);
+      console.log(res.data);
+      setOpenDialogPlayers(true);
+    });
+  };
+  const handleCloseDialogPlayers = () => {
+    setOpenDialogPlayers(false);
+  };
 
   const updateSum = () => {
     console.log();
@@ -57,6 +78,49 @@ export default function _(props) {
   return (
     <Mat.ThemeProvider theme={props.theme}>
       <Mat.CssBaseline />
+
+      <Mat.Dialog onClose={handleCloseDialogPlayers} open={openDialogPlayers}>
+        <Mat.DialogTitle>
+          {Dic.String.menu_players_ingame[lang]}
+        </Mat.DialogTitle>
+        <Mat.List sx={{ pt: 0 }}>
+          {players.map((player) => (
+            <Mat.ListItem key={player.player_name}>
+              <Mat.ListItemText>
+                {player.admin === 1 ? "\u2654" : ""} {player.player_name}{" "}
+              </Mat.ListItemText>
+            </Mat.ListItem>
+          ))}
+        </Mat.List>
+      </Mat.Dialog>
+
+      <Mat.Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={openMenu}
+        onClose={handleCloseMenu}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <Mat.MenuItem
+          onClick={() => {
+            handleCloseMenu();
+            //setOpenDialog(true);
+          }}
+        >
+          {Dic.String.menu_green_calc[lang]}
+        </Mat.MenuItem>
+        <Mat.MenuItem
+          onClick={() => {
+            handleCloseMenu();
+            handleOpenDialogPlayers();
+          }}
+        >
+          {Dic.String.menu_players_ingame[lang]}
+        </Mat.MenuItem>
+      </Mat.Menu>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Mat.Box
           sx={{
@@ -435,7 +499,14 @@ export default function _(props) {
               <Ico.ArrowBack />
             </Mat.IconButton>
             <div style={{ flexGrow: 1 }} />
-            <Mat.IconButton color="inherit">
+            <Mat.IconButton
+              color="inherit"
+              id="basic-button"
+              aria-controls={openMenu ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={openMenu ? "true" : undefined}
+              onClick={handleOpenMenu}
+            >
               <Ico.Menu />
             </Mat.IconButton>
             <div style={{ flexGrow: 1 }} />
