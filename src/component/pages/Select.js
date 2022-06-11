@@ -212,8 +212,8 @@ export default function _(props) {
                 variant="outlined"
               >
                 {Dic.String.select_wonders[lang].map((choice) => (
-                  <Mat.MenuItem key={choice} value={choice}>
-                    {choice}
+                  <Mat.MenuItem key={choice.value} value={choice.value}>
+                    {choice.label}
                   </Mat.MenuItem>
                 ))}
               </Mat.TextField>
@@ -232,8 +232,8 @@ export default function _(props) {
                 label={Dic.String.label_wonder_mode[lang]}
               >
                 {Dic.String.select_modes[lang].map((choice) => (
-                  <Mat.MenuItem key={choice} value={choice}>
-                    {choice}
+                  <Mat.MenuItem key={choice.value} value={choice.value}>
+                    {choice.label}
                   </Mat.MenuItem>
                 ))}
               </Mat.TextField>
