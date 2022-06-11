@@ -5,6 +5,7 @@ import * as Dic from "../helper/dictionary";
 import * as Api from "../../logic/api";
 import * as Form from "react-hook-form";
 import * as Cookie from "react-cookie";
+import GreenCalc from "./subpages/GreenCalc";
 
 export default function _(props) {
   const [pageLoading, setPageLoading] = React.useState(false);
@@ -14,6 +15,7 @@ export default function _(props) {
   const [sum, setSum] = React.useState(0);
   const [players, setPlayers] = React.useState([{}]);
   const [openDialogPlayers, setOpenDialogPlayers] = React.useState(false);
+  const [openDialogGreenCalc, setOpenDialogGreenCalc] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(false);
   const openMenu = Boolean(anchorEl);
 
@@ -29,6 +31,12 @@ export default function _(props) {
       console.log(res.data);
       setOpenDialogPlayers(true);
     });
+  };
+  const handleCloseDialogGreenCalc = () => {
+    setOpenDialogGreenCalc(false);
+  };
+  const handleOpenDialogGreenCalc = () => {
+    setOpenDialogGreenCalc(true);
   };
   const handleCloseDialogPlayers = () => {
     setOpenDialogPlayers(false);
@@ -94,6 +102,14 @@ export default function _(props) {
         </Mat.List>
       </Mat.Dialog>
 
+      <Mat.Dialog
+        onClose={handleCloseDialogGreenCalc}
+        open={openDialogGreenCalc}
+      >
+        <Mat.DialogTitle>{Dic.String.menu_green_calc[lang]}</Mat.DialogTitle>
+        <GreenCalc theme={props.theme}></GreenCalc>
+      </Mat.Dialog>
+
       <Mat.Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -106,7 +122,7 @@ export default function _(props) {
         <Mat.MenuItem
           onClick={() => {
             handleCloseMenu();
-            //setOpenDialog(true);
+            handleOpenDialogGreenCalc();
           }}
         >
           {Dic.String.menu_green_calc[lang]}
@@ -152,7 +168,7 @@ export default function _(props) {
                 label={Dic.String.label_wonder_select[lang]}
                 variant="outlined"
               >
-                {Dic.WonderNames.map((choice) => (
+                {Dic.String.select_wonders[lang].map((choice) => (
                   <Mat.MenuItem key={choice} value={choice}>
                     {choice}
                   </Mat.MenuItem>
@@ -172,7 +188,7 @@ export default function _(props) {
                 color="primary"
                 label={Dic.String.label_wonder_mode[lang]}
               >
-                {Dic.Modes.map((choice) => (
+                {Dic.String.select_modes[lang].map((choice) => (
                   <Mat.MenuItem key={choice} value={choice}>
                     {choice}
                   </Mat.MenuItem>
