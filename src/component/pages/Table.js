@@ -7,26 +7,45 @@ import * as Api from "../../logic/api";
 import * as Cookie from "react-cookie";
 
 export default function _(props) {
+  const [cookies] = Cookie.useCookies(["user"]);
+  const [lang] = React.useState(
+    cookies.lang !== undefined ? cookies.lang : "en"
+  );
+  const [lockLocked] = React.useState(
+    props.admin === undefined || !props.admin
+  );
   const [scores, setScores] = React.useState([Dic.DefaultScores]);
+  const [dialog, setDialog] = React.useState({});
   const [pageLoading, setPageLoading] = React.useState(true);
   const [locked, setLocked] = React.useState(false);
-  const [lockLocked] = React.useState(
-    props.Admin === undefined || !props.admin
-  );
   const [arrowDisabled, setArrowDisabled] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
-  const [dialog, setDialog] = React.useState({});
-  const [cookies] = Cookie.useCookies(["user"]);
-  const [lang] = React.useState(cookies.lang !== null ? cookies.lang : "en");
-  const [anchorEl, setAnchorEl] = React.useState(false);
-  const openMenu = Boolean(anchorEl);
-  const handleOpenMenu = (event) => {
-    setAnchorEl(event.currentTarget);
+  const [openLockDialog, setOpenLockDialog] = React.useState(false);
+
+  /* Event Handler */
+  const handleClickOpenLockDialog = () => {
+    if (locked) {
+      /* Update Dialog to "Open Game" */
+      setDialog({
+        title: Dic.String.unlock_title[lang],
+        text: Dic.String.unlock_message[lang],
+        proceed: openGameF,
+      });
+    } else {
+      /* Update Dialog to "Close Game" */
+      setDialog({
+        title: Dic.String.lock_title[lang],
+        text: Dic.String.lock_message[lang],
+        proceed: closeGameF,
+      });
+    }
+    /* Open Dialog */
+    setOpenLockDialog(true);
   };
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
+  const handleCloseDialog = (event) => {
+    setOpenLockDialog(false);
   };
 
+  /* Catch Rerender */
   React.useEffect(() => {
     const interval = setInterval(() => {
       try {
@@ -43,6 +62,23 @@ export default function _(props) {
     return () => clearInterval(interval);
   }, []);
 
+  /* Close/Open current game */
+  const closeGameF = () => {
+    Api.closeGame(props.gameid).then((res) => {
+      setLocked(true);
+      Api.tidyGame(props.gameid).then((res) => {});
+      handleCloseDialog();
+    });
+  };
+
+  const openGameF = () => {
+    Api.openGame(props.gameid).then((res) => {
+      setLocked(false);
+      handleCloseDialog();
+    });
+  };
+
+  /* Catch Rerender */
   React.useEffect(() => {
     const interval = setInterval(() => {
       try {
@@ -63,59 +99,18 @@ export default function _(props) {
     return () => clearInterval(interval);
   }, []);
 
-  const handleClickOpen = () => {
-    if (locked) {
-      setDialog({
-        title: Dic.String.unlock_title[lang],
-        text: Dic.String.unlock_message[lang],
-        proceed: openGameF,
-      });
-    } else {
-      setDialog({
-        title: Dic.String.lock_title[lang],
-        text: Dic.String.lock_message[lang],
-        proceed: closeGameF,
-      });
-    }
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
-
-  const closeGameF = () => {
-    Api.closeGame(props.gameid).then((res) => {
-      console.log("game closed");
-      setLocked(true);
-      Api.tidyGame(props.gameid).then((res) => {});
-      handleClose();
-    });
-  };
-
-  const openGameF = () => {
-    Api.openGame(props.gameid).then((res) => {
-      console.log("game opened");
-      setLocked(false);
-      handleClose();
-    });
-  };
-
   return (
     <Mat.ThemeProvider theme={props.theme}>
       <Mat.CssBaseline />
 
       {/* Dialog */}
-      <Mat.Dialog open={open} onClose={handleClose}>
+      <Mat.Dialog open={openLockDialog} onClose={handleCloseDialog}>
         <Mat.DialogTitle>{dialog.title}</Mat.DialogTitle>
         <Mat.DialogContent>
           <Mat.DialogContentText>{dialog.text}</Mat.DialogContentText>
         </Mat.DialogContent>
         <Mat.DialogActions>
-          <Mat.Button onClick={handleClose} color="primary">
+          <Mat.Button onClick={handleCloseDialog} color="primary">
             {Dic.String.button_abort[lang]}
           </Mat.Button>
           <Mat.Button onClick={dialog.proceed} color="primary" autoFocus>
@@ -278,15 +273,9 @@ export default function _(props) {
             </Mat.IconButton>
           )}
           <div style={{ flexGrow: 1 }} />
-
-          <Mat.IconButton color="inherit" onClick={handleOpenMenu}>
-            <Ico.Menu />
-          </Mat.IconButton>
-
-          <div style={{ flexGrow: 1 }} />
           <Mat.IconButton
             color="inherit"
-            onClick={handleClickOpen}
+            onClick={handleClickOpenLockDialog}
             disabled={lockLocked}
           >
             {locked ? <Ico.LockOutlined /> : <Ico.LockOpenOutlined />}

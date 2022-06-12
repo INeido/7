@@ -12,40 +12,46 @@ export default function _() {
   const [admin, setAdmin] = React.useState(0);
   const [page, setPage] = React.useState(0);
   const [viewer, setViewer] = React.useState(false);
+  const [theme] = React.useState(themeProvider());
 
-  function view(game_id) {
+  const view = (game_id) => {
     setViewer(true);
     setGameID(game_id);
     setPage(2);
-  }
+  };
 
-  function firstChild(player_id, game_id, player_name, player_scores, isadmin) {
+  const firstChild = (
+    player_id,
+    game_id,
+    player_name,
+    player_scores,
+    isadmin
+  ) => {
     setPlayerID(player_id);
     setGameID(game_id);
     setPlayerName(player_name);
     setPlayerScores(player_scores);
     setAdmin(isadmin);
     setPage(1);
-  }
+  };
 
-  function secondChildBackward() {
+  const secondChildBackward = () => {
     setPage(0);
-  }
+  };
 
-  function secondChildForward(player_scores) {
+  const secondChildForward = (player_scores) => {
     setPlayerScores(player_scores);
     setPage(2);
-  }
+  };
 
-  function thirdChildBackward() {
+  const thirdChildBackward = () => {
     setPage(1);
-  }
+  };
 
-  function thirdChildForward() {
+  const thirdChildForward = () => {
     setPage(3);
-  }
+  };
 
-  var theme = themeProvider();
   var pages = [
     <Login theme={theme} line={firstChild} view={view}></Login>,
     <Select

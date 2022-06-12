@@ -9,18 +9,25 @@ import * as Cookie from "react-cookie";
 import GreenCalc from "./subpages/GreenCalc";
 
 export default function _(props) {
-  const [loading, setloading] = React.useState(false);
-  const [fieldDisabled, setFieldDisabled] = React.useState(false);
   const [cookies] = Cookie.useCookies(["user"]);
-  const [lang] = React.useState(cookies.lang !== null ? cookies.lang : "en");
+  const [lang] = React.useState(
+    cookies.lang !== undefined ? cookies.lang : "en"
+  );
   const [players, setPlayers] = React.useState([{}]);
+  const [fieldDisabled, setFieldDisabled] = React.useState(false);
   const [openDialogPlayers, setOpenDialogPlayers] = React.useState(false);
   const [openDialogGreenCalc, setOpenDialogGreenCalc] = React.useState(false);
   const [openDialogGameClosed, setOpenDialogGameClosed] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(false);
   const openMenu = Boolean(anchorEl);
   const inputRef = React.useRef(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = Form.useForm({ defaultValues: props.playerscores });
 
+  /* Event Handler */
   const handleOpenMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -30,7 +37,6 @@ export default function _(props) {
   const handleOpenDialogPlayers = () => {
     Api.getPlayers(props.gameid).then((res) => {
       setPlayers(res.data);
-      console.log(res.data);
       setOpenDialogPlayers(true);
     });
   };
@@ -48,6 +54,15 @@ export default function _(props) {
     props.backward();
   };
 
+  /* Fires when page is correctly submitted */
+  const onSubmit = (data) => {
+    setFieldDisabled(true);
+    updatePlayerObject(data).then((res) => {
+      props.forward(data);
+    });
+  };
+
+  /* Array of Button Properties (can be done better) */
   const fields = [
     {
       label: Dic.String.label_wonder[lang],
@@ -90,7 +105,7 @@ export default function _(props) {
       icon: <Ico.Details sx={{ color: "#767676" }} />,
     },
     {
-      label: Dic.String.label_white[lang],
+      identifier: Dic.String.label_white[lang],
       name: "white",
       icon: <Ico.RemoveCircle sx={{ color: "#FFF" }} />,
     },
@@ -106,6 +121,7 @@ export default function _(props) {
     },
   ];
 
+  /* Catch Rerender */
   React.useEffect(() => {
     const interval = setInterval(() => {
       try {
@@ -121,10 +137,9 @@ export default function _(props) {
     return () => clearInterval(interval);
   }, []);
 
+  /* Textfield component */
   const ScoreField = React.forwardRef((props, ref) => {
-    return props.loading ? (
-      <Mat.Skeleton variant="rectangular" height={55} />
-    ) : (
+    return (
       <Mat.TextField
         ref={ref}
         {...props}
@@ -142,8 +157,10 @@ export default function _(props) {
     );
   });
 
+  /* Calculates sum of scores (can be done better) */
   const updatePlayerObject = (data) => {
     var sum = 0;
+    // eslint-disable-next-line array-callback-return
     Object.keys(data).map((key, index) => {
       if (
         key !== "sum" &&
@@ -155,24 +172,12 @@ export default function _(props) {
         key !== "admin"
       )
         sum += parseInt(data[key]);
-    });
+    }, {});
     var tempObject = data;
     tempObject.player_name = props.playername;
     tempObject.player_id = props.playerid;
     tempObject.sum = sum;
     return Api.updatePlayer(tempObject);
-  };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = Form.useForm({ defaultValues: props.playerscores });
-  const onSubmit = (data) => {
-    setFieldDisabled(true);
-    updatePlayerObject(data).then((res) => {
-      props.forward(data);
-    });
   };
 
   return (
@@ -197,47 +202,40 @@ export default function _(props) {
               gridTemplateColumns: "repeat(2, 1fr)",
             }}
           >
-            {loading ? (
-              <Mat.Skeleton variant="rectangular" height={55} />
-            ) : (
-              <Mat.TextField
-                error={errors.wonder_name ? true : false}
-                {...register("wonder_name", { required: true })}
-                disabled={fieldDisabled}
-                defaultValue={props.playerscores.wonder_name}
-                name="wonder_name"
-                select
-                color="primary"
-                label={Dic.String.label_wonder_select[lang]}
-                variant="outlined"
-              >
-                {Dic.String.select_wonders[lang].map((choice) => (
-                  <Mat.MenuItem key={choice.value} value={choice.value}>
-                    {choice.label}
-                  </Mat.MenuItem>
-                ))}
-              </Mat.TextField>
-            )}
-            {loading ? (
-              <Mat.Skeleton variant="rectangular" height={55} />
-            ) : (
-              <Mat.TextField
-                error={errors.wonder_mode ? true : false}
-                {...register("wonder_mode", { required: true })}
-                disabled={fieldDisabled}
-                defaultValue={props.playerscores.wonder_mode}
-                name="wonder_mode"
-                select
-                color="primary"
-                label={Dic.String.label_wonder_mode[lang]}
-              >
-                {Dic.String.select_modes[lang].map((choice) => (
-                  <Mat.MenuItem key={choice.value} value={choice.value}>
-                    {choice.label}
-                  </Mat.MenuItem>
-                ))}
-              </Mat.TextField>
-            )}
+            <Mat.TextField
+              error={errors.wonder_name ? true : false}
+              {...register("wonder_name", { required: true })}
+              disabled={fieldDisabled}
+              defaultValue={props.playerscores.wonder_name}
+              name="wonder_name"
+              select
+              color="primary"
+              label={Dic.String.label_wonder_select[lang]}
+              variant="outlined"
+            >
+              {Dic.String.select_wonders[lang].map((choice) => (
+                <Mat.MenuItem key={choice.val} value={choice.val}>
+                  {choice.label}
+                </Mat.MenuItem>
+              ))}
+            </Mat.TextField>
+
+            <Mat.TextField
+              error={errors.wonder_mode ? true : false}
+              {...register("wonder_mode", { required: true })}
+              disabled={fieldDisabled}
+              defaultValue={props.playerscores.wonder_mode}
+              name="wonder_mode"
+              select
+              color="primary"
+              label={Dic.String.label_wonder_mode[lang]}
+            >
+              {Dic.String.select_modes[lang].map((choice) => (
+                <Mat.MenuItem key={choice.val} value={choice.val}>
+                  {choice.label}
+                </Mat.MenuItem>
+              ))}
+            </Mat.TextField>
           </Mat.Box>
           <Mat.Paper variant="outlined">
             <Mat.Box
@@ -251,11 +249,7 @@ export default function _(props) {
               }}
             >
               <Mat.Typography variant="h5">
-                {loading ? (
-                  <Mat.Skeleton width={160} />
-                ) : (
-                  Dic.String.label_select[lang]
-                )}
+                {Dic.String.label_select[lang]}
               </Mat.Typography>
             </Mat.Box>
             <Mat.Box
@@ -273,7 +267,6 @@ export default function _(props) {
                   ref={inputRef}
                   disabled={fieldDisabled}
                   label={field.label}
-                  loading={loading ? true : undefined}
                   startadornment={field.icon}
                   error={errors[field.name] ? true : false}
                   {...register(field.name, { required: true })}
