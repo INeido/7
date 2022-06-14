@@ -130,6 +130,49 @@ module.exports = {
       es: "",
     },
     // Don't change 'vals'!
+    select_green: {
+      en: [
+        { val: "Compass", label: "Compass" },
+        { val: "Gear", label: "Gear" },
+        { val: "Tablet", label: "Tablet" },
+        { val: "Wildcard", label: "Wildcard" },
+        { val: "Copy", label: "Copy" },
+        { val: "Maxplus", label: "Maxplus" },
+      ],
+      de: [
+        { val: "Compass", label: "Kompass" },
+        { val: "Gear", label: "Zahnrad" },
+        { val: "Tablet", label: "Tablet" },
+        { val: "Wildcard", label: "Platzhalter" },
+        { val: "Copy", label: "Kopier" },
+        { val: "Maxplus", label: "Maxplus" },
+      ],
+      hu: [
+        { val: "Compass", label: "Iránytű" },
+        { val: "Gear", label: "Fogaskerék" },
+        { val: "Tablet", label: "Tablet" },
+        { val: "Wildcard", label: "Helyettesítő" },
+        { val: "Copy", label: "Copy" },
+        { val: "Maxplus", label: "Maxplus" },
+      ],
+      ru: [
+        { val: "Compass", label: "Compass" },
+        { val: "Gear", label: "Gear" },
+        { val: "Tablet", label: "Tablet" },
+        { val: "Wildcard", label: "Wildcard" },
+        { val: "Copy", label: "Copy" },
+        { val: "Maxplus", label: "Maxplus" },
+      ],
+      es: [
+        { val: "Compass", label: "Compass" },
+        { val: "Gear", label: "Gear" },
+        { val: "Tablet", label: "Tablet" },
+        { val: "Wildcard", label: "Wildcard" },
+        { val: "Copy", label: "Copy" },
+        { val: "Maxplus", label: "Maxplus" },
+      ],
+    },
+    // Don't change 'vals'!
     select_modes: {
       en: [
         { val: "Day", label: "Day" },
@@ -344,38 +387,6 @@ module.exports = {
       en: "This will close the game and kick current players.",
       de: "Spiel wird geschlossen und Spieler gekickt.",
       hu: "A szoba be lesz zárva.",
-      ru: "",
-      es: "",
-    },
-
-    // Green Calc subpage
-    calc_compass: {
-      en: "Compass",
-      de: "Kompass",
-      hu: "Iránytű",
-      ru: "",
-      es: "",
-    },
-    calc_gear: { en: "Gear", de: "Zahnrad", hu: "Fogaskerék", ru: "", es: "" },
-    calc_tablet: { en: "Tablet", de: "Tablet", hu: "", ru: "", es: "" },
-    calc_wildcard: {
-      en: "Wildcard",
-      de: "Platzhalter",
-      hu: "Helyettesítő",
-      ru: "",
-      es: "",
-    },
-    calc_copy: {
-      en: "Copy",
-      de: "Kopier",
-      hu: "",
-      ru: "",
-      es: "",
-    },
-    calc_maxplus: {
-      en: "Maxplus",
-      de: "Maxplus",
-      hu: "Maxplus",
       ru: "",
       es: "",
     },

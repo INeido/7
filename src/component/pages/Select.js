@@ -185,7 +185,7 @@ export default function _(props) {
       <Mat.CssBaseline />
 
       {/* Select Form */}
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form key={1} onSubmit={handleSubmit(onSubmit)}>
         <Mat.Box
           sx={{
             marginTop: 2,
