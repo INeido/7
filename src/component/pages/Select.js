@@ -146,7 +146,7 @@ export default function _(props) {
         type="number"
         color="primary"
         InputProps={{
-          inputProps: { min: -99, max: 99 },
+          inputProps: { min: -99, max: 256 }, // Turns out you can achieve more than 99. Thanks, Paul.
           startAdornment: (
             <Mat.InputAdornment position="start">
               {props.startadornment}
