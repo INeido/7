@@ -80,7 +80,7 @@ export default function _(props) {
           ))}
 
           <Mat.FormControl>
-            <Mat.InputLabel id="select">Select Neighbouring</Mat.InputLabel>
+            <Mat.InputLabel id="select">{Dic.String.label_selectneighbouring[lang]}</Mat.InputLabel>
             <Mat.Select
               labelId="select"
               multiple
@@ -162,7 +162,7 @@ export default function _(props) {
           />
         </Mat.Box>
         <Lab.LoadingButton type="submit" fullWidth variant="contained">
-          Calc
+          {Dic.String.label_calculate[lang]}
         </Lab.LoadingButton>
       </form>
     </Mat.ThemeProvider>
