@@ -146,7 +146,7 @@ export default function _(props) {
         type="number"
         color="primary"
         InputProps={{
-          inputProps: { min: -99, max: 99 },
+          inputProps: { min: -99, max: 256 }, // Turns out you can achieve more than 99. Thanks, Paul.
           startAdornment: (
             <Mat.InputAdornment position="start">
               {props.startadornment}
@@ -183,6 +183,15 @@ export default function _(props) {
   return (
     <Mat.ThemeProvider theme={props.theme}>
       <Mat.CssBaseline />
+
+      {/* Green Calculator */}
+      <Mat.Dialog
+        onClose={handleCloseDialogGreenCalc}
+        open={openDialogGreenCalc}
+      >
+        <Mat.DialogTitle>{Dic.String.menu_green_calc[lang]}</Mat.DialogTitle>
+        <GreenCalc theme={props.theme}></GreenCalc>
+      </Mat.Dialog>
 
       {/* Select Form */}
       <form key={1} onSubmit={handleSubmit(onSubmit)}>
@@ -276,98 +285,89 @@ export default function _(props) {
           </Mat.Paper>
         </Mat.Box>
 
-        {/* Game Closed */}
-        <Mat.Dialog
-          onClose={handleCloseDialogGameClosed}
-          open={openDialogGameClosed}
-        >
-          <Mat.DialogTitle>
-            {Dic.String.warning_game_closed_title[lang]}
-          </Mat.DialogTitle>
-          <Mat.DialogContent>
-            <Mat.DialogContentText>
-              {Dic.String.warning_game_closed_message[lang]}
-            </Mat.DialogContentText>
-          </Mat.DialogContent>
-          <Mat.DialogActions>
-            <Mat.Button
-              onClick={handleCloseDialogGameClosed}
-              color="primary"
-              autoFocus
-            >
-              {Dic.String.button_okey[lang]}
-            </Mat.Button>
-          </Mat.DialogActions>
-        </Mat.Dialog>
-
-        {/* Players */}
-        <Mat.Dialog onClose={handleCloseDialogPlayers} open={openDialogPlayers}>
-          <Mat.DialogTitle>
-            {Dic.String.menu_players_ingame[lang]}
-          </Mat.DialogTitle>
-          <Mat.List sx={{ pt: 0 }}>
-            {players.map((player) => (
-              <Mat.ListItem key={player.player_name}>
-                <Mat.ListItemText>
-                  {player.admin === 1 ? "\u2654" : ""} {player.player_name}{" "}
-                </Mat.ListItemText>
-              </Mat.ListItem>
-            ))}
-          </Mat.List>
-        </Mat.Dialog>
-
-        {/* Green Calculator */}
-        <Mat.Dialog
-          onClose={handleCloseDialogGreenCalc}
-          open={openDialogGreenCalc}
-        >
-          <Mat.DialogTitle>{Dic.String.menu_green_calc[lang]}</Mat.DialogTitle>
-          <GreenCalc theme={props.theme}></GreenCalc>
-        </Mat.Dialog>
-
-        {/* Menu */}
-        <Mat.Menu anchorEl={anchorEl} open={openMenu} onClose={handleCloseMenu}>
-          <Mat.MenuItem
-            onClick={() => {
-              handleCloseMenu();
-              handleOpenDialogGreenCalc();
-            }}
+      {/* Game Closed */}
+      <Mat.Dialog
+        onClose={handleCloseDialogGameClosed}
+        open={openDialogGameClosed}
+      >
+        <Mat.DialogTitle>
+          {Dic.String.warning_game_closed_title[lang]}
+        </Mat.DialogTitle>
+        <Mat.DialogContent>
+          <Mat.DialogContentText>
+            {Dic.String.warning_game_closed_message[lang]}
+          </Mat.DialogContentText>
+        </Mat.DialogContent>
+        <Mat.DialogActions>
+          <Mat.Button
+            onClick={handleCloseDialogGameClosed}
+            color="primary"
+            autoFocus
           >
-            {Dic.String.menu_green_calc[lang]}
-          </Mat.MenuItem>
-          <Mat.MenuItem
-            onClick={() => {
-              handleCloseMenu();
-              handleOpenDialogPlayers();
-            }}
-          >
-            {Dic.String.menu_players_ingame[lang]}
-          </Mat.MenuItem>
-        </Mat.Menu>
+            {Dic.String.button_okey[lang]}
+          </Mat.Button>
+        </Mat.DialogActions>
+      </Mat.Dialog>
 
-        {/* App Bar */}
-        <Mat.AppBar
-          position="fixed"
-          style={{
-            top: "auto",
-            bottom: 0,
+      {/* Players */}
+      <Mat.Dialog onClose={handleCloseDialogPlayers} open={openDialogPlayers}>
+        <Mat.DialogTitle>
+          {Dic.String.menu_players_ingame[lang]}
+        </Mat.DialogTitle>
+        <Mat.List sx={{ pt: 0 }}>
+          {players.map((player) => (
+            <Mat.ListItem key={player.player_name}>
+              <Mat.ListItemText>
+                {player.admin === 1 ? "\u2654" : ""} {player.player_name}{" "}
+              </Mat.ListItemText>
+            </Mat.ListItem>
+          ))}
+        </Mat.List>
+      </Mat.Dialog>
+
+      {/* Menu */}
+      <Mat.Menu anchorEl={anchorEl} open={openMenu} onClose={handleCloseMenu}>
+        <Mat.MenuItem
+          onClick={() => {
+            handleCloseMenu();
+            handleOpenDialogGreenCalc();
           }}
         >
-          <Mat.Toolbar>
-            <Mat.IconButton color="inherit" onClick={props.backward}>
-              <Ico.ArrowBack />
-            </Mat.IconButton>
-            <div style={{ flexGrow: 1 }} />
-            <Mat.IconButton color="inherit" onClick={handleOpenMenu}>
-              <Ico.Menu />
-            </Mat.IconButton>
-            <div style={{ flexGrow: 1 }} />
-            <Mat.IconButton color="inherit" type="submit">
-              <Ico.ArrowForward />
-            </Mat.IconButton>
-          </Mat.Toolbar>
-        </Mat.AppBar>
-        <Mat.Toolbar />
+          {Dic.String.menu_green_calc[lang]}
+        </Mat.MenuItem>
+        <Mat.MenuItem
+          onClick={() => {
+            handleCloseMenu();
+            handleOpenDialogPlayers();
+          }}
+        >
+          {Dic.String.menu_players_ingame[lang]}
+        </Mat.MenuItem>
+      </Mat.Menu>
+
+      {/* App Bar */}
+      <Mat.AppBar
+        position="fixed"
+        style={{
+          top: "auto",
+          bottom: 0,
+        }}
+      >
+        <Mat.Toolbar>
+          <Mat.IconButton color="inherit" onClick={props.backward}>
+            <Ico.ArrowBack />
+          </Mat.IconButton>
+          <div style={{ flexGrow: 1 }} />
+          <Mat.IconButton color="inherit" onClick={handleOpenMenu}>
+            <Ico.Menu />
+          </Mat.IconButton>
+          <div style={{ flexGrow: 1 }} />
+          <Mat.IconButton color="inherit" type="submit">
+            <Ico.ArrowForward />
+          </Mat.IconButton>
+        </Mat.Toolbar>
+      </Mat.AppBar>
+      <Mat.Toolbar />
       </form>
     </Mat.ThemeProvider>
   );
