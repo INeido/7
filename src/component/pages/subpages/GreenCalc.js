@@ -16,7 +16,7 @@ export default function _(props) {
   const [sum, setSum] = React.useState(0);
   const [neigh, setNeigh] = React.useState([]);
   const inputRef = React.useRef(null);
-  const { register: registerGreen, handleSubmit: handleGreenSubmit } =
+  const { register: registerGreen, handleSubmit: handleGreenSubmit, formState: { errors } } =
     Form.useForm({
       defaultValues: [
         { Compass: "" },
@@ -30,11 +30,11 @@ export default function _(props) {
 
   /* Fires when page is correctly submitted */
   const onGreenSubmit = (data) => {
-    Calc.GetSum(data, neigh);
-    console.log(data, neigh);
+    let result = Calc.GetSum(data, neigh);
+    setSum(result.score);
   };
 
-  const handleChange = (event: SelectChangeEvent<typeof neigh>) => {
+  const handleChange = (event) => {
     const {
       target: { value },
     } = event;
@@ -44,16 +44,15 @@ export default function _(props) {
   const GreenField = React.forwardRef((props, ref) => {
     return (
       <Mat.TextField
-        defaultValue=""
+        ref={ref}
+        {...props}
         type="number"
-        id={props.field.val}
-        label={props.field.label}
         color="primary"
         InputProps={{
           inputProps: { min: 0, max: 10 },
         }}
       />
-    );
+    )
   });
 
   return (
@@ -73,8 +72,10 @@ export default function _(props) {
           {Dic.String.select_green[lang].map((field) => (
             <GreenField
               key={field.val}
-              field={field}
-              ref={{ ...registerGreen(field.val) }}
+              ref={inputRef}
+              label={field.label}
+              error={errors[field.val] ? true : false}
+              {...registerGreen(field.val, { required: true })}
             />
           ))}
 
@@ -88,34 +89,64 @@ export default function _(props) {
               input={<Mat.OutlinedInput label="Tag" />}
               renderValue={(selected) => selected.join(", ")}
             >
-              <Mat.MenuItem value={Dic.String.select_green[lang][0].val}>
+              <Mat.MenuItem value={Dic.String.select_green[lang][0].val + " R"}>
                 <Mat.Checkbox
                   checked={
-                    neigh.indexOf(Dic.String.select_green[lang][0].val) > -1
+                    neigh.indexOf(Dic.String.select_green[lang][0].val + " R") > -1
                   }
                 />
                 <Mat.ListItemText
-                  primary={Dic.String.select_green[lang][0].label}
+                  primary={Dic.String.select_green[lang][0].label + " R"}
                 />
               </Mat.MenuItem>
-              <Mat.MenuItem value={Dic.String.select_green[lang][1].val}>
+              <Mat.MenuItem value={Dic.String.select_green[lang][1].val + " R"}>
                 <Mat.Checkbox
                   checked={
-                    neigh.indexOf(Dic.String.select_green[lang][1].val) > -1
+                    neigh.indexOf(Dic.String.select_green[lang][1].val + " R") > -1
                   }
                 />
                 <Mat.ListItemText
-                  primary={Dic.String.select_green[lang][1].label}
+                  primary={Dic.String.select_green[lang][1].label + " R"}
                 />
               </Mat.MenuItem>
-              <Mat.MenuItem value={Dic.String.select_green[lang][2].val}>
+              <Mat.MenuItem value={Dic.String.select_green[lang][2].val + " R"}>
                 <Mat.Checkbox
                   checked={
-                    neigh.indexOf(Dic.String.select_green[lang][2].val) > -1
+                    neigh.indexOf(Dic.String.select_green[lang][2].val + " R") > -1
                   }
                 />
                 <Mat.ListItemText
-                  primary={Dic.String.select_green[lang][2].label}
+                  primary={Dic.String.select_green[lang][2].label + " R"}
+                />
+              </Mat.MenuItem>
+              <Mat.MenuItem value={Dic.String.select_green[lang][0].val + " L"}>
+                <Mat.Checkbox
+                  checked={
+                    neigh.indexOf(Dic.String.select_green[lang][0].val + " L") > -1
+                  }
+                />
+                <Mat.ListItemText
+                  primary={Dic.String.select_green[lang][0].label + " L"}
+                />
+              </Mat.MenuItem>
+              <Mat.MenuItem value={Dic.String.select_green[lang][1].val + " L"}>
+                <Mat.Checkbox
+                  checked={
+                    neigh.indexOf(Dic.String.select_green[lang][1].val + " L") > -1
+                  }
+                />
+                <Mat.ListItemText
+                  primary={Dic.String.select_green[lang][1].label + " L"}
+                />
+              </Mat.MenuItem>
+              <Mat.MenuItem value={Dic.String.select_green[lang][2].val + " L"}>
+                <Mat.Checkbox
+                  checked={
+                    neigh.indexOf(Dic.String.select_green[lang][2].val + " L") > -1
+                  }
+                />
+                <Mat.ListItemText
+                  primary={Dic.String.select_green[lang][2].label + " L"}
                 />
               </Mat.MenuItem>
             </Mat.Select>
