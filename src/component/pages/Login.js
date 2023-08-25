@@ -173,7 +173,12 @@ export default function _(props) {
         >
           {Dic.String.menu_login_browser[lang]}
         </Mat.MenuItem>
-        <Mat.MenuItem onClick={handleCloseMenu}>
+        <Mat.MenuItem
+          onClick={() => {
+            handleCloseMenu();
+            setOpenDialog(true);
+          }}
+        >
           {Dic.String.menu_login_stats[lang]}
         </Mat.MenuItem>
         <Mat.MenuItem

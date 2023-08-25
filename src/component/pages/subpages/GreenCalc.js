@@ -1,9 +1,7 @@
 import * as React from "react";
 import * as Mat from "@mui/material";
 import * as Lab from "@mui/lab";
-import * as Ico from "@mui/icons-material";
 import * as Dic from "../../helper/dictionary";
-import * as Api from "../../../logic/api";
 import * as Form from "react-hook-form";
 import * as Calc from "../../../logic/calc";
 import * as Cookie from "react-cookie";

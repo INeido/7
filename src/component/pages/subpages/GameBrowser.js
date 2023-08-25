@@ -1,10 +1,8 @@
 import * as React from "react";
 import * as Mat from "@mui/material";
-import * as Ico from "@mui/icons-material";
 import * as Grid from "@mui/x-data-grid";
 import * as Dic from "../../helper/dictionary";
 import * as Api from "../../../logic/api";
-import * as Form from "react-hook-form";
 import * as Cookie from "react-cookie";
 
 export default function _(props) {
@@ -22,7 +20,7 @@ export default function _(props) {
     }
   }, []);
 
-  const columns: GridColDef[] = [
+  const columns = [
     {
       field: "action",
       headerName: "View",
@@ -31,8 +29,8 @@ export default function _(props) {
         const onClick = (e) => {
           e.stopPropagation(); // don't select this row after clicking
 
-          const api: GridApi = params.api;
-          const thisRow: Record<string, GridCellValue> = {};
+          const api = params.api;
+          const thisRow = {};
 
           api
             .getAllColumns()
