@@ -417,6 +417,36 @@ module.exports = {
       es: "Esto cerrará el jugeo y expulará a los jugadores actuales",
     },
 
+    // Charts
+    chart_scores_per_player_per_category: {
+      en: "Scores Per Player Per Category",
+      de: "Punkteverteilung pro Spieler pro Kategorie",
+      hu: "Pontszámok játékosonként kategóriánként",
+      ru: "Баллы по игрокам по категориям",
+      es: "Puntuaciones por jugador por categoría",
+    },
+    chart_sum_scores_per_player: {
+      en: "Sum of Scores Per Player",
+      de: "Summe der Punkte pro Spieler",
+      hu: "Összes pontszám játékosonként",
+      ru: "Сумма баллов по игрокам",
+      es: "Suma de puntuaciones por jugador",
+    },
+    chart_daynight_percentage: {
+      en: "Day & Night Percentage",
+      de: "Tag & Nacht Prozentsatz",
+      hu: "Nappal és Éjjel arány",
+      ru: "Процент дня и ночи",
+      es: "Porcentaje de Día y Noche",
+    },
+    chart_self_scores_per_category: {
+      en: "Self Scores Per Category",
+      de: "Eigene Punkte pro Kategorie",
+      hu: "Saját pontszámok kategóriánként",
+      ru: "Самостоятельные баллы по категориям",
+      es: "Puntuaciones propias por categoría",
+    },
+
     // Game Browser subpage
     browse_title: {
       en: "Game Browser",
@@ -439,7 +469,7 @@ module.exports = {
     lang_english: {
       en: "English",
       de: "Englisch",
-      hu: "Angoln",
+      hu: "Angol",
       ru: "Английский",
       es: "Inglés",
     },
