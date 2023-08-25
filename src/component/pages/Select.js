@@ -67,12 +67,12 @@ export default function _(props) {
     {
       label: Dic.String.label_wonder[lang],
       name: "wonder",
-      icon: <Ico.Circle sx={{ color: "#ffb74d" }} />,
+      icon: <Ico.Eject sx={{ color: "#ffb74d" }} />,
     },
     {
       label: Dic.String.label_money[lang],
       name: "money",
-      icon: <Ico.Circle sx={{ color: "#ffb74d" }} />,
+      icon: <Ico.Paid sx={{ color: "#d8cb0a" }} />,
     },
     {
       label: Dic.String.label_red[lang],
@@ -82,7 +82,7 @@ export default function _(props) {
     {
       label: Dic.String.label_blue[lang],
       name: "blue",
-      icon: <Ico.Remove sx={{ color: "#0693E3" }} />,
+      icon: <Ico.AccountBalance sx={{ color: "#0693E3" }} />,
     },
     {
       label: Dic.String.label_yellow[lang],
@@ -105,19 +105,19 @@ export default function _(props) {
       icon: <Ico.Details sx={{ color: "#767676" }} />,
     },
     {
-      identifier: Dic.String.label_white[lang],
+      label: Dic.String.label_white[lang],
       name: "white",
-      icon: <Ico.RemoveCircle sx={{ color: "#FFF" }} />,
+      icon: <Ico.Accessibility sx={{ color: "#b0b6c1" }} />,
     },
     {
       label: Dic.String.label_armada0[lang],
       name: "armada0",
-      icon: <Ico.RemoveCircle sx={{ color: "#FFF" }} />,
+      icon: <Ico.Sailing sx={{ color: "#0a50d3" }} />,
     },
     {
       label: Dic.String.label_armada1[lang],
       name: "armada1",
-      icon: <Ico.RemoveCircle sx={{ color: "#FFF" }} />,
+      icon: <Ico.Waves sx={{ color: "#10a1ef" }} />,
     },
   ];
 
