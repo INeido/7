@@ -38,6 +38,10 @@ export function GetSum(values, neigh) {
 
   // Calculates all combinations from the copy cards
   function generateCopyCombinations(limit, neigh) {
+    if (neigh.length === 0 || limit === 0) {
+      return undefined;
+    }
+
     limit = Math.min(limit, neigh.length);
 
     function backtrack(combination, index) {
@@ -92,17 +96,21 @@ export function GetSum(values, neigh) {
       wcArr.map((value, index) => value + normal[index])
     );
 
-    // Multiply wildcard and copy arrays to generate combinations
-    for (const wcArr of normalPlusWildcard) {
-      for (const copyArr of copy) {
-        const combination = wcArr.map((value, index) => value + copyArr[index]);
+    if (copy !== undefined) {
+      // Multiply wildcard and copy arrays to generate combinations
+      for (const wcArr of normalPlusWildcard) {
+        for (const copyArr of copy) {
+          const combination = wcArr.map((value, index) => value + copyArr[index]);
 
-        // Add the max to the one with the highest val
-        const highestIndex = combination.indexOf(Math.max(...combination));
-        combination[highestIndex] += max;
+          // Add the max to the one with the highest val
+          const highestIndex = combination.indexOf(Math.max(...combination));
+          combination[highestIndex] += max;
 
-        combinations.push(combination);
+          combinations.push(combination);
+        }
       }
+    } else {
+      return normalPlusWildcard;
     }
 
     return combinations;
