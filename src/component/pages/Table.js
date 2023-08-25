@@ -280,6 +280,10 @@ export default function _(props) {
           >
             {locked ? <Ico.LockOutlined /> : <Ico.LockOpenOutlined />}
           </Mat.IconButton>
+          <div style={{ flexGrow: 1 }} />
+          <Mat.IconButton color="inherit" onClick={props.forward}>
+            <Ico.ArrowForward/>
+          </Mat.IconButton>
         </Mat.Toolbar>
       </Mat.AppBar>
       <Mat.Toolbar />
