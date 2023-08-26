@@ -6,14 +6,19 @@ import * as Api from "../../../logic/api";
 import * as Cookie from "react-cookie";
 
 export default function _(props) {
-  const [games, setGames] = React.useState([Dic.DefaultGames]);
+  const [games, setGames] = React.useState([]);
   const [cookies] = Cookie.useCookies(["user"]);
   const [lang] = React.useState(cookies.lang !== null ? cookies.lang : "en");
 
   React.useEffect(() => {
     try {
       Api.getGames().then((res) => {
-        setGames(res.data);
+        const gamesWithDateObjects = res.data.map((game) => ({
+          ...game,
+          date: new Date(game.date),
+        }));
+
+        setGames(gamesWithDateObjects);
       });
     } catch {
       // Handle Error
@@ -28,17 +33,14 @@ export default function _(props) {
       renderCell: (params) => {
         const onClick = (e) => {
           e.stopPropagation(); // don't select this row after clicking
-
+  
           const api = params.api;
           const thisRow = {};
-
-          api
-            .getAllColumns()
-            .filter((c) => c.field !== "__check__" && !!c)
-            .forEach(
-              (c) => (thisRow[c.field] = params.getValue(params.id, c.field))
-            );
-
+  
+          columns.forEach(
+            (c) => (thisRow[c.field] = params.row[c.field])
+          );
+  
           return props.view(thisRow.id);
         };
 
@@ -58,6 +60,10 @@ export default function _(props) {
       type: "date",
       minWidth: "200",
       sortable: false,
+      valueFormatter: (params) => {
+        const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+        return new Intl.DateTimeFormat("de-DE", options).format(params.value);
+      },
     },
   ];
 
