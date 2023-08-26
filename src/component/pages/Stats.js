@@ -81,17 +81,17 @@ export default function _(props) {
 
   if (playerScore) {
     const tempSelfRadarChart = [
-      { name: Dic.String.label_wonder[lang], value: playerScore.wonder },
-      { name: Dic.String.label_money[lang], value: playerScore.money },
-      { name: Dic.String.label_red[lang], value: playerScore.red },
-      { name: Dic.String.label_blue[lang], value: playerScore.blue },
-      { name: Dic.String.label_yellow[lang], value: playerScore.yellow },
-      { name: Dic.String.label_green[lang], value: playerScore.green },
-      { name: Dic.String.label_purple[lang], value: playerScore.purple },
-      { name: Dic.String.label_black[lang], value: playerScore.black },
-      { name: Dic.String.label_white[lang], value: playerScore.white },
-      { name: Dic.String.label_armada0[lang], value: playerScore.armada0 },
-      { name: Dic.String.label_armada1[lang], value: playerScore.armada1 },
+      { name: Dic.String.label_wonder[lang], value: playerScore.wonder < 0 ? 0 : playerScore.wonder },
+      { name: Dic.String.label_money[lang], value: playerScore.money < 0 ? 0 : playerScore.money  },
+      { name: Dic.String.label_red[lang], value: playerScore.red < 0 ? 0 : playerScore.red  },
+      { name: Dic.String.label_blue[lang], value: playerScore.blue < 0 ? 0 : playerScore.blue  },
+      { name: Dic.String.label_yellow[lang], value: playerScore.yellow < 0 ? 0 : playerScore.yellow  },
+      { name: Dic.String.label_green[lang], value: playerScore.green < 0 ? 0 : playerScore.green  },
+      { name: Dic.String.label_purple[lang], value: playerScore.purple < 0 ? 0 : playerScore.purple  },
+      { name: Dic.String.label_black[lang], value: playerScore.black < 0 ? 0 : playerScore.black  },
+      { name: Dic.String.label_white[lang], value: playerScore.white < 0 ? 0 : playerScore.white  },
+      { name: Dic.String.label_armada0[lang], value: playerScore.armada0 < 0 ? 0 : playerScore.armada0  },
+      { name: Dic.String.label_armada1[lang], value: playerScore.armada1 < 0 ? 0 : playerScore.armada1  },
     ];
 
     const maxDataValue = Math.max(...tempSelfRadarChart.map(entry => entry.value));
