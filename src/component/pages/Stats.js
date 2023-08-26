@@ -49,20 +49,20 @@ export default function _(props) {
   ];
 
   const ScoreColors = [
-    "#ffb74d",
+    "#e08a08",
     "#d8cb0a",
     "#B80000",
     "#0693E3",
-    "#FCB900",
+    "#fcce00",
     "#008B02",
     "#4A148C",
     "#767676",
     "#b0b6c1",
     "#0a50d3",
-    "#10a1ef",
+    "#26b6ef",
   ];
 
-  const generatePlayerColor = index => PlayerColors[index % PlayerColors.length];
+  const generatePlayerColor = index => ScoreColors[highestIndexes[index]];
   const generateScoreColor = index => ScoreColors[index % ScoreColors.length];
 
   // Calculate the count of "Days" and "Night" players
@@ -82,16 +82,16 @@ export default function _(props) {
   if (playerScore) {
     const tempSelfRadarChart = [
       { name: Dic.String.label_wonder[lang], value: playerScore.wonder < 0 ? 0 : playerScore.wonder },
-      { name: Dic.String.label_money[lang], value: playerScore.money < 0 ? 0 : playerScore.money  },
-      { name: Dic.String.label_red[lang], value: playerScore.red < 0 ? 0 : playerScore.red  },
-      { name: Dic.String.label_blue[lang], value: playerScore.blue < 0 ? 0 : playerScore.blue  },
-      { name: Dic.String.label_yellow[lang], value: playerScore.yellow < 0 ? 0 : playerScore.yellow  },
-      { name: Dic.String.label_green[lang], value: playerScore.green < 0 ? 0 : playerScore.green  },
-      { name: Dic.String.label_purple[lang], value: playerScore.purple < 0 ? 0 : playerScore.purple  },
-      { name: Dic.String.label_black[lang], value: playerScore.black < 0 ? 0 : playerScore.black  },
-      { name: Dic.String.label_white[lang], value: playerScore.white < 0 ? 0 : playerScore.white  },
-      { name: Dic.String.label_armada0[lang], value: playerScore.armada0 < 0 ? 0 : playerScore.armada0  },
-      { name: Dic.String.label_armada1[lang], value: playerScore.armada1 < 0 ? 0 : playerScore.armada1  },
+      { name: Dic.String.label_money[lang], value: playerScore.money < 0 ? 0 : playerScore.money },
+      { name: Dic.String.label_red[lang], value: playerScore.red < 0 ? 0 : playerScore.red },
+      { name: Dic.String.label_blue[lang], value: playerScore.blue < 0 ? 0 : playerScore.blue },
+      { name: Dic.String.label_yellow[lang], value: playerScore.yellow < 0 ? 0 : playerScore.yellow },
+      { name: Dic.String.label_green[lang], value: playerScore.green < 0 ? 0 : playerScore.green },
+      { name: Dic.String.label_purple[lang], value: playerScore.purple < 0 ? 0 : playerScore.purple },
+      { name: Dic.String.label_black[lang], value: playerScore.black < 0 ? 0 : playerScore.black },
+      { name: Dic.String.label_white[lang], value: playerScore.white < 0 ? 0 : playerScore.white },
+      { name: Dic.String.label_armada0[lang], value: playerScore.armada0 < 0 ? 0 : playerScore.armada0 },
+      { name: Dic.String.label_armada1[lang], value: playerScore.armada1 < 0 ? 0 : playerScore.armada1 },
     ];
 
     const maxDataValue = Math.max(...tempSelfRadarChart.map(entry => entry.value));
@@ -102,6 +102,34 @@ export default function _(props) {
       value: normalize(Math.log(entry.value + 1), Math.log(minDataValue + 1), Math.log(maxDataValue + 1)),
     }));
   }
+
+  const scoresWithoutSum = scores.map((entry) => ({
+    wonder: entry.wonder,
+    money: entry.money,
+    red: entry.red,
+    blue: entry.blue,
+    yellow: entry.yellow,
+    green: entry.green,
+    purple: entry.purple,
+    black: entry.black,
+    white: entry.white,
+    armada0: entry.armada0,
+    armada1: entry.armada1,
+  }));
+
+  const highestIndexes = scoresWithoutSum.map((entry) => {
+    let maxScore = -Infinity;
+    let maxIndex = -1;
+
+    Object.values(entry).forEach((value, index) => {
+      if (value > maxScore) {
+        maxScore = value;
+        maxIndex = index;
+      }
+    });
+
+    return maxIndex;
+  });
 
   // Extract the necessary data for the pie chart (sum and player_name)
   const sumPieChart = scores.map((entry) => ({

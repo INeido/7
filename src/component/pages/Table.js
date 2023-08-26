@@ -159,7 +159,7 @@ export default function _(props) {
             <Mat.TableRow>
               <Mat.TableCell variant="head">
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <Ico.Eject sx={{ color: "#ffb74d", marginRight: "5px" }} />
+                  <Ico.Eject sx={{ color: "#e08a08", marginRight: "5px" }} />
                   {Dic.String.label_wonder[lang]}
                 </div>
               </Mat.TableCell>
@@ -203,7 +203,7 @@ export default function _(props) {
             <Mat.TableRow>
               <Mat.TableCell variant="head">
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <Ico.Circle sx={{ color: "#FCB900", marginRight: "5px" }} />
+                  <Ico.Circle sx={{ color: "#fcce00", marginRight: "5px" }} />
                   {Dic.String.label_yellow[lang]}
                 </div>
               </Mat.TableCell>
@@ -269,7 +269,7 @@ export default function _(props) {
             <Mat.TableRow>
               <Mat.TableCell variant="head">
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <Ico.Waves sx={{ color: "#10a1ef", marginRight: "5px" }} />
+                  <Ico.Waves sx={{ color: "#26b6ef", marginRight: "5px" }} />
                   {Dic.String.label_armada1[lang]}
                 </div>
               </Mat.TableCell>

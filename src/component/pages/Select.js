@@ -67,7 +67,7 @@ export default function _(props) {
     {
       label: Dic.String.label_wonder[lang],
       name: "wonder",
-      icon: <Ico.Eject sx={{ color: "#ffb74d" }} />,
+      icon: <Ico.Eject sx={{ color: "#e08a08" }} />,
     },
     {
       label: Dic.String.label_money[lang],
@@ -87,7 +87,7 @@ export default function _(props) {
     {
       label: Dic.String.label_yellow[lang],
       name: "yellow",
-      icon: <Ico.Circle sx={{ color: "#FCB900" }} />,
+      icon: <Ico.Circle sx={{ color: "#fcce00" }} />,
     },
     {
       label: Dic.String.label_green[lang],
@@ -117,7 +117,7 @@ export default function _(props) {
     {
       label: Dic.String.label_armada1[lang],
       name: "armada1",
-      icon: <Ico.Waves sx={{ color: "#10a1ef" }} />,
+      icon: <Ico.Waves sx={{ color: "#26b6ef" }} />,
     },
   ];
 
@@ -181,7 +181,7 @@ export default function _(props) {
   };
 
   return (
-    <Mat.ThemeProvider theme={props.theme}>
+   <Mat.ThemeProvider theme={props.theme}>
       <Mat.CssBaseline />
 
       {/* Green Calculator */}
