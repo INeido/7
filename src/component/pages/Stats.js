@@ -136,106 +136,161 @@ export default function _(props) {
       </Mat.Backdrop>
 
       {/* Charts */}
-      <Mat.Box display="flex" flexDirection="column" alignItems="center">
-        <Mat.Typography variant="h6" gutterBottom>
-          {Dic.String.chart_scores_per_player_per_category[lang]}
-        </Mat.Typography>
-      </Mat.Box>
-      <Chart.ResponsiveContainer width="100%" height={420}>
-        <Chart.BarChart data={stackedBarChart}>
-          <Chart.CartesianGrid strokeDasharray="3 3" />
-          <Chart.XAxis dataKey="name" />
-          <Chart.YAxis />
-          <Chart.Legend
-            formatter={(value, entry) => Dic.String[`label_${entry.value}`][lang]}
-          />
-          {scoreTypes.map((scoreType, index) => (
-            <Chart.Bar key={index} dataKey={scoreType} stackId="stack" fill={generateScoreColor(index)} />
-          ))}
-        </Chart.BarChart>
-      </Chart.ResponsiveContainer>
-      <Mat.Divider variant="middle" />
-
-      <Mat.Box display="flex" flexDirection="column" alignItems="center">
-        <Mat.Typography variant="h6" gutterBottom>
-          {Dic.String.chart_sum_scores_per_player[lang]}
-        </Mat.Typography>
-      </Mat.Box>
-      <Chart.ResponsiveContainer width="100%" height={240}>
-        <Chart.PieChart>
-          <Chart.Pie
-            dataKey="value"
-            data={sumPieChart}
-            cx="50%"
-            cy="50%"
-            outerRadius={80}
-            innerRadius={60}
-            paddingAngle={5}
-            label={({ name, value }) => `${name}: ${value}`}
-          >
-            {sumPieChart.map((entry, index) => (
-              <Chart.Cell
-                key={`cell-${index}`}
-                fill={generatePlayerColor(index)}
-                stroke="none"
+      <Mat.Box
+        sx={{
+          marginTop: 2,
+          display: "grid",
+          gap: 1.5,
+          px: 2,
+          py: 2,
+        }}
+      >
+        <Mat.Paper variant="outlined">
+          <Mat.Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              px: 2,
+              py: 2,
+              paddingBottom: "1px",
+            }}>
+            <Mat.Box display="flex" flexDirection="column" alignItems="center">
+              <Mat.Typography variant="h6" gutterBottom>
+                {Dic.String.chart_scores_per_player_per_category[lang]}
+              </Mat.Typography>
+            </Mat.Box>
+          </Mat.Box>
+          <Chart.ResponsiveContainer width="100%" height={420}>
+            <Chart.BarChart data={stackedBarChart}>
+              <Chart.CartesianGrid strokeDasharray="3 3" />
+              <Chart.XAxis dataKey="name" />
+              <Chart.YAxis />
+              <Chart.Legend
+                formatter={(value, entry) => Dic.String[`label_${entry.value}`][lang]}
               />
-            ))}
-          </Chart.Pie>
-        </Chart.PieChart>
-      </Chart.ResponsiveContainer>
-      <Mat.Divider variant="middle" />
+              {scoreTypes.map((scoreType, index) => (
+                <Chart.Bar key={index} dataKey={scoreType} stackId="stack" fill={generateScoreColor(index)} />
+              ))}
+            </Chart.BarChart>
+          </Chart.ResponsiveContainer>
+        </Mat.Paper>
 
-      <Mat.Box display="flex" flexDirection="column" alignItems="center">
-        <Mat.Typography variant="h6" gutterBottom>
-          {Dic.String.chart_daynight_percentage[lang]}
-        </Mat.Typography>
-      </Mat.Box>
-      <Chart.ResponsiveContainer width="100%" height={240}>
-        <Chart.PieChart>
-          <Chart.Pie
-            dataKey="value"
-            data={modePieChart}
-            cx="50%"
-            cy="50%"
-            outerRadius={80}
-            fill="#8884d8"
-            label={({ name }) => name}
-            labelLine={false}
-          >
-            <Chart.Cell fill="#FFC107" /> {/* Day */}
-            <Chart.Cell fill="#3F51B5" /> {/* Night */}
-          </Chart.Pie>
-        </Chart.PieChart>
-      </Chart.ResponsiveContainer>
-      <Mat.Divider variant="middle" />
+        <Mat.Paper variant="outlined">
+          <Mat.Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              px: 2,
+              py: 2,
+              paddingBottom: "1px",
+            }}>
+            <Mat.Box display="flex" flexDirection="column" alignItems="center">
+              <Mat.Typography variant="h6" gutterBottom>
+                {Dic.String.chart_sum_scores_per_player[lang]}
+              </Mat.Typography>
+            </Mat.Box>
+          </Mat.Box>
+          <Chart.ResponsiveContainer width="100%" height={240}>
+            <Chart.PieChart>
+              <Chart.Pie
+                dataKey="value"
+                data={sumPieChart}
+                cx="50%"
+                cy="50%"
+                outerRadius={80}
+                innerRadius={60}
+                paddingAngle={5}
+                label={({ name, value }) => `${name}: ${value}`}
+              >
+                {sumPieChart.map((entry, index) => (
+                  <Chart.Cell
+                    key={`cell-${index}`}
+                    fill={generatePlayerColor(index)}
+                    stroke="none"
+                  />
+                ))}
+              </Chart.Pie>
+            </Chart.PieChart>
+          </Chart.ResponsiveContainer>
+        </Mat.Paper>
 
-      <Mat.Box display="flex" flexDirection="column" alignItems="center">
-        <Mat.Typography variant="h6" gutterBottom>
-          {Dic.String.chart_self_scores_per_category[lang]}
-        </Mat.Typography>
+        <Mat.Paper variant="outlined">
+          <Mat.Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              px: 2,
+              py: 2,
+              paddingBottom: "1px",
+            }}>
+            <Mat.Box display="flex" flexDirection="column" alignItems="center">
+              <Mat.Typography variant="h6" gutterBottom>
+                {Dic.String.chart_daynight_percentage[lang]}
+              </Mat.Typography>
+            </Mat.Box>
+          </Mat.Box>
+          <Chart.ResponsiveContainer width="100%" height={240}>
+            <Chart.PieChart>
+              <Chart.Pie
+                dataKey="value"
+                data={modePieChart}
+                cx="50%"
+                cy="50%"
+                outerRadius={80}
+                fill="#8884d8"
+                label={({ name }) => name}
+                labelLine={false}
+              >
+                <Chart.Cell fill="#FFC107" /> {/* Day */}
+                <Chart.Cell fill="#3F51B5" /> {/* Night */}
+              </Chart.Pie>
+            </Chart.PieChart>
+          </Chart.ResponsiveContainer>
+        </Mat.Paper>
+
+        <Mat.Paper variant="outlined">
+          <Mat.Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              px: 2,
+              py: 2,
+              paddingBottom: "1px",
+            }}>
+            <Mat.Box display="flex" flexDirection="column" alignItems="center">
+              <Mat.Typography variant="h6" gutterBottom>
+                {Dic.String.chart_self_scores_per_category[lang]}
+              </Mat.Typography>
+            </Mat.Box>
+          </Mat.Box>
+          {playerScore ? (
+            <Chart.ResponsiveContainer width="100%" height={240}>
+              <Chart.RadarChart cx="50%" cy="50%" outerRadius={80} data={selfRadarChart}>
+                <defs>
+                  <linearGradient id="radarFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={props.theme.palette.primary.light} stopOpacity={0.8} />
+                    <stop offset="95%" stopColor={props.theme.palette.primary.main} stopOpacity={0.2} />
+                  </linearGradient>
+                </defs>
+                <Chart.PolarGrid />
+                <Chart.PolarAngleAxis dataKey="name" />
+                <Chart.Radar
+                  name={props.playername}
+                  dataKey="value"
+                  stroke={props.theme.palette.primary.light}
+                  fill="url(#radarFill)"
+                  fillOpacity={1}
+                />
+              </Chart.RadarChart>
+            </Chart.ResponsiveContainer>
+          ) : (<></>)
+          }
+        </Mat.Paper>
       </Mat.Box>
-      {playerScore ? (
-        <Chart.ResponsiveContainer width="100%" height={240}>
-          <Chart.RadarChart cx="50%" cy="50%" outerRadius={80} data={selfRadarChart}>
-            <defs>
-              <linearGradient id="radarFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={props.theme.palette.primary.light} stopOpacity={0.8} />
-                <stop offset="95%" stopColor={props.theme.palette.primary.main} stopOpacity={0.2} />
-              </linearGradient>
-            </defs>
-            <Chart.PolarGrid />
-            <Chart.PolarAngleAxis dataKey="name" />
-            <Chart.Radar
-              name={props.playername}
-              dataKey="value"
-              stroke={props.theme.palette.primary.light}
-              fill="url(#radarFill)"
-              fillOpacity={1}
-            />
-          </Chart.RadarChart>
-        </Chart.ResponsiveContainer>
-      ) : (<></>)
-      }
 
       {/* App Bar */}
       <Mat.AppBar
