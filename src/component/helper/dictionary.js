@@ -125,9 +125,23 @@ module.exports = {
     label_wonder_mode: {
       en: "Select Mode",
       de: "Tageszeit auswählen",
-      hu: "Mód választás",
+      hu: "Napszak választás",
       ru: "Выберите режим",
       es: "Seleccionar modo",
+    },
+    label_wonder_select_header: {
+      en: "Wonder",
+      de: "Wunder",
+      hu: "Csoda",
+      ru: "Чудо",
+      es: "Maravilla",
+    },
+    label_wonder_mode_header: {
+      en: "Time of day",
+      de: "Tageszeit",
+      hu: "Napstak",
+      ru: "Время суток",
+      es: "Hora del día",
     },
     // Don't change 'vals'!
     select_green: {

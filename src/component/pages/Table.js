@@ -66,7 +66,7 @@ export default function _(props) {
   const closeGameF = () => {
     Api.closeGame(props.gameid).then((res) => {
       setLocked(true);
-      Api.tidyGame(props.gameid).then((res) => {});
+      Api.tidyGame(props.gameid).then((res) => { });
       handleCloseDialog();
     });
   };
@@ -134,22 +134,15 @@ export default function _(props) {
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>
-                  {game.admin === 1 ? (
-                        <span role="img" aria-label="Admin">
-                          👑
-                        </span>
-                      ) : (
-                        <span role="img" aria-label="Player">
-                          
-                        </span>
-                      )}
-                      {` ${game.player_name}`}
+                  <Mat.Typography variant="subtitle1">
+                    {game.player_name}
+                  </Mat.Typography>
                 </Mat.TableCell>
               ))}
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_table_wonder[lang]}
+                {Dic.String.label_wonder_select_header[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.wonder_name}</Mat.TableCell>
@@ -157,7 +150,7 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_table_mode[lang]}
+                {Dic.String.label_wonder_mode_header[lang]}
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.wonder_mode}</Mat.TableCell>
@@ -165,7 +158,10 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_wonder[lang]}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Ico.Eject sx={{ color: "#ffb74d", marginRight: "5px" }} />
+                  {Dic.String.label_wonder[lang]}
+                </div>
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.wonder}</Mat.TableCell>
@@ -173,7 +169,10 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_money[lang]}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Ico.Paid sx={{ color: "#d8cb0a", marginRight: "5px" }} />
+                  {Dic.String.label_money[lang]}
+                </div>
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.money}</Mat.TableCell>
@@ -181,7 +180,10 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_red[lang]}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Ico.Report sx={{ color: "#B80000", marginRight: "5px" }} />
+                  {Dic.String.label_red[lang]}
+                </div>
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.red}</Mat.TableCell>
@@ -189,7 +191,10 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_blue[lang]}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Ico.AccountBalance sx={{ color: "#0693E3", marginRight: "5px" }} />
+                  {Dic.String.label_blue[lang]}
+                </div>
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.blue}</Mat.TableCell>
@@ -197,7 +202,10 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_yellow[lang]}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Ico.Circle sx={{ color: "#FCB900", marginRight: "5px" }} />
+                  {Dic.String.label_yellow[lang]}
+                </div>
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.yellow}</Mat.TableCell>
@@ -205,7 +213,10 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_green[lang]}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Ico.ChangeHistory sx={{ color: "#008B02", marginRight: "5px" }} />
+                  {Dic.String.label_green[lang]}
+                </div>
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.green}</Mat.TableCell>
@@ -213,7 +224,10 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_purple[lang]}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Ico.StarOutline sx={{ color: "#4A148C", marginRight: "5px" }} />
+                  {Dic.String.label_purple[lang]}
+                </div>
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.purple}</Mat.TableCell>
@@ -221,7 +235,10 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_black[lang]}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Ico.Details sx={{ color: "#767676", marginRight: "5px" }} />
+                  {Dic.String.label_black[lang]}
+                </div>
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.black}</Mat.TableCell>
@@ -229,7 +246,10 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_white[lang]}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Ico.Accessibility sx={{ color: "#b0b6c1", marginRight: "5px" }} />
+                  {Dic.String.label_white[lang]}
+                </div>
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.white}</Mat.TableCell>
@@ -237,7 +257,10 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_armada0[lang]}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Ico.Sailing sx={{ color: "#0a50d3", marginRight: "5px" }} />
+                  {Dic.String.label_armada0[lang]}
+                </div>
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.armada0}</Mat.TableCell>
@@ -245,7 +268,10 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_armada1[lang]}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Ico.Waves sx={{ color: "#10a1ef", marginRight: "5px" }} />
+                  {Dic.String.label_armada1[lang]}
+                </div>
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.armada1}</Mat.TableCell>
@@ -253,7 +279,10 @@ export default function _(props) {
             </Mat.TableRow>
             <Mat.TableRow>
               <Mat.TableCell variant="head">
-                {Dic.String.label_sum[lang]}
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Ico.Functions sx={{ color: "#FFDDFF", marginRight: "5px" }} />
+                  {Dic.String.label_sum[lang]}
+                </div>
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>{game.sum}</Mat.TableCell>
@@ -291,7 +320,7 @@ export default function _(props) {
           </Mat.IconButton>
           <div style={{ flexGrow: 1 }} />
           <Mat.IconButton color="inherit" onClick={props.forward}>
-            <Ico.ArrowForward/>
+            <Ico.ArrowForward />
           </Mat.IconButton>
         </Mat.Toolbar>
       </Mat.AppBar>
