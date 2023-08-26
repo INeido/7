@@ -251,23 +251,24 @@ export default function _(props) {
           </Chart.ResponsiveContainer>
         </Mat.Paper>
 
-        <Mat.Paper variant="outlined">
-          <Mat.Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              px: 2,
-              py: 2,
-              paddingBottom: "1px",
-            }}>
-            <Mat.Box display="flex" flexDirection="column" alignItems="center">
-              <Mat.Typography variant="h6" gutterBottom>
-                {Dic.String.chart_self_scores_per_category[lang]}
-              </Mat.Typography>
+
+        {playerScore ? (
+          <Mat.Paper variant="outlined">
+            <Mat.Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                px: 2,
+                py: 2,
+                paddingBottom: "1px",
+              }}>
+              <Mat.Box display="flex" flexDirection="column" alignItems="center">
+                <Mat.Typography variant="h6" gutterBottom>
+                  {Dic.String.chart_self_scores_per_category[lang]}
+                </Mat.Typography>
+              </Mat.Box>
             </Mat.Box>
-          </Mat.Box>
-          {playerScore ? (
             <Chart.ResponsiveContainer width="100%" height={240}>
               <Chart.RadarChart cx="50%" cy="50%" outerRadius={80} data={selfRadarChart}>
                 <defs>
@@ -287,9 +288,9 @@ export default function _(props) {
                 />
               </Chart.RadarChart>
             </Chart.ResponsiveContainer>
-          ) : (<></>)
-          }
-        </Mat.Paper>
+          </Mat.Paper>
+        ) : (<></>)
+        }
       </Mat.Box>
 
       {/* App Bar */}
