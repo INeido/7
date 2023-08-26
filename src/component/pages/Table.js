@@ -134,7 +134,16 @@ export default function _(props) {
               </Mat.TableCell>
               {scores.map((game) => (
                 <Mat.TableCell>
-                  {game.admin === 1 ? "\u2654" : ""} {game.player_name}
+                  {game.admin === 1 ? (
+                        <span role="img" aria-label="Admin">
+                          👑
+                        </span>
+                      ) : (
+                        <span role="img" aria-label="Player">
+                          
+                        </span>
+                      )}
+                      {` ${game.player_name}`}
                 </Mat.TableCell>
               ))}
             </Mat.TableRow>
